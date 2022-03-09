@@ -113,7 +113,7 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
         self.setStatus('Executing...')
         self.winlist = ['cmd','roscore','quit','wsrobot','modim',
                         'robot','laser','camera','imgproc','joystick','audio',
-                        'map_loc','navigation','playground','netcat']
+                        'map_loc','navigation','playground','netcat','social']
 
         self.wroscore = self.winlist.index('roscore')
         self.wrobot = self.winlist.index('robot')
@@ -129,6 +129,7 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
         self.wnav = self.winlist.index('navigation')
         self.wplayground = self.winlist.index('playground')
         self.wnet = self.winlist.index('netcat')
+        self.wsocial = self.winlist.index('social')
 
         self.tmux = TmuxSend('bringup',self.winlist)
         self.tmux.roscore(self.wroscore)
@@ -208,8 +209,19 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
                 time.sleep(1)
             self.write_message('RESULT robot False')
             #self.checkStatus('robot')
+        # ************************
+        # S O C I A L 
+        # ************************
+        #  social start/stop
+        elif (message=='social_start'):
+            self.tmux.cmd(self.wnet,"echo '@social' | netcat -w 1 localhost 9250")
+            #self.waitfor('social',5)
+            time.sleep(1)
 
-
+        elif (message=='social_kill'):
+            self.tmux.cmd(self.wnet,"echo '@socialkill' | netcat -w 1 localhost 9250")
+            
+            
         # robot start/stop
         elif (message=='turtle_start'):
             self.tmux.roslaunch(self.wrobot,'robot','turtle')
