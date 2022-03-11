@@ -220,8 +220,34 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
 
         elif (message=='social_kill'):
             self.tmux.cmd(self.wnet,"echo '@socialkill' | netcat -w 1 localhost 9250")
+        # social_robot_start
+        elif (message=='social_robot_start'):
+            if usenetcat:
+                self.tmux.cmd(self.wnet,"echo '@robot' | netcat -w 1 localhost 9236")
+            else:
+                self.tmux.roslaunch(self.wrobot,'robot','robot')
+            self.waitfor('robot',5)
+            self.waitfor('odom',1)
+            self.waitfor('sonar',1)
+            #
+            self.tmux.cmd(self.wnet,"echo '@robot_social' | netcat -w 1 localhost 9250")
+            #self.waitfor('social',5)
+            time.sleep(1)
+
+        elif (message=='social_robot_kill'):
+            self.tmux.cmd(self.wnet,"echo '@robot_socialkill' | netcat -w 1 localhost 9250")
+        
+        elif (message=='social_tracker'):
+            self.tmux.cmd(self.wnet,"echo '@tracker' | netcat -w 1 localhost 9250")
+            #self.waitfor('social',5)
+            time.sleep(1)
+
+        elif (message=='social_trackerkill'):
+            self.tmux.cmd(self.wnet,"echo '@trackerkill' | netcat -w 1 localhost 9250")
+ 
+
             
-            
+        # Eof
         # robot start/stop
         elif (message=='turtle_start'):
             self.tmux.roslaunch(self.wrobot,'robot','turtle')
