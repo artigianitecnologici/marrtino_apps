@@ -23,7 +23,7 @@ try:
 except:
   print("Cannot import numpy")
 
-from std_msgs.msg import String
+from std_msgs.msg import String,Float64
 from geometry_msgs.msg import Twist, Quaternion, Pose, PoseWithCovarianceStamped
 from sensor_msgs.msg import LaserScan, Range, Image, Joy
 from control_msgs.msg import JointJog
