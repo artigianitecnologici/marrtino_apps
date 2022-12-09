@@ -13,12 +13,24 @@ USER root
 
 RUN apt-get update && \
     apt-get install -y \
-        v4l-utils \
+        v4l-utils libgoogle-glog-dev \
         ros-melodic-rgbd-launch ros-melodic-web-video-server \
         ros-melodic-camera-info-manager ros-melodic-libuvc \
         ros-melodic-image-view && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+# Fabio 08/12/2022
+# aggiunta lib libgoogle-glog-dev e libuvc
+RUN mkdir -p $HOME/lib &&  cd $HOME/lib && \
+    git clone https://github.com/libuvc/libuvc.git && \
+    cd libuvc && \
+   mkdir build && cd build && \
+    cmake .. && make -j4 && \
+    sudo make install 
+
+RUN sudo ldconfig
+# Fabio eof
 
 USER robot
 
