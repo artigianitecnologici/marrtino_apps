@@ -9,7 +9,7 @@ devices:
   robot: on 
   joystick: 2wd         # off | 2wd | 4wd |  keyboard
   laser: rplidar        # off | hokuyo | rplidar
-  camera: off           # off | usbcam | astra | xtion 
+  camera: usbcam           # off | usbcam | astra | xtion 
  
 
 functions:
