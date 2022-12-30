@@ -263,6 +263,13 @@ ROS topics:
 </tr>
 
 <tr height=40>
+  <td width=60>LD06</td> 
+  <td width=80 align='center'><span id="ld06_status" style="color: red;">OFF</span></td>
+  <td><button id="ld06_start_btn" onclick="send_cmd('ld06_start')" class="btn waves-effect waves-light blue">LD06 laser start</button></td>
+  <td><button id="ld06_quit_btn" onclick="send_cmd('ld06_kill')" class="btn waves-effect waves-light blue">LD06 laser quit</button></td>
+</tr>
+
+<tr height=40>
 <td width=60>Astra</td> 
 <td width=80 align='center'><span id="astralaser_status" style="color: red;">OFF</span></td>
 <td><button id="astralaser_start_btn" onclick="send_cmd('astralaser_start')" class="btn waves-effect waves-light blue">Astra laser start</button></td>

@@ -397,6 +397,26 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
                 self.tmux.killall(self.wlaser)
             time.sleep(3)
             self.checkStatus('laser')
+            
+        # ld06
+        elif (message=='ld06_start'):
+            if usenetcat:
+                self.tmux.cmd(self.wnet,"echo '@ld06' | netcat -w 1 localhost 9238")
+            else:
+                self.tmux.roslaunch(self.wlaser,'laser','ld06')
+            self.waitfor('laser',5)
+            #time.sleep(5)
+            #self.checkStatus('laser')
+        elif (message=='ld06_kill'):
+            if usenetcat:
+                self.tmux.cmd(self.wnet,"echo '@laserkill' | netcat -w 1 localhost 9238")
+            else:
+                self.tmux.roskill('ld06')
+                self.tmux.roskill('state_pub_laser')
+                time.sleep(3)
+                self.tmux.killall(self.wlaser)
+            time.sleep(3)
+            self.checkStatus('laser')
 
         # astralaser
         elif (message=='astralaser_start'):

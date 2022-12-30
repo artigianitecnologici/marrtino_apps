@@ -28,7 +28,9 @@ RUN mkdir -p $HOME/src &&  cd $HOME/src && \
     git clone https://github.com/ros-drivers/urg_c.git && \
     git clone https://github.com/ros-drivers/urg_node.git && \
     git clone https://github.com/Slamtec/rplidar_ros.git && \
-    git clone https://github.com/ros-perception/laser_proc.git
+    git clone https://github.com/ros-perception/laser_proc.git && \
+    git clone https://github.com/ldrobotSensorTeam/ldlidar_stl_ros.git
+
 
 RUN cd $HOME/src && \
     git clone https://github.com/Imperoli/gradient_based_navigation.git
@@ -40,6 +42,7 @@ RUN cd $HOME/ros/catkin_ws/src && \
     ln -s $HOME/src/urg_node . && \
     ln -s $HOME/src/rplidar_ros . && \
     ln -s $HOME/src/laser_proc .  && \
+    ln -s $HOME/src/ldlidar_stl_ros . && \
     ln -s $HOME/src/gradient_based_navigation .
 
 
