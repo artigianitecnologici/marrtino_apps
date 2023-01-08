@@ -69,7 +69,7 @@ def autostart(config, dostart):
         cmd = '@%s' %cam if dostart else '@camerakill'
         systemcmd(cmd,9237)
     las = getconfig('devices','laser')
-    if  las=='hokuyo' or las=='rplidar':
+    if  las=='hokuyo' or las=='rplidar' or las=='ld06':
         cmd = '@%s' %las if dostart else '@laserkill'
         systemcmd(cmd,9238)
 

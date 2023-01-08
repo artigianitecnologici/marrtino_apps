@@ -54,7 +54,6 @@ RUN mkdir -p $HOME/src/srrg && \
     git clone https://gitlab.com/srrg-software/srrg_mapper2d_ros.git
 
 
-
 # Patches
 RUN cd $HOME/src/srrg/srrg_cmake_modules  && \ 
     git checkout 8e023a96e1d1fe07572db698c22ca3741c0bb06c  && \
@@ -80,6 +79,12 @@ RUN cd $HOME/src/srrg/srrg_cmake_modules  && \
     rm laser_message_tracker.cpp   && \
     wget http://www.diag.uniroma1.it/publiciocchi/marrtino/patches/srrg_scan_matcher/laser_message_tracker.cpp
 
+RUN cd $HOME/src && \
+    git clone  https://github.com/hrnr/m-explore.git
+
+# Link
+RUN cd $HOME/ros/catkin_ws/src  && \
+    ln -s $HOME/src/m-explore/explore .
 
 # Link
 RUN cd $HOME/ros/catkin_ws/src  && \
