@@ -47,6 +47,9 @@ Run the bringup servers
         python map_bringup.py -server_port 9241
         python objrec_bringup.py -server_port 9242
 
+        python r3d_bringup.py -server_port 9248
+        python teleop_bringup.py -server_port 9249
+
         ... social  9250
 
 

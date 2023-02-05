@@ -55,6 +55,7 @@ assock = None
 
 use_robot = True
 use_audio = True
+use_social = True
 
 robot_initialized = False
 stop_request = False
