@@ -54,6 +54,7 @@ RUN mkdir -p $HOME/src/srrg && \
     git clone https://gitlab.com/srrg-software/srrg_mapper2d_ros.git
 
 
+
 # Patches
 RUN cd $HOME/src/srrg/srrg_cmake_modules  && \ 
     git checkout 8e023a96e1d1fe07572db698c22ca3741c0bb06c  && \
