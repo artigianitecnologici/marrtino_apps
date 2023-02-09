@@ -68,6 +68,9 @@ def autostart(config, dostart):
     if cam=='usbcam' or cam=='astra' or cam=='xtion':
         cmd = '@%s' %cam if dostart else '@camerakill'
         systemcmd(cmd,9237)
+    #if cam=='d345' :
+    #    cmd = '@%s' %cam if dostart else '@camerakill'
+    #    systemcmd(cmd,9237)  
     las = getconfig('devices','laser')
     if  las=='hokuyo' or las=='rplidar' or las=='ld06':
         cmd = '@%s' %las if dostart else '@laserkill'
