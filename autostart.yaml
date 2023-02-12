@@ -8,7 +8,7 @@ simulator:
 devices:
   robot: on 
   joystick: 2wd         # off | 2wd | 4wd |  keyboard
-  laser: off        # off | hokuyo | rplidar | ld06
+  laser: off            # off | hokuyo | rplidar | ld06
   camera: usbcam           # off | usbcam | astra | xtion | d345
  
 
@@ -22,7 +22,7 @@ functions:
   mapping: off          # off | gmapping | srrg_mapper
   mapping_rviz: off
   audioserver: on
-  videoserver: off
+  videoserver: on
   apriltags: off
   objrec: off
   social: off

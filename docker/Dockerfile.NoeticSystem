@@ -1,0 +1,71 @@
+# Docker file for MARRtino software
+# ROS Melodic, navigation, perception & additional packages
+# System image
+
+# docker build -t marrtinonoetic:system -f Dockerfile.NoeticSystem .
+
+FROM ros:noetic-ros-base-focal
+
+ARG MARRTINO_SYSTEM_VERSION=4.2.2
+
+ARG MACHTYPE=default
+ARG UID=1000
+ARG GID=1000
+
+ARG DEBIAN_FRONTEND=noninteractive
+
+RUN apt update -y
+
+
+RUN  apt install -y chrony ntpdate curl build-essential
+#RUN ntpdate ntp.ubuntu.com
+
+# Add the ROS repository]"
+RUN sudo sh -c "echo \"deb http://packages.ros.org/ros/ubuntu focal main\" > /etc/apt/sources.list.d/ros-latest.list"
+
+
+# "[Download the ROS keys]"
+
+
+RUN   curl -s https://raw.githubusercontent.com/ros/rosdistro/master/ros.asc | sudo apt-key add -
+
+
+
+# "[Update the package lists]"
+RUN apt update -y
+
+#echo "[Install ros-desktop-full version of Noetic"
+RUN  apt install -y ros-noetic-desktop-full
+
+
+
+RUN apt install -y ros-noetic-joy ros-noetic-teleop-twist-joy \
+  ros-noetic-teleop-twist-keyboard ros-noetic-laser-proc \
+  ros-noetic-rgbd-launch ros-noetic-rosserial-arduino \
+  ros-noetic-rosserial-python ros-noetic-rosserial-client \
+  ros-noetic-rosserial-msgs ros-noetic-amcl ros-noetic-map-server \
+  ros-noetic-move-base ros-noetic-urdf ros-noetic-xacro \
+  ros-noetic-compressed-image-transport ros-noetic-rqt* ros-noetic-rviz \
+  ros-noetic-gmapping ros-noetic-navigation ros-noetic-interactive-markers
+  
+ 
+# User: robot (password: robot) with sudo power
+
+RUN useradd -ms /bin/bash robot && echo "robot:robot" | chpasswd && adduser robot sudo
+
+RUN usermod -u $UID robot && groupmod -g $GID robot
+
+RUN adduser robot audio
+RUN adduser robot video
+RUN adduser robot dialout
+###### User robot ######
+
+USER robot
+RUN mkdir -p $HOME/ros/catkin_ws/src
+RUN cd $HOME/ros/catkin_ws/src
+RUN catkin_init_workspace
+RUN cd $HOME/ros/catkin_ws
+RUN catkin_make
+
+
+RUN mkdir -p $HOME/src && cd $HOME/src
