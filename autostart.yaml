@@ -1,5 +1,5 @@
 simulator:
-  stage: off   # off
+  stageno: off   # off
   mapname: map
   mapdir: default
   robottype: marrtino
@@ -26,5 +26,5 @@ functions:
   apriltags: off
   objrec: off
   social: off
-  pantilt: off
+  pantilt: on
 

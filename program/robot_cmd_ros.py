@@ -1648,6 +1648,3 @@ def exec_follow_person_stop():
     print("Follow person STOP")
 
     follow_person_running = False
-
-
-
