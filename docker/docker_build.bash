@@ -21,13 +21,11 @@ docker build -t marrtino:teleop -f Dockerfile.teleop . && \
 docker build -t marrtino:navigation -f Dockerfile.navigation . && \
 docker build -t marrtino:vision -f Dockerfile.vision . && \
 docker build -t marrtino:speech -f Dockerfile.speech . && \
-<<<<<<< Updated upstream
 docker build -t marrtino:mapping -f Dockerfile.mapping . && \
 docker build -t marrtino:pantilt -f Dockerfile.pantilt .
 
-=======
 docker build -t marrtino:mapping -f Dockerfile.mapping  && \
 docker build -t marrtino:pantilt -f Dockerfile.pantilt .
->>>>>>> Stashed changes
+
 #docker build $UPAR -t marrtino:objrec -f Dockerfile.objrec .
 
