@@ -79,16 +79,16 @@ TOPIC_odom = 'odom'
 TOPIC_joints = 'cmd_joints_jog'
 TOPIC_joy = 'joy'
 # SOCIAL
-# Inverto dx con SX
+# 
 TOPIC_emotion = "social/emotion"
 TOPIC_pan = "pan_controller/command"
 TOPIC_tilt = "tilt_controller/command"
-TOPIC_spalla_sx_rot = "/spalladx_controller/command"
-TOPIC_spalla_sx_fle = "/spalladxj_controller/command"
-TOPIC_gomito_sx = "/gomitodx_controller/command"
-TOPIC_spalla_dx_rot = "/spallasx_controller/command"
-TOPIC_spalla_dx_fle = "/spallasxj_controller/command"
-TOPIC_gomito_dx = "/gomitosx_controller/command"
+TOPIC_spalla_dx_rot = "/spalladx_controller/command"
+TOPIC_spalla_dx_fle = "/spalladxj_controller/command"
+TOPIC_gomito_dx = "/gomitodx_controller/command"
+TOPIC_spalla_sx_rot = "/spallasx_controller/command"
+TOPIC_spalla_sx_fle = "/spallasxj_controller/command"
+TOPIC_gomito_sx = "/gomitosx_controller/command"
 #eof social
 ACTION_move_base = 'move_base'
 TOPIC_sonar_0 = 'sonar_0' 
