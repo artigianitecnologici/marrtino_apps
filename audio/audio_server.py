@@ -140,7 +140,7 @@ class TTSServer(threading.Thread):
             # select proper sysdefault name
             for l in pp:
                 print('  %s' %l)
-                if (l[0:10]=='sysdefault'):
+                if (l[0:7]=='default'):
                     print "choose ",l
                     self.output_device = l # choose default device
                     break
