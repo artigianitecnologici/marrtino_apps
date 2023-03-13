@@ -1,16 +1,16 @@
 simulator:
-  stageno: off   # off
+  stage: off
   mapname: map
   mapdir: default
   robottype: marrtino
   nrobots: 1
 
 devices:
-  robot: on 
-  joystick: 2wd         # off | 2wd | 4wd |  keyboard
-  laser: off            # off | hokuyo | rplidar | ld06
-  camera: usbcam           # off | usbcam | astra | xtion | d345
- 
+  robot: off
+  joystick: off         # off | 2wd | 4wd | keyboard
+  laser: off            # off | hokuyo | rplidar
+  camera: usbcam           # off | usbcam | astra | xtion
+
 
 functions:
   localization: off
@@ -25,6 +25,5 @@ functions:
   videoserver: on
   apriltags: off
   objrec: off
-  social: off
-  pantilt: on
-
+  social: on
+  pantilt: off

@@ -94,6 +94,9 @@ def run_server(port):
                 elif data=='@rplidar':
                     tmux.cmd(3,'cd %s' %lfolder)
                     tmux.cmd(3,'roslaunch rplidar.launch')
+                elif data=='@ld06':
+                    tmux.cmd(3,'cd %s' %lfolder)
+                    tmux.cmd(3,'roslaunch ld06.launch')
                 elif data=='@laserkill':
                     tmux.Cc(3)
                 elif data=='@rviz':
