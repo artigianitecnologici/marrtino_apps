@@ -653,12 +653,11 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
         elif (message=='socialns_kill'):
             self.tmux.cmd(self.wnet,"echo '@socialnoservokill' | netcat -w 1 localhost 9250")
 
-        # speech  script/speech.py
-        elif (message=='speech_start'):
-            self.tmux.cmd(self.wnet,"echo '@speech' | netcat -w 1 localhost 9250")
+        # update social apps
+        elif (message=='updatesocialapps'):
+            self.tmux.cmd(self.wnet,"echo '@updatesocialapps' | netcat -w 1 localhost 9250")
             time.sleep(1)
-        elif (message=='speech_kill'):
-            self.tmux.cmd(self.wnet,"echo '@speechkill' | netcat -w 1 localhost 9250")
+        
 
 
         # ***************************
