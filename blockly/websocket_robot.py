@@ -269,7 +269,7 @@ def run_code(code):
     status = "Idle"
 
 
-# Main program
+#  Main program
 
 
 if __name__ == "__main__":

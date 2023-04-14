@@ -12,5 +12,12 @@ tag_descriptions:
   - {id: 10, size: 0.162, frame_id: tag5_frame}
   - {id: 11, size: 0.162, frame_id: tag5_frame}
   - {id: 12, size: 0.162, frame_id: tag5_frame}
+  - {id: 13, size: 0.162, frame_id: tag5_frame}
+  - {id: 14, size: 0.162, frame_id: tag5_frame}
+  - {id: 15, size: 0.162, frame_id: tag5_frame}
+  - {id: 16, size: 0.162, frame_id: tag5_frame}
+  - {id: 17, size: 0.162, frame_id: tag5_frame}
+  - {id: 18, size: 0.162, frame_id: tag5_frame}
+  - {id: 19, size: 0.162, frame_id: tag5_frame}
 
 
