@@ -658,6 +658,12 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
             self.tmux.cmd(self.wnet,"echo '@updatesocialapps' | netcat -w 1 localhost 9250")
             time.sleep(1)
         
+        # social no servo (dynamixel) demo
+        elif (message=='interactive_start'):
+            self.tmux.cmd(self.wnet,"echo '@interactive' | netcat -w 1 localhost 9250")
+            time.sleep(1)
+        elif (message=='interactive_kill'):
+            self.tmux.cmd(self.wnet,"echo '@interactivekill' | netcat -w 1 localhost 9250")
 
 
         # ***************************

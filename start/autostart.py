@@ -116,7 +116,7 @@ def autostart(config, dostart):
         cmd = '@audio' if dostart else '@audiokill'
         systemcmd(cmd,9239)
     if getconfig('functions','social'):
-        cmd = '@social' if dostart else '@socialkill'
+        cmd = '@robotsocial' if dostart else '@socialkill'
         systemcmd(cmd,9250)
     if getconfig('functions','pantilt'):
         cmd = '@pantilt_start' if dostart else '@pantilt_kill'
