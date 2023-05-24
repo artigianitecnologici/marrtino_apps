@@ -667,7 +667,7 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
 
 
         # ***************************
-        #    S O C I A L  -  E N D
+        #   S O C I A L  -  E N D
         # ***************************
 
 
