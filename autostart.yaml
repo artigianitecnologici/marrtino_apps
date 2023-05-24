@@ -6,9 +6,9 @@ simulator:
   nrobots: 1
 
 devices:
-  robot: off
-  joystick: off         # off | 2wd | 4wd | keyboard
-  laser: off            # off | hokuyo | rplidar
+  robot: on
+  joystick: 2wd         # off | 2wd | 4wd | keyboard
+  laser: rplidar           # off | hokuyo | rplidar
   camera: usbcam           # off | usbcam | astra | xtion
 
 
@@ -27,3 +27,4 @@ functions:
   objrec: off
   social: on
   pantilt: off
+  interactive: on

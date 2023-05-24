@@ -86,9 +86,11 @@ TOPIC_tilt = "tilt_controller/command"
 TOPIC_spalla_dx_rot = "/spalladx_controller/command"
 TOPIC_spalla_dx_fle = "/spalladxj_controller/command"
 TOPIC_gomito_dx = "/gomitodx_controller/command"
+TOPIC_hand_right = "/handdx_controller/command"
 TOPIC_spalla_sx_rot = "/spallasx_controller/command"
 TOPIC_spalla_sx_fle = "/spallasxj_controller/command"
 TOPIC_gomito_sx = "/gomitosx_controller/command"
+TOPIC_hand_left = "/handsx_controller/command"
 #eof social
 ACTION_move_base = 'move_base'
 TOPIC_sonar_0 = 'sonar_0' 
@@ -184,7 +186,9 @@ def setRobotNamePrefix(prefix):
            TOPIC_GROUND_TRUTH, TOPIC_SETPOSE, TOPIC_STAGESAY, \
            TOPIC_emotion, TOPIC_pan, TOPIC_tilt, \
            TOPIC_spalla_dx_rot ,TOPIC_spalla_dx_fle,TOPIC_gomito_dx , \
-           TOPIC_spalla_sx_rot ,TOPIC_spalla_sx_fle,TOPIC_gomito_sx 
+           TOPIC_spalla_sx_rot ,TOPIC_spalla_sx_fle,TOPIC_gomito_sx , \
+	   TOPIC_hand_right, TOPIC_hand_left
+
 
     TOPIC_tag_detections = prefix+'/' + TOPIC_tag_detections
     TOPIC_scan = prefix+'/'+TOPIC_scan
@@ -209,7 +213,10 @@ def setRobotNamePrefix(prefix):
     TOPIC_gomito_dx = prefix+'/'+ TOPIC_gomito_dx 
     TOPIC_spalla_sx_rot = prefix+'/'+ TOPIC_spalla_sx_rot
     TOPIC_spalla_sx_fle = prefix+'/'+ TOPIC_spalla_sx_fle
-    TOPIC_gomito_sx = prefix+'/'+TOPIC_gomito_sx 
+    TOPIC_gomito_sx = prefix+'/'+TOPIC_gomito_sx
+    TOPIC_hand_right = prefix+'/'+TOPIC_hand_right
+    TOPIC_hand_left = prefix+'/'+TOPIC_hand_left 
+
     #eof social
 
     TOPIC_GROUND_TRUTH = prefix+'/'+TOPIC_GROUND_TRUTH
@@ -397,6 +404,8 @@ gomito_dx_pub = None
 spalla_sx_rot_pub = None
 spalla_sx_fle_pub = None
 gomito_sx_pub  = None
+hand_left_pub = None
+hand_right_pub = None
 # eof social
 
 
@@ -580,7 +589,8 @@ def begin(nodename='robot_cmd', init_node=True):
            use_robot, use_audio, audio_connected,\
            emotion_pub ,  pan_pub , tilt_pub,\
            spalla_dx_rot_pub,spalla_dx_fle_pub,gomito_dx_pub, \
-           spalla_sx_rot_pub,spalla_sx_fle_pub,gomito_sx_pub  
+           spalla_sx_rot_pub,spalla_sx_fle_pub,gomito_sx_pub, \
+           hand_right_pub, hand_left_pub
 
     print('begin')
 
@@ -648,6 +658,8 @@ def begin(nodename='robot_cmd', init_node=True):
         spalla_sx_rot_pub = rospy.Publisher(TOPIC_spalla_sx_rot, Float64, queue_size=1,   latch=True)
         spalla_sx_fle_pub = rospy.Publisher(TOPIC_spalla_sx_fle, Float64, queue_size=1,   latch=True)
         gomito_sx_pub = rospy.Publisher(TOPIC_gomito_sx, Float64, queue_size=1,   latch=True)
+        hand_right_pub = rospy.Publisher(TOPIC_hand_right, Float64, queue_size=1,   latch=True)
+        hand_left_pub = rospy.Publisher(TOPIC_hand_left, Float64, queue_size=1,   latch=True)
 	    # eof Social
 
         timeout = 3 #seconds
@@ -1143,7 +1155,16 @@ def gomito_sx(msg):
     #
     print('gomito_sx: %s' %(msg))
     gomito_sx_pub.publish(msg)
-
+    
+def hand_left(msg):
+    #
+    print('hand_left: %s' %(msg))
+    hand_left_pub.publish(msg)    
+ 
+def hand_right(msg):
+    #
+    print('hand_right: %s' %(msg))
+    hand_right_pub.publish(msg)    
 
 def pan(msg):
     # valori da -0.5  0 0.5 
