@@ -78,7 +78,11 @@ class ASRServer(threading.Thread):
                 if (self.connection != None):
                     self.connection.close()
                     self.connection = None
-
+    
+    def clear_asr(self):
+        self.best_hypo = ''
+        self.rcv_time = 0
+        self.connection.send('ACK\n\r')
 
     def get_asr(self):
         dt = time.time() - self.rcv_time

@@ -244,7 +244,9 @@ class TTSServer(threading.Thread):
                             lang = vd[1]
                             strsay = vd[2]
                         self.say(strsay,lang)
+                        asr_server.clear_asr()  # Fabio clear
                         self.reply('OK')
+
 
                     elif (data=="ASR"):
                         #print('asr request')

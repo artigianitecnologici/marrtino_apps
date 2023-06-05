@@ -115,9 +115,17 @@ def autostart(config, dostart):
     if getconfig('functions','audioserver'):
         cmd = '@audio' if dostart else '@audiokill'
         systemcmd(cmd,9239)
-    if getconfig('functions','social'):
+    soc = getconfig('functions','social')
+    if  soc=='social':
         cmd = '@robotsocial' if dostart else '@socialkill'
         systemcmd(cmd,9250)
+    elif soc=='notracker':
+        cmd =  cmd = '@ocialnotracker' if dostart else '@socialkill'
+        systemcmd(cmd,9250)
+    elif soc=='noservo':
+        cmd =  cmd = '@ocialnoservo' if dostart else '@socialkill'  
+        systemcmd(cmd,9250)
+
     if getconfig('functions','pantilt'):
         cmd = '@pantilt_start' if dostart else '@pantilt_kill'
         systemcmd(cmd,9249)
