@@ -36,7 +36,8 @@ tmux send-keys -t $SESSION:0 "export CAMRES='`cat /tmp/cameraresolution`'" C-m
 tmux send-keys -t $SESSION:0 "docker-compose up" C-m
 
 if [ -f /tmp/marrtinosocialon ] && [ "$MARRTINO_SOCIAL" != "" ]; then
-  
+  echo "Start Social ......"
+
   tmux send-keys -t $SESSION:2 "cd \$MARRTINO_SOCIAL/docker" C-m
   tmux send-keys -t $SESSION:2 "docker-compose up" C-m
 

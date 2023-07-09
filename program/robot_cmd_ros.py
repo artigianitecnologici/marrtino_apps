@@ -1199,6 +1199,28 @@ def user_say():
     retval = asr()
     return retval
     
+def wait_user_speaking(nsec):
+    timeout = nsec   # [seconds]
+    retval = ""
+    timeout_start = time.time()
+    while time.time() < timeout_start + timeout:
+        retval = asr_single()
+    return retval
+
+
+def asr_single():
+    global assock, stop_request
+    #print 'ASR received: ',
+    try:
+        data = ''
+        assock.send('ASR\n\r')  # ask for ASR results
+        time.sleep(0.5)
+        data = assock.recv(160)
+        data = data.strip()
+        print data
+        return data
+    except:
+        return ''
 
 # EOF Social
 ###############

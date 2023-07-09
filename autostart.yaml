@@ -25,5 +25,5 @@ functions:
   videoserver: on
   apriltags: on
   objrec: off
-  social: social        # social | notracker | noservo 
+  social: social      # social | notracker | noservo 
   pantilt: off

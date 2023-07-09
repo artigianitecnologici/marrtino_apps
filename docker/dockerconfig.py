@@ -163,8 +163,8 @@ def writeout(config, arch, gpu):
 
         if config['robot']['camera'] != False or config['functions']['vision']:
             replacemap = {}
-            if gpu!=None:
-                replacemap["runtime: runc"] = "    runtime: nvidia"        
+            #if gpu!=None:
+                #replacemap["runtime: runc"] = "    runtime: nvidia"        
             addservice(f,'vision',None,replacemap)
 
         if config['functions']['speech']:
