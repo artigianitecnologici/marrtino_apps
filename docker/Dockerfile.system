@@ -73,7 +73,7 @@ RUN echo "export MARRTINO_APPS_HOME=$HOME/src/marrtino_apps" >> $HOME/.bashrc
 
 RUN echo "export MARRTINO_VERSION=\"docker\"" >> $HOME/.bashrc
 
-RUN echo "export ROBOT_TYPE=marrtino" >> $HOME/.bashrc
+#RUN echo "export ROBOT_TYPE=marrtino" >> $HOME/.bashrc
 
 RUN echo "docker $MARRTINO_SYSTEM_VERSION" >> $HOME/.marrtino_version
 

@@ -1131,7 +1131,10 @@ def spalla_rotazione_dx(msg):
     spalla_dx_rot_pub.publish(msg)
 
 def spalla_flessione_dx(msg):
-    #
+       
+    # 3.314 = +40° -> Limite up
+    if (msg > 3.314 ):
+        msg = 3.314
     print('spalla_flessione_dx: %s' %(msg))
     spalla_dx_fle_pub.publish(msg)
 
@@ -1148,6 +1151,9 @@ def spalla_rotazione_sx(msg):
 
 def spalla_flessione_sx(msg):
     #
+    # 1.918 = +40° -> Limite up
+    if (msg < 1.918 ):
+        msg = 1.918
     print('spalla_flessione_sx: %s'  %(msg))
     spalla_sx_fle_pub.publish(msg)
 
