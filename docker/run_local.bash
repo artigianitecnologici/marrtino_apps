@@ -1,6 +1,6 @@
 #!/bin/bash
 
-IMAGENAME=iocchi/marrtino:base
+IMAGENAME=marrtino:base
 
 # change setings here if needed
 if [ "$ROBOT_IP" == "" ]; then

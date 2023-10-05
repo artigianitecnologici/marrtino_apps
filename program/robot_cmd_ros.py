@@ -203,7 +203,7 @@ def setRobotNamePrefix(prefix):
     TOPIC_sonar_1 = prefix+'/'+TOPIC_sonar_1
     TOPIC_sonar_2 = prefix+'/'+TOPIC_sonar_2
     TOPIC_sonar_3 = prefix+'/'+TOPIC_sonar_3
-    #SOCIAL
+    # SOCIAL
     TOPIC_emotion = prefix+'/'+TOPIC_emotion
     TOPIC_pan = prefix+'/'+TOPIC_pan
     TOPIC_tilt = prefix+'/'+TOPIC_tilt
@@ -1132,7 +1132,6 @@ def spalla_rotazione_dx(msg):
 
 def spalla_flessione_dx(msg):
        
-    # 
     if (msg > 3.314 ):
         msg = 3.314
     print('spalla_flessione_dx: %s' %(msg))
@@ -1151,7 +1150,7 @@ def spalla_rotazione_sx(msg):
 
 def spalla_flessione_sx(msg):
     #
-    # 
+    # 1.918 = +40  -> Limite up
     if (msg < 1.918 ):
         msg = 1.918
     print('spalla_flessione_sx: %s'  %(msg))

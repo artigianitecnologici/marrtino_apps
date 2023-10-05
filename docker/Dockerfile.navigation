@@ -23,12 +23,12 @@ RUN apt-get update && \
 # ROS packages
 
 USER robot
-
 RUN mkdir -p $HOME/src &&  cd $HOME/src && \
     git clone https://github.com/ros-drivers/urg_c.git && \
-    git clone https://github.com/ros-drivers/urg_node.git && \
+    git clone -b melodic-devel https://github.com/ros-drivers/urg_node.git  && \
     git clone https://github.com/Slamtec/rplidar_ros.git && \
-    git clone https://github.com/ros-perception/laser_proc.git 
+    git clone -b melodic-devel https://github.com/ros-perception/laser_proc.git
+
     # && \
     #git clone https://github.com/AlessioMorale/ld06_lidar.git
 
