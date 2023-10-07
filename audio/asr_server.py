@@ -18,7 +18,7 @@ class ASRServer(threading.Thread):
         server_address = ('', port)
         self.sock.bind(server_address)
         self.sock.listen(1)
-        print "ASR Server running on port ", port, " ..."
+        print ("ASR Server running on port ", port, " ...")
         
         self.dorun = True
         self.connection = None
@@ -38,7 +38,7 @@ class ASRServer(threading.Thread):
                 self.connection, client_address = self.sock.accept()
                 self.connection.settimeout(3)
                 connected = True
-                print 'ASR Server Connection from ', client_address
+                print ('ASR Server Connection from ', client_address)
             except:
                 pass #print "Listen again ..."    
 
@@ -61,7 +61,7 @@ class ASRServer(threading.Thread):
 
                     if (data!=None and data !="" and data!="***" and data[0]!='$' and data!='KEEP_AWAKE'):
                         if data!='REQ':
-                            print 'ASR Received %s' % data
+                            print ('ASR Received %s' % data)
                         self.received = data
                         if (data[0]=='{'): # json string                        
                             transcriptions = json.loads(data)
@@ -73,7 +73,7 @@ class ASRServer(threading.Thread):
                     elif (data == None or data==""):
                         break
             finally:
-                print 'ASR Server Connection closed.'
+                print ('ASR Server Connection closed.')
                 # Clean up the connection
                 if (self.connection != None):
                     self.connection.close()
@@ -107,7 +107,7 @@ if __name__ == "__main__":
         except:
             run = False
 
-    print "Exit"
+    print ("Exit")
     server.stop()
     sys.exit(0)
 

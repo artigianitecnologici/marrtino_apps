@@ -107,7 +107,7 @@ class TTSServer(threading.Thread):
         self.soundhandle = None
 
         m = platform.machine()
-        print "Machine type:" , m
+        print ("Machine type:" , m)
         if (m[0:3]=='arm'):
             use_sound_play = False
 
@@ -148,7 +148,7 @@ class TTSServer(threading.Thread):
             for l in pp:
                 print('  %s' %l)
                 if (l[0:7]=='default'):
-                    print "choose ",l
+                    print("choose ",l)
                     self.output_device = l # choose default device
                     break
         print("Audio device used: %s" %self.output_device)
@@ -178,7 +178,7 @@ class TTSServer(threading.Thread):
                     time.sleep(2)
 
         self.audio_rate = 44100
-        self.periodsize = self.audio_rate / 8
+        self.periodsize = 5512 # self.audio_rate / 8
 
         if self.aa_stream != None:
             self.aa_stream.setformat(alsaaudio.PCM_FORMAT_S16_LE)
@@ -234,7 +234,7 @@ class TTSServer(threading.Thread):
 
                 if (data!=None and data !="" and data!="***"):
                     if data!="ASR":
-                        print 'TTS Received [%s]' % data
+                        print ('TTS Received [%s]' % data)
                     if (data.startswith('TTS')):
                         lang = 'en-US' # default language
                         strsay = data[4:]
@@ -263,7 +263,7 @@ class TTSServer(threading.Thread):
                 elif (data == None or data==""):
                     break
         finally:
-            print 'TTS Server Connection closed.'
+            print ('TTS Server Connection closed.')
             # Clean up the connection
             if (self.connection != None):
                 self.connection.close()
@@ -301,9 +301,9 @@ class TTSServer(threading.Thread):
         if (use_sound_play):
             voice = 'voice_kal_diphone'
             volume = 1.0
-            print 'Saying: %s' % data
-            print 'Voice: %s' % voice
-            print 'Volume: %s' % volume
+            print ('Saying: %s' % data)
+            print ('Voice: %s' % voice)
+            print ('Volume: %s' % volume)
             
             self.soundhandle.say(data, voice, volume)
             rospy.sleep(3)
@@ -347,7 +347,7 @@ class TTSServer(threading.Thread):
                     soundfile = wave.open(SOUNDS_DIR+name+".wav", 'rb')
                     #self.Sounds[name] = soundfile
                 except:
-                    print "File %s%s.wav not found." %(SOUNDS_DIR,name)
+                    print ("File %s%s.wav not found." %(SOUNDS_DIR,name))
                     time.sleep(1)
                 i += 1
             
@@ -416,7 +416,7 @@ if __name__ == "__main__":
             #    cmd = 'play -n --no-show-progress -r 44100 -c1 synth 0.1 sine 50 vol 0.01' # keep sound alive
             #    os.system(cmd)
         except KeyboardInterrupt:
-            print "Exit"
+            print ("Exit")
             run = False
 
     tts_server.stop()

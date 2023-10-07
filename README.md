@@ -1,3 +1,9 @@
+# Version NOETIC 
+
+
+marrtino:speech 
+marrtino:orazio
+
 # MARRtino apps #
 
 Apps for MARRtino robot. See https://www.marrtino.org for more info about MARRtino.
