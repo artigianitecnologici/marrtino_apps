@@ -15,7 +15,7 @@ RUN apt-get update && \
     apt-get install -y \
         alsa-base alsa-utils pulseaudio pulseaudio-utils \
         libasound2-dev sox v4l-utils libttspico-utils \
-        ros-noetic-audio-common && \
+        ros-$ROS_DISTRO-audio-common && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
