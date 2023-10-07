@@ -1,5 +1,5 @@
   orazio:
-    image: iocchi/orazio
+    image: marrtino:orazio
     container_name: orazio
     dns: 8.8.8.8
     network_mode: "host"
