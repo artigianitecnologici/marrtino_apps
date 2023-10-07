@@ -1,9 +1,9 @@
 # Docker file for orazio ROS node (MARRtino robot)
 # Luca Iocchi, 10/2/2021
 
-# docker build -t marrtino:orazio -f Dockerfile.orazio .
+# docker build -t orazio -f Dockerfile.orazio .
 
-FROM marrtino:system
+FROM ros:melodic-ros-base-bionic
 
 ### System libraries ###
 
@@ -15,15 +15,15 @@ RUN apt update && \
     apt install -y \
         tmux less sudo nano wget iputils-ping net-tools htop libyaml-cpp-dev \
         arduino arduino-mk libreadline-dev libwebsockets-dev libeigen3-dev \
-        ros-$ROS_DISTRO-control-msgs ros-$ROS_DISTRO-tf ros-$ROS_DISTRO-tf2 && \
+        ros-melodic-control-msgs ros-melodic-tf ros-melodic-tf2 && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # User: robot (password: robot) with sudo power
 
-#RUN useradd -ms /bin/bash robot && echo "robot:robot" | chpasswd && adduser robot sudo
+RUN useradd -ms /bin/bash robot && echo "robot:robot" | chpasswd && adduser robot sudo
 
-#RUN adduser robot dialout
+RUN adduser robot dialout
 
 ### User software ###
 
@@ -34,7 +34,7 @@ USER robot
 
 RUN mkdir -p $HOME/ros/catkin_ws/src
 
-RUN /bin/bash -c "source /opt/ros/noetic/setup.bash; cd $HOME/ros/catkin_ws/src; catkin_init_workspace; cd ..; catkin_make"
+RUN /bin/bash -c "source /opt/ros/melodic/setup.bash; cd $HOME/ros/catkin_ws/src; catkin_init_workspace; cd ..; catkin_make"
 
 RUN echo "source \$HOME/ros/catkin_ws/devel/setup.bash" >> $HOME/.bashrc
 
@@ -79,13 +79,12 @@ RUN bash -ci "cd $HOME/ros/catkin_ws; catkin_make -j1"
 
 # marrtino_apps
 
-RUN cd $HOME/src && git clone  --branch noetic --depth 1 https://github.com/artigianitecnologici/marrtino_apps.git
+RUN cd $HOME/src && git clone --depth 1 https://bitbucket.org/iocchi/marrtino_apps.git
 
 
 # Set working dir and container command
 
 WORKDIR /home/robot
-
 
 CMD [ "/bin/bash", "-ci", "cd ~/src/marrtino_apps/bringup && python robot_bringup.py -server_port 9236" ]
 
