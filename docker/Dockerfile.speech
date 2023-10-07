@@ -15,7 +15,7 @@ RUN apt-get update && \
     apt-get install -y \
         alsa-base alsa-utils pulseaudio pulseaudio-utils \
         libasound2-dev sox v4l-utils libttspico-utils \
-        ros-melodic-audio-common && \
+        ros-noetic-audio-common && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
@@ -36,6 +36,6 @@ RUN cd $HOME/src && \
 
 WORKDIR /home/robot
 
-CMD [ "/bin/bash", "-ci", "cd ~/src/marrtino_apps/bringup && python speech_bringup.py" ]
+CMD [ "/bin/bash", "-ci", "cd ~/src/marrtino_apps/bringup && python3 speech_bringup.py" ]
 
 
