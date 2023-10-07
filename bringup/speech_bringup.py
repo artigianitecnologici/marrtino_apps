@@ -75,7 +75,7 @@ def run_server(port):
                 folder = os.getenv('MARRTINO_APPS_HOME')+"/audio"
                 if data=='@audio':
                     tmux.cmd(0,'cd %s' %folder)
-                    tmux.cmd(0,'python3 audio_server.py')
+                    tmux.cmd(0,'python audio_server.py')
                 elif data=='@audiokill':
                     tmux.Cc(0)
                 else:
