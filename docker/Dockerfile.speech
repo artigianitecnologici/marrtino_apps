@@ -3,7 +3,7 @@
 
 # docker build -t marrtino:speech -f Dockerfile.speech .
 
-FROM marrtino:noetic_system
+FROM marrtino:system
 
 ARG MACHTYPE=default
 
@@ -36,6 +36,6 @@ RUN cd $HOME/src && \
 
 WORKDIR /home/robot
 
-CMD [ "/bin/bash", "-ci", "cd ~/src/marrtino_apps/bringup && python3 speech_bringup.py" ]
+CMD [ "/bin/bash", "-ci", "cd ~/src/marrtino_apps/bringup && python speech_bringup.py" ]
 
 
