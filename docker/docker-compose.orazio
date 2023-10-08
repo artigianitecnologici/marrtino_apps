@@ -1,6 +1,6 @@
   orazio:
-    image: iocchi/orazio
-    container_name: orazio
+    image: marrtino:orazio
+    container_name: Dockerfile.orazio
     dns: 8.8.8.8
     network_mode: "host"
     tty: true
