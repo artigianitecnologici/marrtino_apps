@@ -129,15 +129,17 @@ def writeout(config, arch, gpu):
         orazioversion = None
         if config['robot']['motorboard']!=False:
           # default
-          #if arch=='x86_64':
-          orazioversion=""
-          #else:
-          #orazioversion=":arm64"
+          if arch=='x86_64':
+            orazioversion=""
+          else:
+            orazioversion=":arm64"
+
         if config['robot']['motorboard']=='arduino':
           if arch=='x86_64':
             orazioversion=":2018"
           else:
             orazioversion=":2018-arm64"
+        
         if orazioversion != None:
             addservice(f,'orazio',orazioversion)
 
