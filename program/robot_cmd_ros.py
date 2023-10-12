@@ -602,7 +602,7 @@ def begin(nodename='robot_cmd', init_node=True):
         t.start()
         time.sleep(0.5)
 
-      if (robot_initialized):
+    if (robot_initialized):
         return
 
     # blocking function if roscore not available !!!
