@@ -146,15 +146,14 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
         sys.stdout.flush()
 
     def waitfor(self, what, timeout):
-        time.sleep(2)
+        time.sleep(1)
+        timeout -= 1
         r = check_it(what)
         while not r and timeout>0:
             time.sleep(1)
             timeout -= 1
             r = check_it(what)
         self.write_message('RESULT %s %s' %(what,str(r)))
-
-
 
     def on_message(self, message):    
         print('>>> MESSAGE RECEIVED: %s <<<' %message)
@@ -280,11 +279,11 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
         elif (message=='read_sonars'):
             self.setStatus('Read sonars')
             for i in range(0,4):
-                v = getSonarValue(i)
+                v = readSonarValue(i)
                 self.write_message('VALUE sonar%d %.2f' %(i,v))
                 print('  -- Sonar %d range = %.2f' %(i,v))
             self.setStatus('Idle')
-            self.checkStatus('sonar')
+            #self.checkStatus('sonar')
 
         # usbcam
         elif (message=='usbcam_start'):
@@ -397,26 +396,6 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
                 self.tmux.killall(self.wlaser)
             time.sleep(3)
             self.checkStatus('laser')
-            
-        # ld06
-        elif (message=='ld06_start'):
-            if usenetcat:
-                self.tmux.cmd(self.wnet,"echo '@ld06' | netcat -w 1 localhost 9238")
-            else:
-                self.tmux.roslaunch(self.wlaser,'laser','ld06')
-            self.waitfor('laser',5)
-            #time.sleep(5)
-            #self.checkStatus('laser')
-        elif (message=='ld06_kill'):
-            if usenetcat:
-                self.tmux.cmd(self.wnet,"echo '@laserkill' | netcat -w 1 localhost 9238")
-            else:
-                self.tmux.roskill('ld06')
-                self.tmux.roskill('state_pub_laser')
-                time.sleep(3)
-                self.tmux.killall(self.wlaser)
-            time.sleep(3)
-            self.checkStatus('laser')
 
         # astralaser
         elif (message=='astralaser_start'):
@@ -520,8 +499,6 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
                 self.tmux.killall(self.wimgproc)
             time.sleep(3)
             self.checkStatus()
-
-
 
         # gmapping
         elif (message=='gmapping_start'):
@@ -627,6 +604,13 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
             time.sleep(5)
             self.checkStatus()
 
+        # dynamixel_manager - pantilt
+        elif (message=='pantilt_start'):
+            self.tmux.cmd(self.wnet,"echo '@pantilt_start' | netcat -w 1 localhost 9249")
+            time.sleep(1)
+        elif (message=='pantilt_kill'):
+            self.tmux.cmd(self.wnet,"echo '@pantilt_kill' | netcat -w 1 localhost 9249")
+
 
         # ************************
         #    S O C I A L 
@@ -653,21 +637,16 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
         elif (message=='socialns_kill'):
             self.tmux.cmd(self.wnet,"echo '@socialnoservokill' | netcat -w 1 localhost 9250")
 
-        # update social apps
-        elif (message=='updatesocialapps'):
-            self.tmux.cmd(self.wnet,"echo '@updatesocialapps' | netcat -w 1 localhost 9250")
+        # speech  script/speech.py
+        elif (message=='speech_start'):
+            self.tmux.cmd(self.wnet,"echo '@speech' | netcat -w 1 localhost 9250")
             time.sleep(1)
-        
-        # social no servo (dynamixel) demo
-        elif (message=='interactive_start'):
-            self.tmux.cmd(self.wnet,"echo '@interactive' | netcat -w 1 localhost 9250")
-            time.sleep(1)
-        elif (message=='interactive_kill'):
-            self.tmux.cmd(self.wnet,"echo '@interactivekill' | netcat -w 1 localhost 9250")
+        elif (message=='speech_kill'):
+            self.tmux.cmd(self.wnet,"echo '@speechkill' | netcat -w 1 localhost 9250")
 
 
         # ***************************
-        #   S O C I A L  -  E N D
+        #    S O C I A L  -  E N D
         # ***************************
 
 

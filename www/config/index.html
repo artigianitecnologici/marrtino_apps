@@ -105,6 +105,12 @@
 <td>MARRtino Apps version </td>
 <td> <div id="marrtino_apps_version" style="color: blue;" ></div> </td>
 </tr>
+
+<tr>
+<td>Running docker containers </td>
+<td> <div id="running_docker" style="color: blue;" ></div> </td>
+</tr>
+
 </table>
 
 <p>
@@ -154,9 +160,9 @@ Note: this procedure can take many minutes, up to an hour.
 
 
 
-<h3>System update (version 3.x)</h3>
+<!-- h3>System update (version 3.x)</h3 -->
 
-<ol>
+<!-- ol>
 <li> Open a terminal or access through
 <script>
 document.write("<a target=\"_blank\" href=\"http://" + window.location.hostname + ":9200\" class=\"btn waves-effect waves-light blue\"/>")
@@ -177,7 +183,7 @@ python marrtino_update.py
 </pre>
 
 Confirm and enter password (<tt style="font-size:120%;">marrtino</tt>) when asked for.
-</ol>
+</ol-->
 
 <p style="font-size:140%;">
 <b>Note:</b> after system update, you have to reboot the system.
@@ -199,15 +205,21 @@ Confirm and enter password (<tt style="font-size:120%;">marrtino</tt>) when aske
 <button id="btn_upmodim" onclick="send_cmd('updatemodim')" class="btn waves-effect waves-light blue">MODIM Update</button>
 </p>
 
-<p>
+<!-- p>
 <button id="btn_upmodim" onclick="send_cmd('updaterchome')" class="btn waves-effect waves-light blue">RCHOME Update</button>
-</p>
+</p-->
 
 <br>
 
 <hr>
 
 <h2>System restart (version 4.x)</h2>
+
+<p>Option 1
+
+<button id="btn_dockerrestart" onclick="send_cmd('docker_restart')" class="btn waves-effect waves-light blue" style="margin-right:10px">docker restart</button>
+
+<p>Option 2
 
 <ol>
 <li> Open a terminal or access through
@@ -277,14 +289,14 @@ Password: robot
 
 
 
-<h3>Version 3.x</h3>
+<!-- h3>Version 3.x</h3>
 
 <pre style="font-size:140%;">
 Username: ubuntu
 Password: marrtino
 </pre>
 
-<br>
+<br -->
 
 <br>
 

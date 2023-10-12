@@ -24,7 +24,5 @@ docker build -t marrtino:speech -f Dockerfile.speech . && \
 docker build -t marrtino:mapping -f Dockerfile.mapping . && \
 docker build -t marrtino:pantilt -f Dockerfile.pantilt .
 
-
-
 #docker build $UPAR -t marrtino:objrec -f Dockerfile.objrec .
 

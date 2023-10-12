@@ -68,13 +68,13 @@ def autostart(config, dostart):
     if cam=='usbcam' or cam=='astra' or cam=='xtion':
         cmd = '@%s' %cam if dostart else '@camerakill'
         systemcmd(cmd,9237)
-    #if cam=='d345' :
-    #    cmd = '@%s' %cam if dostart else '@camerakill'
-    #    systemcmd(cmd,9237)  
     las = getconfig('devices','laser')
-    if  las=='hokuyo' or las=='rplidar' or las=='ld06':
+    if  las=='hokuyo' or las=='rplidar':
         cmd = '@%s' %las if dostart else '@laserkill'
         systemcmd(cmd,9238)
+    if getconfig('devices','pantilt'):
+        cmd = '@pantilt_start' if dostart else '@pantilt_kill'
+        systemcmd(cmd,9249)
 
 
     # functions
@@ -109,28 +109,20 @@ def autostart(config, dostart):
     if getconfig('functions','apriltags'):
         cmd = '@apriltags' if dostart else '@apriltagskill'
         systemcmd(cmd,9237)
-    if getconfig('functions','objrec'):
-        cmd = '@objrec' if dostart else '@objreckill'
+    objrec_f = getconfig('functions','objrec')
+    if objrec_f:
+        if objrec_f == 'yolo':
+            cmd = '@yolo' if dostart else '@yolokill'
+        else:
+            cmd = '@objrec' if dostart else '@objreckill'
         systemcmd(cmd,9242)
     if getconfig('functions','audioserver'):
         cmd = '@audio' if dostart else '@audiokill'
         systemcmd(cmd,9239)
-    soc = getconfig('functions','social')
-    if soc=='on':
-        soc='social'
-    if soc=='social':
-        cmd = '@robotsocial' if dostart else '@socialkill'
-        systemcmd(cmd,9250)
-    elif soc=='notracker':
-        cmd = '@socialnotracker' if dostart else '@socialkill'
-        systemcmd(cmd,9250)
-    elif soc=='noservo':
-        cmd = '@socialnoservo' if dostart else '@socialkill'  
+    if getconfig('functions','social'):
+        cmd = '@social' if dostart else '@socialkill'
         systemcmd(cmd,9250)
 
-    if getconfig('functions','pantilt'):
-        cmd = '@pantilt_start' if dostart else '@pantilt_kill'
-        systemcmd(cmd,9249)
 
 #
 

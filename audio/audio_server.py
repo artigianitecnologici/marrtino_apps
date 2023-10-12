@@ -74,15 +74,8 @@ asr_server = None
 def speak_callback(data):
     global tts_server
     if tts_server is not None:
-        # print(data.data)
-        full_string = data.data.split("###")
-        if len(full_string) > 1:
-            data.data = full_string[0]
-            language = full_string[1]
-        else:
-            language = "it"
         rospy.loginfo(rospy.get_caller_id() + "%s %s" %(SPEECH_TOPIC,data.data))
-        tts_server.say(data.data, language)
+        tts_server.say(data.data, 'it')
 
 
 def TTS_callback(in_data, frame_count, time_info, status):

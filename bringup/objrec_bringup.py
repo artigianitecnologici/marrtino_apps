@@ -28,7 +28,7 @@ def run_server(port):
     sock.listen(1)
     print("MARRtino object recognition server started on port %d ..." %port)
 
-    tmux = TmuxSend('bringup', ['objrec','cmd'])
+    tmux = TmuxSend('bringup', ['objrec','yolo','cmd'])
 
     connected = False
     dorun = True
@@ -79,6 +79,11 @@ def run_server(port):
                     tmux.cmd(0,'python mobilenet_objrec.py --server')
                 elif data=='@objreckill':
                     tmux.Cc(0)
+                elif data=='@yolo':
+                    tmux.cmd(1,'cd %s' %vfolder)
+                    tmux.cmd(1,'python yolo.py --server')
+                elif data=='@yolokill':
+                    tmux.Cc(1)
 
                 else:
                     print('Unknown command %s' %data)

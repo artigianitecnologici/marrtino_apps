@@ -106,3 +106,53 @@ Note: change file names in the .script files if needed.
         orazio> store sonar_params
         orazio> quit
 
+# SD config script
+
+
+    usage: sdconfig.py [-h] [-imagefile IMAGEFILE] [-ssid SSID] [-channel CHANNEL]
+                       [-password PASSWORD] [-hostname HOSTNAME]
+                       op device
+
+    MARRtino SD config
+
+    positional arguments:
+      op                    [read, write, check, set, speed]
+      device                device name (e.g.: /dev/mmcblk0)
+
+    optional arguments:
+      -h, --help            show this help message and exit
+      -imagefile IMAGEFILE  image file prefix (e.g., raspi3b_marrtino_2.0)
+      -ssid SSID            Wlan SSID
+      -channel CHANNEL      Wlan channel
+      -password PASSWORD    Wlan password
+      -hostname HOSTNAME    host name
+
+Notes:
+
+* Script must be run with `sudo` privileges
+
+* Check device name with `dmesg`
+
+* Read and write not available for version 4 SD cards (use balenaEtcher to flash an SD card)
+
+* If files `system_config.yaml` or `autostart.yaml` are not present, copy from templates
+
+    cd home/marrtino/src/marrtino_apps
+    cp docker/system_config_template.yaml system_config.yaml
+    cp start/autostart_template.yaml autostart.yaml
+
+
+* Edit `system_config.yaml` or `autostart.yaml` in `home/marrtino/src/marrtino_apps` to configure startup docker containers and functionalities
+
+    cd home/marrtino/src/marrtino_apps
+    nano system_config.yaml
+    nano autostart.yaml
+
+* To setup `system_config` and `autostart` for ROSITA robot, use
+
+    cd home/marrtino/src/marrtino_apps/bin
+    ./setup_rosita.bash
+
+* Use `git pull` in `home/marrtino/src/marrtino_apps` to update `marrtino_apps`
+
+

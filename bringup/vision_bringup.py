@@ -20,20 +20,6 @@ def getCameraResolution():
         (width, height) = eval(camres)
     return (width, height)
 
-def getFramerate():
-    framerate = 10
-    framerate = os.getenv("CAMFRAMERATE")
-    print(framerate)
-    #if framerate!=None and framerate!='' and framerate!='None':
-    return (framerate)
-
-def getDevice():
-    camdevice = '/dev/video0'
-    camdevice = os.getenv("CAMDEVICE")
-    print(camdevice)
-    #if framerate!=None and framerate!='' and framerate!='None':
-    return (camdevice)
-
 def run_server(port):
 
     # Create a TCP/IP socket
@@ -95,7 +81,6 @@ def run_server(port):
                 mfolder = os.getenv('MARRTINO_APPS_HOME')+"/marker"
                 if data=='@usbcam':
                     r = getCameraResolution()
-                    
                     imsz = ''
                     if r != None:
                         imsz = 'image_width:=%d image_height:=%d' %(r[0],r[1])
@@ -106,7 +91,7 @@ def run_server(port):
                     v = data.split("_")
                     tmux.cmd(0,'cd %s' %cfolder)
                     tmux.cmd(0,'roslaunch usbcam.launch '+
-                        'image_width:=%d image_height:=%d framerate:=%s ' %(int(v[1]),int(v[2])))
+                        'image_width:=%d image_height:=%d' %(int(v[1]),int(v[2])))
                 elif data=='@astra':
                     tmux.cmd(0,'cd %s' %cfolder)
                     tmux.cmd(0,'roslaunch astra.launch')

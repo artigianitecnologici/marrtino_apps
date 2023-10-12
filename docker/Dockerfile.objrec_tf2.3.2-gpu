@@ -65,7 +65,7 @@ RUN touch $HOME/.sudo_as_admin_successful
 RUN echo "2022-06-05" > /tmp/dockerbuild
 
 RUN mkdir -p $HOME/src && cd $HOME/src && \
-    git clone --depth 1 https://github.com/artigianitecnologici/marrtino_apps.git
+    git clone --depth 1 https://bitbucket.org/iocchi/marrtino_apps.git
 
 RUN cd $HOME/src/marrtino_apps/vision && \
     python3 mobilenet_objrec.py  --init

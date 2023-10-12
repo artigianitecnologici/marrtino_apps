@@ -1,0 +1,22 @@
+simulator:
+  stage: off
+
+devices:
+  robot: on
+  joystick: on
+  laser: off
+  camera: usbcam
+  pantilt: on
+
+functions:
+  localization: off
+  navigation: off
+  navigation_rviz: off
+  mapping: off
+  mapping_rviz: off
+  videoserver: off
+  apriltags: on
+  objrec: off
+  audioserver: off
+  social: off
+

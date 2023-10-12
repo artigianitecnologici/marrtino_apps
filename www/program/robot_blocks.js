@@ -138,6 +138,33 @@ Blockly.Blocks['setSpeed'] = {
   }
 };
 
+Blockly.Blocks['setSpeed4W'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("setSpeed4W");
+    this.appendValueInput("fl")
+        .setCheck("Number")
+        .appendField("fl");
+	this.appendValueInput("fr")
+        .setCheck("Number")
+        .appendField("fr");
+    this.appendValueInput("bl")
+        .setCheck("Number")
+        .appendField("bl");
+	  this.appendValueInput("br")
+        .setCheck("Number")
+        .appendField("br");
+    this.appendValueInput("time")
+        .setCheck("Number")
+        .appendField("time");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(120);
+ this.setTooltip("robot speed fl [m/s], fr [m/s], bl [m/s], br [m/s] for time seconds");
+ this.setHelpUrl("");
+  }
+};
 
 Blockly.Blocks['get_pose'] = {
   init: function() {
@@ -249,4 +276,34 @@ Blockly.Blocks['sound'] = {
   }
 };
 
+Blockly.Blocks['pan'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("img/pan.png", 20, 20, "Head pan"));
+    this.appendValueInput("steps")
+        .setCheck("Number")
+        .appendField("pan");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(120);
+ this.setTooltip("head pan position");
+ this.setHelpUrl("");
+  }
+};
 
+Blockly.Blocks['tilt'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField(new Blockly.FieldImage("img/tilt.png", 20, 20, "Head tilt"));
+    this.appendValueInput("steps")
+        .setCheck("Number")
+        .appendField("tilt");
+    this.setInputsInline(true);
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(120);
+ this.setTooltip("head tilt position");
+ this.setHelpUrl("");
+  }
+};

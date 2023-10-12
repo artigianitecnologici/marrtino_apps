@@ -63,7 +63,7 @@ stop_request = False
 # dir for writing log files (programs, images,... )
 logdir = os.getenv('HOME')+'/playground/log/'
 if not os.path.isdir(logdir):
-  logdir = os.getenv('HOME')+'log/'
+  logdir = os.getenv('HOME')+'/log/'
 if not os.path.isdir(logdir):
   logdir = '/tmp/'
 
@@ -79,18 +79,15 @@ TOPIC_odom = 'odom'
 TOPIC_joints = 'cmd_joints_jog'
 TOPIC_joy = 'joy'
 # SOCIAL
-# 
 TOPIC_emotion = "social/emotion"
 TOPIC_pan = "pan_controller/command"
 TOPIC_tilt = "tilt_controller/command"
 TOPIC_spalla_dx_rot = "/spalladx_controller/command"
 TOPIC_spalla_dx_fle = "/spalladxj_controller/command"
 TOPIC_gomito_dx = "/gomitodx_controller/command"
-TOPIC_hand_right = "/handdx_controller/command"
 TOPIC_spalla_sx_rot = "/spallasx_controller/command"
 TOPIC_spalla_sx_fle = "/spallasxj_controller/command"
 TOPIC_gomito_sx = "/gomitosx_controller/command"
-TOPIC_hand_left = "/handsx_controller/command"
 #eof social
 ACTION_move_base = 'move_base'
 TOPIC_sonar_0 = 'sonar_0' 
@@ -116,32 +113,32 @@ ILL_      = None
 ILL_sub   = None
 
 def IMU_cb(data):
-	global IMU_
-	IMU_ = data
+    global IMU_
+    IMU_ = data
 def FIX_cb(data):
-	global FIX_
-	FIX_ = data
+    global FIX_
+    FIX_ = data
 def MAG_cb(data):
-	global MAG_
-	MAG_ = data
+    global MAG_
+    MAG_ = data
 def ILL_cb(data):
-	global ILL_
-	ILL_ = data
+    global ILL_
+    ILL_ = data
 
 
 # functions available for the programmer
 def accel_gyro():
-	global IMU_
-	return IMU_
+    global IMU_
+    return IMU_
 def sat_nav():
-	global FIX_
-	return FIX_
+    global FIX_
+    return FIX_
 def magnetometer():
-	global MAG_
-	return MAG_
+    global MAG_
+    return MAG_
 def illuminance():
-	global ILL_
-	return ILL_
+    global ILL_
+    return ILL_
 
 # gbn navigation present
 use_desired_cmd_vel=False
@@ -186,9 +183,7 @@ def setRobotNamePrefix(prefix):
            TOPIC_GROUND_TRUTH, TOPIC_SETPOSE, TOPIC_STAGESAY, \
            TOPIC_emotion, TOPIC_pan, TOPIC_tilt, \
            TOPIC_spalla_dx_rot ,TOPIC_spalla_dx_fle,TOPIC_gomito_dx , \
-           TOPIC_spalla_sx_rot ,TOPIC_spalla_sx_fle,TOPIC_gomito_sx , \
-	   TOPIC_hand_right, TOPIC_hand_left
-
+           TOPIC_spalla_sx_rot ,TOPIC_spalla_sx_fle,TOPIC_gomito_sx 
 
     TOPIC_tag_detections = prefix+'/' + TOPIC_tag_detections
     TOPIC_scan = prefix+'/'+TOPIC_scan
@@ -203,7 +198,7 @@ def setRobotNamePrefix(prefix):
     TOPIC_sonar_1 = prefix+'/'+TOPIC_sonar_1
     TOPIC_sonar_2 = prefix+'/'+TOPIC_sonar_2
     TOPIC_sonar_3 = prefix+'/'+TOPIC_sonar_3
-    # SOCIAL
+    #SOCIAL
     TOPIC_emotion = prefix+'/'+TOPIC_emotion
     TOPIC_pan = prefix+'/'+TOPIC_pan
     TOPIC_tilt = prefix+'/'+TOPIC_tilt
@@ -213,10 +208,7 @@ def setRobotNamePrefix(prefix):
     TOPIC_gomito_dx = prefix+'/'+ TOPIC_gomito_dx 
     TOPIC_spalla_sx_rot = prefix+'/'+ TOPIC_spalla_sx_rot
     TOPIC_spalla_sx_fle = prefix+'/'+ TOPIC_spalla_sx_fle
-    TOPIC_gomito_sx = prefix+'/'+TOPIC_gomito_sx
-    TOPIC_hand_right = prefix+'/'+TOPIC_hand_right
-    TOPIC_hand_left = prefix+'/'+TOPIC_hand_left 
-
+    TOPIC_gomito_sx = prefix+'/'+TOPIC_gomito_sx 
     #eof social
 
     TOPIC_GROUND_TRUTH = prefix+'/'+TOPIC_GROUND_TRUTH
@@ -404,8 +396,6 @@ gomito_dx_pub = None
 spalla_sx_rot_pub = None
 spalla_sx_fle_pub = None
 gomito_sx_pub  = None
-hand_left_pub = None
-hand_right_pub = None
 # eof social
 
 
@@ -589,8 +579,7 @@ def begin(nodename='robot_cmd', init_node=True):
            use_robot, use_audio, audio_connected,\
            emotion_pub ,  pan_pub , tilt_pub,\
            spalla_dx_rot_pub,spalla_dx_fle_pub,gomito_dx_pub, \
-           spalla_sx_rot_pub,spalla_sx_fle_pub,gomito_sx_pub, \
-           hand_right_pub, hand_left_pub
+           spalla_sx_rot_pub,spalla_sx_fle_pub,gomito_sx_pub  
 
     print('begin')
 
@@ -602,15 +591,6 @@ def begin(nodename='robot_cmd', init_node=True):
         t.start()
         time.sleep(0.5)
 
-    # if gbn node running, enable obstacle avoidance
-
-    nn = get_ROS_nodes()
-    #print(nn)
-    obstav = '/gradientBasedNavigation' in nn
-    enableObstacleAvoidance(obstav)
-    if obstav:
-      print("gbn detected: obstacle avoidance automatically enabled")
-
     if (robot_initialized):
         return
 
@@ -620,6 +600,15 @@ def begin(nodename='robot_cmd', init_node=True):
         rospy.init_node(nodename,  disable_signals=True)
         rospy.sleep(1)
         print("ROS node %s initialized." %nodename)
+
+    # if gbn node running, enable obstacle avoidance
+
+    nn = get_ROS_nodes()
+    #print(nn)
+    obstav = '/gradientBasedNavigation' in nn
+    enableObstacleAvoidance(obstav)
+    if obstav:
+      print("gbn detected: obstacle avoidance automatically enabled")
 
     if AprilTagFound:
         tag_sub = rospy.Subscriber(TOPIC_tag_detections, AprilTagDetectionArray, tag_cb)
@@ -658,9 +647,7 @@ def begin(nodename='robot_cmd', init_node=True):
         spalla_sx_rot_pub = rospy.Publisher(TOPIC_spalla_sx_rot, Float64, queue_size=1,   latch=True)
         spalla_sx_fle_pub = rospy.Publisher(TOPIC_spalla_sx_fle, Float64, queue_size=1,   latch=True)
         gomito_sx_pub = rospy.Publisher(TOPIC_gomito_sx, Float64, queue_size=1,   latch=True)
-        hand_right_pub = rospy.Publisher(TOPIC_hand_right, Float64, queue_size=1,   latch=True)
-        hand_left_pub = rospy.Publisher(TOPIC_hand_left, Float64, queue_size=1,   latch=True)
-	    # eof Social
+        # eof Social
 
         timeout = 3 #seconds
         print("Waiting for robot pose on topic %s... (%d seconds)" %(TOPIC_odom,timeout))
@@ -715,18 +702,23 @@ def unregisterAll():
 sub_image = None
 
 def startCameraGrabber():
-    global sub_image
+    global sub_image, cvimage
+    cvimage = None
     img_topic = autoImageTopic()
-    if img_topic != None:
+    if img_topic is not None:
         print("Image topic: %s" %img_topic)
         sub_image = rospy.Subscriber(img_topic, Image, image_cb)
         time.sleep(1)
-
-
+        if cvimage is None: # first time can take a lot to get the image
+            time.sleep(3)
+        if cvimage is None:
+            time.sleep(3)
+        if cvimage is None:
+            print("Image not received!!!")
 
 def stopCameraGrabber():
     global sub_image
-    if sub_image !=  None:
+    if sub_image is not  None:
         sub_image.unregister()
 
 
@@ -734,7 +726,7 @@ def getImage(tmsleep=3):
     return get_image(tmsleep)
 
 def get_image(tmsleep=3):
-    global cvimage
+    global cvimage, logdir
     startCameraGrabber() # wait 1 sec for an image
     time.sleep(tmsleep)
     stopCameraGrabber()
@@ -845,18 +837,14 @@ def mobilenet_objrec(img):
     return r
 
 
-# Object recognition with mobilenet server
-
-# DOES NOT REQUIRE tensorflow on the client side !!!
 
 def send_image(image, width, height, server, port):
     if image is not None:
         sendimage = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        sendimage = cv2.resize(sendimage, (width,height))
-
+        if width!=None and height!=None:
+            sendimage = cv2.resize(sendimage, (width,height))
         sdata = numpy.array(sendimage)
         stringData = sdata.tostring()
-
         try:  
             sock = socket.socket()   # connection to server
             sock.connect((server, port))
@@ -869,14 +857,30 @@ def send_image(image, width, height, server, port):
             rdata = rdata.strip().decode('UTF-8')
             print("Received: %s" %rdata)
             sock.close()
-            vdata = rdata.split(" ")
-            rval = (vdata[0], float(vdata[1]))
         except Exception as e:
             print(e)
             print("Cannot send image to %s:%d" %(server, port))
-            rval = ("send-error", 0.0)
+            rdata = None
 
-        return rval
+        return rdata
+
+
+# Cloud object recognition/object detection
+
+# DOES NOT REQUIRE machine learning libraries on the client side !!!
+
+
+def objectDetection(img, server='localhost', port=9300):
+    # send image to sever
+    print("Sending image to server %s:%s" %(server,port))
+    w = None # original size
+    h = None
+    res = send_image(img, w, h, server, port)
+
+    print("result: %s" %res)
+
+    return res
+
 
 
 def mobilenetObjrecClient(img, server='localhost', port=9300):
@@ -884,13 +888,17 @@ def mobilenetObjrecClient(img, server='localhost', port=9300):
     print("Sending image to server %s:%s" %(server,port))
     w = 224
     h = 224
-    (label,conf) = send_image(img, w, h, server, port)
+    rdata = send_image(img, w, h, server, port)
+    if (rdata is None):
+        rdata="error 0.0"
+    vdata = rdata.split(";")
+    label = vdata[0]
+    conf = float(vdata[1])
 
     print("result: %s %.2f" %(label,conf))
 
     return (label,conf)
-
-
+    
 
 def ready():
     global robot_initialized
@@ -898,6 +906,9 @@ def ready():
 
 
 # check if program can run now
+def ok():
+    return marrtinoOK()
+
 def marrtino_ok():
     return marrtinoOK()
 
@@ -1018,6 +1029,53 @@ def right(r=1):
     return exec_turn_REL(-90*r)
 
 
+######################### ROSITA Commands
+def avanti(t):
+    t=t/2+0.1
+    setSpeed4W(0.2,0.2,0.2,0.2,t,True)
+
+def indietro(t):
+    t=t/2+0.1
+    setSpeed4W(-0.2,-0.2,-0.2,-0.2,t,True)
+
+def sinistra(t):
+    t=0.8+t/2
+    setSpeed4W(-0.171,0.171,-0.171,0.171,t,True)
+
+def destra(t):
+    t=0.8+t/2 
+    setSpeed4W(0.171,-0.171,0.171,-0.171,t,True)
+
+# camera 
+def camera(tmsleep=3):
+    return get_image(tmsleep)
+
+######################## tag 
+def qr():
+    id=tagID()
+    return(id)
+
+def qr_code():
+    tag_qr=tagID()
+    if tag_qr  == -1:
+         return ("Nessuna traccia di vita rilevata")
+    elif tag_qr  == 0:
+         return ("Hai trovato Yogi, una roccia marziana scoperta durante la missione Mars Pathfinder nel 1997")
+    elif tag_qr == 1:
+         return ("Hai trovato Last Chance, roccia stratificata scoperta dal rover Opportunity nel marzo 2004")
+    elif tag_qr == 2:
+         return ("Hai trovato Mimi, roccia insolitamente friabile dovuta forse all'azione dell'acqua")
+    elif tag_qr == 3:
+         return ("Hai trovato Coronation, roccia trovata nel cratere Gale su Marte")
+    elif tag_qr == 4: 
+         return ("Hai trovato Pot of Gold, roccia nodosa ritrovata nel cratere marziano di Gusev")
+    elif tag_qr == 5:
+         return ("Hai trovato Blackthorn Salt, minerale a forma di fiore, formatosi nell’acqua in un lontano passato di Marte")
+    else:
+         return ("Hai trovato una nuova traccia di vita ancora da identificare (%d)" %tag_qr)
+#########################
+
+
 # set stage pose
 def stage_setpose(gx,gy,gth_deg):
     global stage_setpose_pub
@@ -1131,9 +1189,7 @@ def spalla_rotazione_dx(msg):
     spalla_dx_rot_pub.publish(msg)
 
 def spalla_flessione_dx(msg):
-       
-    if (msg > 3.314 ):
-        msg = 3.314
+    #
     print('spalla_flessione_dx: %s' %(msg))
     spalla_dx_fle_pub.publish(msg)
 
@@ -1150,9 +1206,6 @@ def spalla_rotazione_sx(msg):
 
 def spalla_flessione_sx(msg):
     #
-    # 1.918 = +40  -> Limite up
-    if (msg < 1.918 ):
-        msg = 1.918
     print('spalla_flessione_sx: %s'  %(msg))
     spalla_sx_fle_pub.publish(msg)
 
@@ -1160,16 +1213,7 @@ def gomito_sx(msg):
     #
     print('gomito_sx: %s' %(msg))
     gomito_sx_pub.publish(msg)
-    
-def hand_left(msg):
-    #
-    print('hand_left: %s' %(msg))
-    hand_left_pub.publish(msg)    
- 
-def hand_right(msg):
-    #
-    print('hand_right: %s' %(msg))
-    hand_right_pub.publish(msg)    
+
 
 def pan(msg):
     # valori da -0.5  0 0.5 
@@ -1204,28 +1248,6 @@ def user_say():
     retval = asr()
     return retval
     
-def wait_user_speaking(nsec):
-    timeout = nsec   # [seconds]
-    retval = ""
-    timeout_start = time.time()
-    while time.time() < timeout_start + timeout:
-        retval = asr_single()
-    return retval
-
-
-def asr_single():
-    global assock, stop_request
-    #print 'ASR received: ',
-    try:
-        data = ''
-        assock.send('ASR\n\r')  # ask for ASR results
-        time.sleep(0.5)
-        data = assock.recv(160)
-        data = data.strip()
-        print data
-        return data
-    except:
-        return ''
 
 # EOF Social
 ###############
@@ -1697,3 +1719,6 @@ def exec_follow_person_stop():
     print("Follow person STOP")
 
     follow_person_running = False
+
+
+

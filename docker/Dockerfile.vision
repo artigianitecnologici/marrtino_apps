@@ -13,44 +13,26 @@ USER root
 
 RUN apt-get update && \
     apt-get install -y \
-        v4l-utils libgoogle-glog-dev \
+        v4l-utils libgoogle-glog-dev libuvc-dev \
         ros-melodic-rgbd-launch ros-melodic-web-video-server \
         ros-melodic-camera-info-manager ros-melodic-libuvc \
         ros-melodic-image-view && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
-# Fabio 08/12/2022
-# aggiunta lib libgoogle-glog-dev e libuvc
-RUN mkdir -p $HOME/lib &&  cd $HOME/lib && \
-    git clone https://github.com/libuvc/libuvc.git && \
-    cd libuvc && \
-    mkdir build && cd build && \
-    cmake .. && make -j4 && \
-    sudo make install 
-
-RUN sudo ldconfig
-# Fabio eof
-
 USER robot
 
 # ROS packages
 
 RUN mkdir -p $HOME/src/ros &&  cd $HOME/src/ros && \
-    git clone https://github.com/seqsense/usb_cam.git  && \  
-    git clone https://github.com/orbbec/ros_astra_camera.git && \
-    git clone https://github.com/orbbec/ros_astra_launch.git && \
+    git clone -b 0.3.6 --depth 1 https://github.com/seqsense/usb_cam.git  && \  
+    git clone -b v1.1.4 --depth 1 https://github.com/orbbec/ros_astra_camera.git && \
+    git clone -b 0.2.2 --depth 1 https://github.com/orbbec/ros_astra_launch.git && \
     rm -rf apriltags_ros && \
-    git clone https://github.com/RIVeR-Lab/apriltags_ros.git
-#   git clone https://bitbucket.org/iocchi/apriltags_ros.git NOT WORKING
+    git clone https://github.com/RIVeR-Lab/apriltags_ros.git && \
+    cd apriltags_ros  && \
+    git checkout 62fbdc5797e67058a88a2495b19664a455903b30
 
-
-# Set up .bashrc
-
-RUN echo "if [ -d /usr/lib/nvidia-384/ ]; then" >> $HOME/.bashrc
-RUN echo "  export PATH=\"/usr/lib/nvidia-384/bin:\${PATH}\"" >> $HOME/.bashrc
-RUN echo "  export LD_LIBRARY_PATH=\"/usr/lib/nvidia-384:/usr/lib32/nvidia-384:\${LD_LIBRARY_PATH}\" " >> $HOME/.bashrc
-RUN echo "fi" >> $HOME/.bashrc
 
 # Set and compile ROS packages
 
@@ -64,12 +46,12 @@ RUN bash -ci "cd $HOME/ros/catkin_ws; catkin_make -j1"
 
 # Trick to force build from here
 
-RUN echo "20210910" > /tmp/lastdockerbuild
+RUN echo "20230108" > /tmp/lastdockerbuild
 
 # marrtino_apps
 
 RUN cd $HOME/src && \
-    git clone --depth 1 https://github.com/artigianitecnologici/marrtino_apps.git
+    git clone --depth 1 https://bitbucket.org/iocchi/marrtino_apps.git
 
 WORKDIR /home/robot
 

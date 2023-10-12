@@ -42,9 +42,8 @@ RUN bash -ci "cd $HOME/ros/catkin_ws; catkin_make -j1"
 RUN echo "20210426" > /tmp/lastdockerbuild
 
 # marrtino_apps
-
-RUN cd $HOME/src && \
-    git clone --depth 1 https://github.com/artigianitecnologici/marrtino_apps.git
+  
+RUN cd $HOME/src && git clone --depth 1 https://bitbucket.org/iocchi/marrtino_apps.git
 
 WORKDIR /home/robot
 

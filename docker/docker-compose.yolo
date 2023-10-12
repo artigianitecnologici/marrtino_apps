@@ -1,7 +1,7 @@
-  objrec:
-    image: marrtino:objrec
+  yolo:
+    image: marrtino:yolo
     runtime: runc
-    container_name: objrec
+    container_name: yolo
     dns: 8.8.8.8
     network_mode: "host"
     tty: true

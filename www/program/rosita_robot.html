@@ -3,14 +3,16 @@
 <head>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0"/>
-  <title>Python robot</title>
+  <title>Tile robot</title>
 
   <!-- CSS  -->
   <link href="../css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   <link href="../css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
   
-  <script src="websocket_robot.js"></script>  
+  <script src="websocket_robot.js"></script>
+  
 </head>
+
 <body>
 
 <nav class="red lighten-1" role="navigation">
@@ -39,11 +41,11 @@
 	</div>
 </nav>
 
-  <h1 align="center">Python robot</h1>
+<h1 align="center">ROSITA</h1>
 
-  <div class="container">
+<div class="container">
 
-  <p>Executing Python programs on robot.</p>
+  <p>Programma ROSITA con i comandi predefiniti</p>
 
   <p>
     <table>
@@ -73,31 +75,52 @@
     </table>
   </p>
 
-  <br>
-
   <p>
-    <button id="run_btn" onclick="runCode()" class="btn waves-effect waves-light blue" style="margin-right:10px">Run</button>
-    <button id="stop_btn" onclick="stopCode()" class="btn waves-effect waves-light blue">Stop</button>
   </p>
 
-  <table border=0>
-  <tr>  <th>Python workspace</th>  </tr>
+<br><br>
+
+  <table>
+  <tr>  <th>Tiles workspace</th> <th></th> <th>Camera image</th>  <th>Python code</th> </tr>
+
   <tr>
   <td>
-    <div>
-<textarea id="code" rows=20 cols=60 style="height:400px"># Write your robot program here
 
+<table style="max-width:410px;">
 
-</textarea>
-    </div>
+<tr style="border:none;">
+  <td><button id="bip_btn" onclick="command('A')"><img src="img/camera.png"></button></td>
+  <td><button id="f_btn" onclick="command('F')"><img src="img/up.png"></button></td>
+  <td><button id="boom_btn" onclick="command('C')"><img src="img/lente.png"></button></td>
+</tr>
+<tr style="border:none;">
+  <td><button id="l_btn" onclick="command('L')"><img src="img/rotleft.png"></button></td>
+  <td><button id="run_btn" onclick="runCode()"><img src="img/run.png"></button></td>
+  <td><button id="r_btn" onclick="command('R')"><img src="img/rotright.png"></button></td>
+</tr>
+<tr style="border:none;">
+  <td><button id="clr_btn" onclick="clearCode()"><img src="img/clear.png"></button></td>
+  <td><button id="d_btn" onclick="command('B')"><img src="img/down.png"></button></td>
+  <td><button id="stop_btn" onclick="stopCode()"><img src="img/stop.png"></button></td>
+</tr>
+</table>
+    
+  </td>
+
+  <td width=20>
+  </td>
+ <td>
+        <div><img width="420" height=width id='image' src="../viewer/img/lastimage.jpg"/></div>
+      </td>
+  <td>
+
+    <div id="codeDiv" style="height: 400px; min-width: 250px; background-color: #f8f8f8; font-size: 120%;"></div>
     
   </td>
   </tr>
   </table>
 
-<br>
-
-  <table border=0>
+ <table border=0>
   <tr>  <th>Display</th>  </tr>
   <tr>
   <td style="color:#0000FF; background-color: #EEFFCC; font-size: 150%;" width=500 height=50>
@@ -107,125 +130,24 @@
   </tr>
   </table>
 
+ <table border=0>
 
-  <table border=0>
-  <tr>  <th>Image</th>  </tr>
+  <tr>  <th>Last Python code</th> </tr>
+
   <tr>
-  <td width=500 height=50 bgcolor=#B0CFB0>
-    <div align='center' > <img height=300 id='image' src="../viewer/img/lastimage.jpg" alt=""/> </div>
-  </td>
+
+<td>
+<div id="lastCodeDiv" style="height: 400px; width: 250px; background-color: #f8f8f8; font-size: 120%;"></div>
+</td>
   </tr>
+
   </table>
-
-<br><br>
-
-
-<hr>
-
-<h3>Commands</h3>
-
-<listing style="font-size:125%;">
-# motion
-
-enableObstacleAvoidance(False|True) 
-forward(m)
-backward(m)
-left(n)
-right(n)
-turn(deg, ref='REL'|'ABS', frame='odom'|'map'):
-setSpeed(lx,az,tm,stopend=False)
-setSpeed4W(fl,fr,bl,br,tm,stopend=False)
-stop()
-goto(gx,gy,gth)     # map pose (move_base)
-gotoLabel(label)    # semantic map (map_server, move_base)
-gotoTarget(gx,gy, frame='odom'|'map'|'gt')  # no path planning
-p = getRobotPose(frame='odom'|'map'|'gt')  # p[0] : X, p[1] : Y, p[2] : theta
-v = getSpeed()      # v[0]: linear x, v[1]: angular z
-
-# range distance
-
-d = obstacleDistance(dir_deg=0)
-
-
-# audio
-
-sound(name)
-say(text, language='en')
-s = asr()
-
-
-# modim
-
-show_image(value, which='default')
-show_text(value, which='default')
-
-
-# vision
-
-img = getImage()
-n = faceDetection(img)
-(label,conf) = mobilenetObjrecClient(img[,server,port])
-results = objectDetection(img[,server,port])
-b = tagTrigger()  # boolean
-id = tagID()      # id
-d = tagDistance() # [m]
-a = tagAngle()    # [deg]
-
-
-# utils
-
-wait(sec)		    # Wait for X seconds
-b = marrtinoOK()	# returns 'true' if the robot is ready
-d = distance(p1,p2)	# Euclidean distance between points p1 and p2
-display(x) 		    # Print the content of 'x' or the result of function 'x' in the Display area 
-
-
-# simulator
-
-stage_setpose(gx,gy,gth_deg)    # place the simulated robot in gx,gy,gth_deg
-</listing>
-
-<br>
-<hr>
-<br>
-
-<h4>Android smartphone functions</h4>
-
-<p>For exploiting your Android smartphone sensors, "ROS Android Sensors Driver" app is required. Please download and install it from Google Play Store.</p>
-
-<a href="https://play.google.com/store/apps/details?id=org.ros.android.sensors_driver" target="_blank">Link to the page</a>
-
-<p>or</p>
-
-<p>Use this QR code</p>
-
-<img src="QRAndroidDriver.png">
-
-<p>Then, open the App and put the following text in the text area:</p>
-
-<listing style="font-size:125%;">
-http://[your_marrtino_ip]:11311
-</listing>
-
-<p>substituting "[your_marrtino_ip]" with the IP address of your MARRtino robot or your simulator.</p>
-
-<p>Finally, select "OK"</p>
-
-<p>PLEASE, REMEMBER: This application is only working when the smartphone is AWAKEN. It means that on smartphone standby the data won't be sent anymore</p>
-
-<listing style="font-size:125%;">
-
-accel_gyro()	#Read data from Accelerometer and Gyroscope on X, Y and Z axis
-illuminance()	#Read data from Illuminance sensor
-sat_nav() 	#Read data from GPS signal
-magnetometer()	#Read data from Magnetometer
-
-</listing>
-
 
 <br><br><br>
 
 </div>
+
+
 
 
                 <!-- ****** SCRIPTS ****** -->
@@ -235,18 +157,76 @@ magnetometer()	#Read data from Magnetometer
 <script src="../js/init.js"></script>
 
   <script>
+    var program = "";
+    var last_command = "";
+    var last_index = 0;
 
     document.getElementById("run_btn").disabled = true;
     document.getElementById("stop_btn").disabled = true;
+    clearCode();
 
     function runCode() {
-      var code = document.getElementById("code").value;
-      wsrobot_send(code);
+      wsrobot_send(currentcode());
+      setTimeout(copyClearCode, 1000); // clear code after 1 second
     }
 
     function stopCode() {
       // quit the program and stop the robot
       wsrobot_send("stop"); 
+    }
+
+    function decode(c) {
+       if (c=='F') return "avanti";
+       if (c=='B') return "indietro";
+       if (c=='L') return "sinistra"
+       if (c=='R') return "destra";
+       if (c=='A') return "camera";
+       if (c=='C') return "display(qr_code())";
+    }
+
+    function copyClearCode() {
+       document.getElementById("lastCodeDiv").innerHTML = "<pre>" + currentcode() + "</pre>";        
+       program = ""; last_command = ""; last_index = 0;
+       document.getElementById("codeDiv").innerHTML = "<pre>" + currentcode() + "</pre>";        
+    }
+
+    function clearCode() {
+       program = ""; last_command = ""; last_index = 0;
+       document.getElementById("codeDiv").innerHTML = "<pre>" + currentcode() + "</pre>";        
+    }
+
+    function command(c){
+	   
+	 if ((c != last_command)&&(last_command=='C')){
+		   program += decode(last_command)+"\n";  
+		   last_command = c;
+		   last_index =last_index-1 ;
+		 
+		}
+	 
+	 if ((c!= last_command)&&(last_command!='C')){
+      if (last_command!=""){
+        program += decode(last_command)+"("+last_index+")\n";
+      }
+      last_command = c;
+      last_index = 1;
+    }
+    else if (last_command!='C'){
+      last_index++;
+    }
+       document.getElementById("codeDiv").innerHTML = "<pre>" + currentcode() + "</pre>";        
+    }
+    
+    function currentcode() {
+        var code = "begin()\n" + program; 
+            if ((last_command!="")&&(last_command!='C')){ 
+            code += decode(last_command)+"("+last_index+")\n";
+        }
+            else if (last_command=='C'){
+		 code += decode(last_command)+"\n";
+	}
+           code += "end()\n";
+           return code;
     }
 
     function check_connection() {
@@ -275,8 +255,7 @@ magnetometer()	#Read data from Magnetometer
         setTimeout(check_connection, 1000);
     }
 
-
-    window.setInterval(function()
+window.setInterval(function()
     {
         document.getElementById('image').src = "../viewer/img/lastimage.jpg?random="+new Date().getTime();
     }, 5000);

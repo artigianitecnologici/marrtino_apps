@@ -7,19 +7,19 @@ simulator:
   vnc_port: 3000    # vnc server port
 
 robot:
-  motorboard: off   # off|arduino|ln298|pka03|marrtino2019
-  4wd: off
-  joystick: off
+  motorboard: marrtino2019   # off|arduino|ln298|pka03|marrtino2019
+  4wd: on
+  joystick: on
   laser: off        # off | hokuyo | rplidar
-  camera: off       # off | usbcam | astra | xtion
+  camera: usbcam       # off | usbcam | astra | xtion
   camera_resolution: (640, 480)   # (width, height)
-  pantilt: off
+  pantilt: on
 
 functions:
   navigation: off   # off | on | cohan
-  vision: off
+  vision: on
   speech: off
   mapping: off
-  objrec: off       # off | mobilenet (on) | yolo
+  objrec: off
   social: off
 

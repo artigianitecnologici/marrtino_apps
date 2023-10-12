@@ -36,18 +36,13 @@ tmux send-keys -t $SESSION:0 "export CAMRES='`cat /tmp/cameraresolution`'" C-m
 tmux send-keys -t $SESSION:0 "docker-compose up" C-m
 
 if [ -f /tmp/marrtinosocialon ] && [ "$MARRTINO_SOCIAL" != "" ]; then
-  echo "Start Social ......"
-
+  
   tmux send-keys -t $SESSION:2 "cd \$MARRTINO_SOCIAL/docker" C-m
   tmux send-keys -t $SESSION:2 "docker-compose up" C-m
 
 fi
 
-sleep 10
-
-docker ps
-
-#echo "docker containers started: check with 'tmux a -t :0' or 'docker ps' ..."
+sleep 15
 
 
 echo "Autostart..."
@@ -55,7 +50,12 @@ echo "Autostart..."
 tmux send-keys -t $SESSION:4 "cd \$MARRTINO_APPS_HOME/start" C-m
 tmux send-keys -t $SESSION:4 "sleep 60 && python3 autostart.py " C-m
 
-sleep 5
+sleep 10
+
+echo "Docker containers running:"
+docker ps --format '{{.Names}}' > $HOME/log/dockerps
+cat $HOME/log/dockerps
+
 
 echo "Done"
 

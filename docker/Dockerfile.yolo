@@ -1,14 +1,9 @@
-# Docker file for object recognition
-# Build with docker_build_objrec.bash
+# Docker file for yolov5 object recognition
+# Build with docker_build_yolo.bash
 
-#FROM tensorflow/tensorflow
-#FROM tensorflow/tensorflow:2.3.2-gpu
 
-# NUC
-#FROM aperture147/tensorflow-non-avx:bionic-slim
-# tensorflow 1.15.0
-
-FROM iocchi/tensorflow:2.3-x86_64-noavx
+FROM ultralytics/yolov5:latest
+#FROM ultralytics/yolov5:latest-cpu
 
 #
 # USER root
@@ -20,19 +15,13 @@ ARG UID=1000
 ARG GID=1000
 ARG DEBIAN_FRONTEND=noninteractive
 
-# NUC
-#RUN apt-key adv --fetch-keys https://developer.download.nvidia.com/compute/cuda/repos/ubuntu2004/x86_64/3bf863cc.pub
-
 RUN apt update && \
     apt install -y -qq --no-install-recommends \
         tmux sudo nano htop wget less \
         iputils-ping net-tools \
-        cmake g++ git \
-        python3-dev python3-pip python3-tk python3-opencv && \
+        cmake g++ git && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
-
-#   libgl1-mesa-glx
 
 
 # Create user: robot (password: robot) with sudo power
@@ -41,16 +30,7 @@ RUN useradd -ms /bin/bash robot && echo "robot:robot" | chpasswd && adduser robo
 
 RUN usermod -u $UID robot && groupmod -g $GID robot
 
-# Python modules
-
-RUN pip3 install --upgrade pip
-
-RUN pip3 install numpy opencv-python-headless
-
-# pandas scipy matplotlib sklearn keras   
-# jupyter notebook
-# opencv-python / opencv-python-headless
-
+RUN chown -R robot.robot /usr/src/app
 
 #
 # USER robot
@@ -64,19 +44,20 @@ RUN echo "set -g mouse on" > $HOME/.tmux.conf
 
 RUN touch $HOME/.sudo_as_admin_successful
 
-RUN echo "2022-06-05" > /tmp/dockerbuild
+RUN echo "2023-05-19" > /tmp/dockerbuild
 
 RUN mkdir -p $HOME/src && cd $HOME/src && \
     git clone --depth 1 https://bitbucket.org/iocchi/marrtino_apps.git
 
-RUN cd $HOME/src/marrtino_apps/vision && \
-    python3 mobilenet_objrec.py  --init
+RUN ln -sf /usr/src/app $HOME/src/yolov5
 
 ENV MARRTINO_APPS_HOME=/home/robot/src/marrtino_apps
+ENV PYTHONPATH=/usr/src/app
+
+RUN cd $HOME/src/marrtino_apps/vision && \
+    python3 yolo.py  --init
 
 WORKDIR /home/robot/src/marrtino_apps/vision
-
-#  python3 mobilenet_objrec.py --server
 
 CMD [ "/bin/bash", "-ci", "cd ~/src/marrtino_apps/bringup && python objrec_bringup.py -server_port 9242" ]
 

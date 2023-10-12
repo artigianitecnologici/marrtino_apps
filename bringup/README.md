@@ -51,7 +51,7 @@ Run the bringup servers
         python pantilt_bringup.py -server_port 9249
 
         ... social  9250
-        ... oak-d   9251
+        
 
 Send commands to bringup servers
 
@@ -113,7 +113,7 @@ Send commands to bringup servers
         echo '@socialkill' | netcat -w 1 localhost 9250
         echo '@robot_social' | netcat -w 1 localhost 9250
         echo '@robot_socialkill' | netcat -w 1 localhost 9250
-        echo '@tracker' | netcat -w 1 localhost 9250 
+        echo '@tracker' | netcat -w 1 localhost 9250
         echo '@trackerkill' | netcat -w 1 localhost 9250
 
  

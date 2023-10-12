@@ -53,6 +53,21 @@ Blockly.Python['setSpeed'] = function(block) {
   var code = 'setSpeed('+value_tv+','+value_rv+','+value_time+',False)\n';
   return code;
 };
+Blockly.Python['setSpeed4W'] = function(block) {
+  var value_fl = Blockly.Python.valueToCode(block, 'fl', Blockly.Python.ORDER_AT
+OMIC);
+  var value_fr = Blockly.Python.valueToCode(block, 'fr', Blockly.Python.ORDER_AT
+OMIC);
+  var value_bl = Blockly.Python.valueToCode(block, 'bl', Blockly.Python.ORDER_AT
+OMIC);
+  var value_br = Blockly.Python.valueToCode(block, 'br', Blockly.Python.ORDER_AT
+OMIC);
+  var value_time = Blockly.Python.valueToCode(block, 'time', Blockly.Python.ORDE
+R_ATOMIC);
+  var code = 'setSpeed4W('+value_fl+','+value_fr+','+value_bl+','+value_br+','+v
+alue_time+',False)\n';
+  return code;
+};
 
 
 Blockly.Python['get_pose'] = function(block) {
@@ -111,4 +126,35 @@ Blockly.Python['sound'] = function(block) {
   return code;
 };
 
+// Blockly.Python['pan'] = function(block) {
+//   var value_sign = block.getFieldValue('Sign');
+//   var value_steps = Blockly.Python.valueToCode(block, 'steps', Blockly.Python.ORDER_ATOMIC);
+//   if ( value_sign == '-') { 
+//     value_steps = -value_steps;
+//   }
+//   var value_pos = (value_steps); // / 100) -0.5;
+//   var code = 'pan('+value_pos+')\n';
+//   return code;
+// };
+// Blockly.Python['tilt'] = function(block) {
+//   var value_sign = block.getFieldValue('Sign');
+//   var value_steps = Blockly.Python.valueToCode(block, 'steps', Blockly.Python.ORDER_ATOMIC);
+//   if ( value_sign == '-') { 
+//     value_steps = -value_steps;
+//   }
+//   var value_pos = (value_steps / 100) -0.5 * -1;
+//   var code = 'tilt('+value_pos+')\n';
+//   return code;
+// };
 
+Blockly.Python['pan'] = function(block) {
+  var value_steps = Blockly.Python.valueToCode(block, 'steps', Blockly.Python.ORDER_ATOMIC);
+  var code = 'pan('+value_steps+')\n';
+  return code;
+};
+
+Blockly.Python['tilt'] = function(block) {
+  var value_steps = Blockly.Python.valueToCode(block, 'steps', Blockly.Python.ORDER_ATOMIC);
+  var code = 'tilt('+value_steps+')\n';
+  return code;
+};

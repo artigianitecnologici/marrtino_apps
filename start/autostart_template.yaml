@@ -10,7 +10,7 @@ devices:
   joystick: off         # off | 2wd | 4wd | keyboard
   laser: off            # off | hokuyo | rplidar
   camera: off           # off | usbcam | astra | xtion
-
+  pantilt: off
 
 functions:
   localization: off
@@ -24,6 +24,6 @@ functions:
   audioserver: off
   videoserver: off
   apriltags: off
-  objrec: off
-  social: social        # social | notracker | noservo 
-  pantilt: off
+  objrec: off           # off | mobilenet (on) | yolo
+  social: off
+
