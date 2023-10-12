@@ -63,7 +63,7 @@ stop_request = False
 # dir for writing log files (programs, images,... )
 logdir = os.getenv('HOME')+'/playground/log/'
 if not os.path.isdir(logdir):
-  logdir = os.getenv('HOME')+'log/'
+  logdir = os.getenv('HOME')+'/log/'
 if not os.path.isdir(logdir):
   logdir = '/tmp/'
 
@@ -116,32 +116,32 @@ ILL_      = None
 ILL_sub   = None
 
 def IMU_cb(data):
-	global IMU_
-	IMU_ = data
+    global IMU_
+    IMU_ = data
 def FIX_cb(data):
-	global FIX_
-	FIX_ = data
+    global FIX_
+    FIX_ = data
 def MAG_cb(data):
-	global MAG_
-	MAG_ = data
+    global MAG_
+    MAG_ = data
 def ILL_cb(data):
-	global ILL_
-	ILL_ = data
+    global ILL_
+    ILL_ = data
 
 
 # functions available for the programmer
 def accel_gyro():
-	global IMU_
-	return IMU_
+    global IMU_
+    return IMU_
 def sat_nav():
-	global FIX_
-	return FIX_
+    global FIX_
+    return FIX_
 def magnetometer():
-	global MAG_
-	return MAG_
+    global MAG_
+    return MAG_
 def illuminance():
-	global ILL_
-	return ILL_
+    global ILL_
+    return ILL_
 
 # gbn navigation present
 use_desired_cmd_vel=False
@@ -602,16 +602,7 @@ def begin(nodename='robot_cmd', init_node=True):
         t.start()
         time.sleep(0.5)
 
-    # if gbn node running, enable obstacle avoidance
-
-    nn = get_ROS_nodes()
-    #print(nn)
-    obstav = '/gradientBasedNavigation' in nn
-    enableObstacleAvoidance(obstav)
-    if obstav:
-      print("gbn detected: obstacle avoidance automatically enabled")
-
-    if (robot_initialized):
+      if (robot_initialized):
         return
 
     # blocking function if roscore not available !!!
@@ -620,6 +611,15 @@ def begin(nodename='robot_cmd', init_node=True):
         rospy.init_node(nodename,  disable_signals=True)
         rospy.sleep(1)
         print("ROS node %s initialized." %nodename)
+
+    # if gbn node running, enable obstacle avoidance
+
+    nn = get_ROS_nodes()
+    #print(nn)
+    obstav = '/gradientBasedNavigation' in nn
+    enableObstacleAvoidance(obstav)
+    if obstav:
+      print("gbn detected: obstacle avoidance automatically enabled")
 
     if AprilTagFound:
         tag_sub = rospy.Subscriber(TOPIC_tag_detections, AprilTagDetectionArray, tag_cb)
@@ -715,18 +715,23 @@ def unregisterAll():
 sub_image = None
 
 def startCameraGrabber():
-    global sub_image
+    global sub_image, cvimage
+    cvimage = None
     img_topic = autoImageTopic()
-    if img_topic != None:
+    if img_topic is not None:
         print("Image topic: %s" %img_topic)
         sub_image = rospy.Subscriber(img_topic, Image, image_cb)
         time.sleep(1)
-
-
+        if cvimage is None: # first time can take a lot to get the image
+            time.sleep(3)
+        if cvimage is None:
+            time.sleep(3)
+        if cvimage is None:
+            print("Image not received!!!")
 
 def stopCameraGrabber():
     global sub_image
-    if sub_image !=  None:
+    if sub_image is not  None:
         sub_image.unregister()
 
 
@@ -734,7 +739,7 @@ def getImage(tmsleep=3):
     return get_image(tmsleep)
 
 def get_image(tmsleep=3):
-    global cvimage
+    global cvimage, logdir
     startCameraGrabber() # wait 1 sec for an image
     time.sleep(tmsleep)
     stopCameraGrabber()
@@ -845,18 +850,15 @@ def mobilenet_objrec(img):
     return r
 
 
-# Object recognition with mobilenet server
 
-# DOES NOT REQUIRE tensorflow on the client side !!!
 
 def send_image(image, width, height, server, port):
     if image is not None:
         sendimage = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
-        sendimage = cv2.resize(sendimage, (width,height))
-
+        if width!=None and height!=None:
+            sendimage = cv2.resize(sendimage, (width,height))
         sdata = numpy.array(sendimage)
         stringData = sdata.tostring()
-
         try:  
             sock = socket.socket()   # connection to server
             sock.connect((server, port))
@@ -869,14 +871,30 @@ def send_image(image, width, height, server, port):
             rdata = rdata.strip().decode('UTF-8')
             print("Received: %s" %rdata)
             sock.close()
-            vdata = rdata.split(" ")
-            rval = (vdata[0], float(vdata[1]))
         except Exception as e:
             print(e)
             print("Cannot send image to %s:%d" %(server, port))
-            rval = ("send-error", 0.0)
+            rdata = None
 
-        return rval
+        return rdata
+
+
+# Cloud object recognition/object detection
+
+# DOES NOT REQUIRE machine learning libraries on the client side !!!
+
+
+def objectDetection(img, server='localhost', port=9300):
+    # send image to sever
+    print("Sending image to server %s:%s" %(server,port))
+    w = None # original size
+    h = None
+    res = send_image(img, w, h, server, port)
+
+    print("result: %s" %res)
+
+    return res
+
 
 
 def mobilenetObjrecClient(img, server='localhost', port=9300):

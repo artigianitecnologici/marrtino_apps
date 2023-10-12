@@ -30,12 +30,18 @@ from tmuxsend import TmuxSend
 def checkVersion():
     global version, mdir, fileAP
 
-    mdir = '/media/%s/PI_ROOT' %os.getenv('SUDO_USER')
+    user = os.getenv('SUDO_USER')
+    if user == None:
+        user = os.getenv('USER')
+
+    mdir = '/media/%s/PI_ROOT' %user
+    print(mdir)
     if os.path.isdir(mdir+"/etc"):
         version = 3
         fileAP = '%s/etc/NetworkManager/system-connections/MARRtinoAP' %mdir
         return True
-    mdir = '/media/%s/writable' %os.getenv('SUDO_USER')
+    mdir = '/media/%s/writable' %user
+    print(mdir)
     if os.path.isdir(mdir+"/etc"):
         version = 4
         fileAP = '%s/etc/NetworkManager/system-connections/MARRtinoAP.nmconnection' %mdir
@@ -149,6 +155,54 @@ def getline(fname,n=1):
     return r
 
 
+def get_system_version():
+    v = '?'
+    tmpfile = '/tmp/dockerimages.txt'
+    ddir = '%s/var/lib/docker/image/overlay2/imagedb/content/sha256' %mdir
+    cmd = "cd %s && grep \"MARRTINO_SYSTEM_VERSION\" * > %s" %(ddir,tmpfile)
+    os.system(cmd)
+    # search for ... MARRTINO_SYSTEM_VERSION=4.3 
+    f = open(tmpfile, 'r')
+    l = f.readline()
+    while (l != None and l!=''):
+        r1 = l.find("MARRTINO_SYSTEM_VERSION")
+        if r1>=0:
+            k = l[r1:].find('"')
+            s = l[r1:r1+k]
+            # print("-- Found [%s]" %s)
+            v = s[s.find('=')+1:]
+            l = None
+        else:
+            l = f.readline()
+    
+    f.close()
+    os.system("rm %s" %tmpfile)
+    return v
+
+
+def get_marrtino_apps_version():
+    v = '?'
+    tmpfile = '/tmp/gitlog.txt'
+    ddir = '%s/home/marrtino/src/marrtino_apps/' %mdir
+    cmd = "cd %s && git log > %s" %(ddir,tmpfile)
+    os.system(cmd)
+    # search for line with Date of last commit 
+    f = open(tmpfile, 'r')
+    l = f.readline()
+    while (l != None and l!=''):
+        r1 = l.find("Date:")
+        if r1>=0:
+            v = l[r1+5:].strip()
+            l = None
+        else:
+            l = f.readline()
+    
+    f.close()
+    os.system("rm %s" %tmpfile)
+    return v
+
+
+
 def check(tmux=None, fsck=False, wid=1):
     global version, mdir, fileAP
 
@@ -186,23 +240,45 @@ def check(tmux=None, fsck=False, wid=1):
 
     hosts = getline('%s/etc/hosts' %mdir,2)
 
+    mappsv = get_marrtino_apps_version()
+
     if version==3:
-        version = getline('%s/home/ubuntu/.marrtino_version' %mdir)
+        sysv = getline('%s/home/ubuntu/.marrtino_version' %mdir)
         machine = getline('%s/home/ubuntu/.marrtino_machine' %mdir)
         motorboard = getline('%s/home/ubuntu/.marrtino_motorboard' %mdir)
     else:
-        version = 'docker '+getline('%s/home/marrtino/src/rc-home-edu-learn-ros/docker/1804/version.txt' %mdir)
-        machine = 'N/A'
-        motorboard = 'N/A'
+        sysv = 'docker ' + get_system_version()
+        machine = None
+        motorboard = None
 
-    print('Version: %s' %version)
-    print('Machine: %s' %machine)
-    print('Motorboard: %s' %motorboard)
+    print('System version: %s' %sysv)
+    print('marrtino_apps update: %s' %mappsv)
+    if machine != None:
+        print('Machine: %s' %machine)
+    if motorboard != None:
+        print('Motorboard: %s' %motorboard)
     print('Hostname: %s' %hostname)
     print('Hosts: %s' %hosts)
     print('WLAN SSID: %s' %ssid)
     print('WLAN Channel: %s' %channel)
     print('WLAN Password: %s' %password)
+
+    if version==4:
+        sysconf_file = "%s/home/marrtino/src/marrtino_apps/system_config.yaml" %mdir
+        autostart_file = "%s/home/marrtino/src/marrtino_apps/autostart.yaml" %mdir
+        if os.path.isfile(sysconf_file):
+            print("\n====== system_config.yaml ======")
+            os.system("cat %s" %sysconf_file)
+            print("--------------------------------\n")
+        else:
+            print("system_config.yaml not present")
+
+        if os.path.isfile(autostart_file):
+            print("\n====== autostart.yaml ======")
+            os.system("cat %s" %autostart_file)
+            print("--------------------------------\n")
+        else:
+            print("autostart.yaml not present")
 
     #os.system('umount %s' %devicenamep2)
 

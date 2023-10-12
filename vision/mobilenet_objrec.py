@@ -22,13 +22,16 @@ from tensorflow.keras import utils
 from tensorflow.keras.preprocessing import image
 from tensorflow.keras.applications import imagenet_utils, mobilenet
 
+from imageserver import ImageServer
+
 categories = [
     ['banana', 'slug'], ['orange', 'ping-pong_ball'], 
     ['pineapple'], ['cup', 'coffee_mug', 'coffeepot'], ['water_bottle', 'wine_bottle'],
     ['plastic_bag'],
     ['volleyball','tennis_ball','soccer_ball',
      'rugby_ball','basketball','football_helmet'],
-    ['teddy', 'toy_poodle']
+    ['teddy', 'toy_poodle'],
+    ['computer_keyboard']
  ]
 
 
@@ -93,8 +96,11 @@ class MNetObjRec:
         if pImg is None:  # not an image
             return None  
 
+        nImg = pImg / 255.0 # mobilenet
+        aImg = np.array([nImg])  # mobilenet
+
         # make predictions on test image using mobilenet
-        prediction = self.mnet.predict(pImg)
+        prediction = self.mnet.predict(aImg)
         # obtain the top-5 predictions
         results = imagenet_utils.decode_predictions(prediction)
 
@@ -121,146 +127,19 @@ class MNetObjRec:
         return cbest,pbest*100
 
 
+mnet = None
 
-class MobileNetServer(threading.Thread):
-
-    def __init__(self, port):
-        threading.Thread.__init__(self)
-
-        # init net
-        self.mnet = MNetObjRec()
-
-        # Create a TCP/IP socket
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        self.sock.settimeout(3) # timeout when listening (exit with CTRL+C)
-
-        # Bind the socket to the port
-        server_address = ('', port)
-        self.sock.bind(server_address)
-        self.sock.listen(1)
-
-        print("MobileNet Server running on port ", port, " ...")
-        
-        self.dorun = True # server running
-        self.connection = None  # connection object
-
-
-    def stop(self):
-        self.dorun = False
-
-    def connect(self):
-        connected = False
-        while (self.dorun and not connected):
-            try:
-                # print 'Waiting for a connection ...'
-                # Wait for a connection
-                self.connection, client_address = self.sock.accept()
-                self.connection.settimeout(3)
-                connected = True
-                print('MobileNet Server: Connection from ', client_address)
-            except:
-                pass #print("Listen again ...")   
-
-
-    # buf may contain a first chunk of data
-    def recvall(self, count, chunk):
-        buf = chunk
-        count -= len(buf)
-        while count>0:
-            newbuf = self.connection.recv(count)
-            if not newbuf: return None
-            buf += newbuf
-            count -= len(newbuf)
-        return buf
-
-
-    def run(self):
-        
-        while (self.dorun):
-            self.connect()  # wait for connection
-            try:
-                # Receive data
-                while (self.dorun):
-                    try:
-                        data = self.connection.recv(2048)
-                        data = data.strip()
-                    except socket.timeout:
-                        data = "***"
-                    except:
-                        data = None
-
-                    # utf-8 decoding
-                    buf = b''
-                    if (type(data)!=str):
-                        k = data.find(b'\n')
-                        if (k<0):
-                            data = data.decode('utf-8')
-                        elif (len(data)>k+1):
-                            buf = data[k+2:]
-                            data = data[0:k].decode('utf-8')
-
-
-                    '''
-                    else:
-                        print('Received: %s' %data)
-                        v = data.split(' ')
-                        if v[0]=='EVAL' and len(v)>1:
-                            print('eval image [%s]' %v[1])
-                            res = self.mnet.evalImage(v[1])
-                            self.connection.send('%s\n\r' %res)
-                        else:
-                            print('MobileNet received: %s' %data)
-                    '''
-
-                    
-                    if (data!=None and data !="" and data!="***"):
-                        self.received = data
-                        print("Received: %r" %data)
-                        v = data.split(' ')
-                        if v[0]=='REQ':
-                            self.connection.send('ACK\n\r')
-                        elif v[0]=='EVAL' and len(v)>1:
-                            print('Eval image [%s]' %v[1])
-                            (c,p) = self.mnet.evalImageFile(v[1])
-                            print("Predicted: %s, prob: %.3f" %(c,p))
-                            res = "%s %.3f" %(c,p)
-                            ressend = (res+'\n\r').encode('UTF-8')
-                            self.connection.send(ressend)
-                        elif v[0]=='RGB' and len(v)>=3:
-                            imgwidth = int(v[1])
-                            imgheight = int(v[2])
-                            imgsize = imgwidth*imgheight*3
-                            print("RGB image size: %d" %imgsize)
-                            buf = self.recvall(imgsize, buf)
-                            if buf is not None:
-                                print("Image received size: %d " %(len(buf)))
-                                a = np.fromstring(buf, dtype='uint8')
-                                a = a.reshape((imgheight,imgwidth,3))
-                                a = a / 255.0
-                                inp = np.array([a])
-                                (c,p) = self.mnet.evalImage(inp)
-                                #pr = model.predict(inp)
-                                #(p,c) = (np.max(pr), classnames[np.argmax(pr)])
-                                print("Predicted: %s, prob: %.3f" %(c,p))
-                                res = "%s %.3f" %(c,p)
-                                ressend = (res+'\n\r').encode('UTF-8')
-                                self.connection.send(ressend)
-                        elif v[0]=='GETRESULT':
-                            ressend = (res+'\n\r').encode('UTF-8')
-                            self.connection.send(ressend)
-
-
-                    elif (data == None or data==""):
-                        break
-            finally:
-                print('MobileNet Server Connection closed.')
-                # Clean up the connection
-                if (self.connection != None):
-                    self.connection.close()
-                    self.connection = None
-
-
+def mnet_predict(img):
+    global mnet
+    if mnet is None:
+        mnet = MNetObjRec()
+    if isinstance(img,str):
+        (c,p) = mnet.evalImageFile(img)
+    else:
+        (c,p) = mnet.evalImage(img)       
+    print("Predicted: %s, prob: %.3f" %(c,p))
+    res = "%s;%.3f" %(c,p)
+    return res
 
 
 
@@ -297,12 +176,15 @@ if __name__ == '__main__':
         print(r)
 
     if args.server:
-        mnetserver = MobileNetServer(mnetport)
-        mnetserver.start()
+        imgserver = ImageServer(mnetport)
+        imgserver.set_predict_cb_fn(mnet_predict)
+        imgserver.start()
         dospin() 
-        mnetserver.stop()
+        imgserver.stop()
     elif args.init:
-        mnetserver = MobileNetServer(mnetport)
+        # init net
+        mnet = MNetObjRec()
+
 
     sys.exit(0)
 
