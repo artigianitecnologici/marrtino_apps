@@ -56,7 +56,7 @@ echo "Docker containers running:"
 docker ps --format '{{.Names}}' > $HOME/log/dockerps
 cat $HOME/log/dockerps
 
-
+docker ps
 echo "Done"
 
 
