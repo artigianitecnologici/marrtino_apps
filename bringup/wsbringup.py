@@ -666,11 +666,11 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
             self.tmux.cmd(self.wnet,"echo '@interactivekill' | netcat -w 1 localhost 9250")
 
         # social no servo (dynamixel) demo
-        elif (message=='vnc_start'):
-            self.tmux.cmd(self.wnet,"echo '@vnc' | netcat -w 1 localhost 9250")
+        elif (message=='offline_start'):
+            self.tmux.cmd(self.wnet,"echo '@offline' | netcat -w 1 localhost 9250")
             time.sleep(1)
-        elif (message=='vnc_kill'):
-            self.tmux.cmd(self.wnet,"echo '@vnckill' | netcat -w 1 localhost 9250")
+        elif (message=='offline_kill'):
+            self.tmux.cmd(self.wnet,"echo '@offlinekill' | netcat -w 1 localhost 9250")
         # ***************************
         #   S O C I A L  -  E N D
         # ***************************
