@@ -115,5 +115,9 @@ Send commands to bringup servers
         echo '@robot_socialkill' | netcat -w 1 localhost 9250
         echo '@tracker' | netcat -w 1 localhost 9250 
         echo '@trackerkill' | netcat -w 1 localhost 9250
+        echo '@interactive_start' | netcat -w 1 localhost 9250
+        echo '@interactive_kill' | netcat -w 1 localhost 9250
+        echo '@offline_start' | netcat -w 1 localhost 9250
+        echo '@offline_kill' | netcat -w 1 localhost 9250
 
  
