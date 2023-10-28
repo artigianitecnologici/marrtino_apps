@@ -136,10 +136,10 @@ def writeout(config, arch, gpu):
         orazioversion = None
         if getconfig('robot','motorboard')!=False:
           # default
-          if arch=='x86_64':
-            orazioversion=""
-          else:
-            orazioversion=":arm64"
+        #  if arch=='x86_64':
+        orazioversion=""
+        #  else:
+        #    orazioversion=":arm64"
         if getconfig('robot','motorboard')=='arduino':
           if arch=='x86_64':
             orazioversion=":2018"
