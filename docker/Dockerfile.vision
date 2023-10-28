@@ -21,7 +21,7 @@ RUN apt-get update && \
     rm -rf /var/lib/apt/lists/*
 
 USER robot
-
+ 
 # ROS packages
 
 RUN mkdir -p $HOME/src/ros &&  cd $HOME/src/ros && \
