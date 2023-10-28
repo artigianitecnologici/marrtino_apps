@@ -137,7 +137,7 @@ def writeout(config, arch, gpu):
         if getconfig('robot','motorboard')!=False:
           # default
         #  if arch=='x86_64':
-        orazioversion=""
+           orazioversion=""
         #  else:
         #    orazioversion=":arm64"
         if getconfig('robot','motorboard')=='arduino':
