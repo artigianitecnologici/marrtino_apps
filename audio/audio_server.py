@@ -67,10 +67,10 @@ soundfile = None        # sound file
 SPEECH_TOPIC = "/speech/to_speak"
 SPEECHSTATUS_TOPIC = "/speech/status"
 
+
+
 tts_server = None
 asr_server = None
-
-
 
 def speak_callback(data):
     global tts_server
@@ -84,6 +84,16 @@ def speak_callback(data):
             language = "it"
         rospy.loginfo(rospy.get_caller_id() + "%s %s" %(SPEECH_TOPIC,data.data))
         tts_server.say(data.data, language)
+        
+# ROS node with speech topic subscriber
+rospy.init_node('audioserver') #, disable_signals=True)
+rospy.Subscriber(SPEECH_TOPIC,std_msgs.msg.String,speak_callback)
+status_pub =rospy.Publisher(SPEECHSTATUS_TOPIC, std_msgs.msg.String, queue_size=10)
+
+def SpeechStatus(msg):
+    status_pub.publish(msg)
+
+
 
 
 def TTS_callback(in_data, frame_count, time_info, status):
@@ -99,13 +109,14 @@ class TTSServer(threading.Thread):
 
     def __init__(self, port, output_device):
         global use_alsaaudio, use_sound_play
-
+        global speechstatus_pub
         threading.Thread.__init__(self)
 
         # Initialize audio player
         self.streaming = False
         self.output_device = output_device
         self.soundhandle = None
+        
 
         m = platform.machine()
         print ("Machine type:" , m)
@@ -295,13 +306,12 @@ class TTSServer(threading.Thread):
         time.sleep(2)
         self.aa_stream = None
 
-    def SpeechStatus(self,msg):
-        speechstatus_pub.publish(msg)
+   
 
     def say(self, data, lang):
         print('Say %r' %data)
         
-        self.SpeechStatus('START')
+        SpeechStatus('START')
 
         if (use_sound_play):
             voice = 'voice_kal_diphone'
@@ -337,7 +347,7 @@ class TTSServer(threading.Thread):
             time.sleep(0.2)
 
             self.play(cachefile)
-            self.SpeechStatus('STOP')
+            SpeechStatus('STOP')
         else:
             print('Cannot play audio. No infrastructure available.')
 
@@ -407,11 +417,10 @@ if __name__ == "__main__":
     tts_server.start()
     time.sleep(1)
     asr_server.start()
-
-    # ROS node with speech topic subscriber
-    rospy.init_node('audioserver') #, disable_signals=True)
-    rospy.Subscriber(SPEECH_TOPIC,std_msgs.msg.String,speak_callback)
-    speechstatus_pub =rospy.Publisher(SPEECHSTATUS_TOPIC, std_msgs.msg.String, queue_size=1,   latch=True)
+    
+    
+    
+    
 
     print("audioserver listening to topic %s" %SPEECH_TOPIC)
 
