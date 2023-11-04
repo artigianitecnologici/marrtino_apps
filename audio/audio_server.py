@@ -65,6 +65,7 @@ SOUNDS_DIR = "sounds/"  # dir with sounds
 soundfile = None        # sound file
 
 SPEECH_TOPIC = "/speech/to_speak"
+SPEECHSTATUS_TOPIC = "/speech/status"
 
 tts_server = None
 asr_server = None
@@ -294,9 +295,13 @@ class TTSServer(threading.Thread):
         time.sleep(2)
         self.aa_stream = None
 
+    def SpeechStatus(msg):
+        speechstatus_pub.publish(msg)
 
     def say(self, data, lang):
         print('Say %r' %data)
+        
+        self.SpeechStatus('START')
 
         if (use_sound_play):
             voice = 'voice_kal_diphone'
@@ -332,7 +337,7 @@ class TTSServer(threading.Thread):
             time.sleep(0.2)
 
             self.play(cachefile)
-
+            self.SpeechStatus('STOP')
         else:
             print('Cannot play audio. No infrastructure available.')
 
@@ -406,6 +411,8 @@ if __name__ == "__main__":
     # ROS node with speech topic subscriber
     rospy.init_node('audioserver') #, disable_signals=True)
     rospy.Subscriber(SPEECH_TOPIC,std_msgs.msg.String,speak_callback)
+    speechstatus_pub =rospy.Publisher(SPEECHSTATUS_TOPIC, std_msgs.msg.String, queue_size=1,   latch=True)
+
     print("audioserver listening to topic %s" %SPEECH_TOPIC)
 
     run = True
