@@ -295,7 +295,7 @@ class TTSServer(threading.Thread):
         time.sleep(2)
         self.aa_stream = None
 
-    def SpeechStatus(msg):
+    def SpeechStatus(self,msg):
         speechstatus_pub.publish(msg)
 
     def say(self, data, lang):
