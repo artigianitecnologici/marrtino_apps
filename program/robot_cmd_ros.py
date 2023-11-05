@@ -1240,7 +1240,7 @@ def asr_single():
         time.sleep(0.5)
         data = assock.recv(160)
         data = data.strip()
-        print data
+        #print data
         return data
     except:
         return ''
