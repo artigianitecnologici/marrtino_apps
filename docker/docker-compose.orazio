@@ -1,5 +1,8 @@
   orazio:
     image: marrtino:orazio
+    build:
+      context: $MARRTINO_APPS_HOME/docker
+      dockerfile: Dockerfile.orazio
     container_name: orazio
     dns: 8.8.8.8
     network_mode: "host"
