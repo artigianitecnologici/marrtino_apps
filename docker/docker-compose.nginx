@@ -5,4 +5,14 @@
       - "80:80"
     volumes:
       - $MARRTINO_APPS_HOME/www:/usr/share/nginx/html
+    depends_on:
+      - php
+
+
+  php:
+    image: nanoninja/php-fpm:${PHP_VERSION}
+    restart: always
+    volumes:
+      - "./etc/php/php.ini:/usr/local/etc/php/conf.d/php.ini"
+      - $MARRTINO_APPS_HOME/www:/var/www/html
 
