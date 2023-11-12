@@ -4,7 +4,7 @@
 
 * Install `python` and `tmux`
 
-        sudo apt install python tmux python3-yaml
+        sudo apt install tmux python3-yaml
 
 
 * Install docker engine (not docker Desktop!!!)  (tested on v. 19.03, 20.10) 
