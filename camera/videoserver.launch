@@ -3,6 +3,7 @@
   <node name="web_video_server" pkg="web_video_server" type="web_video_server" respawn="false" output="screen">
     <param name="port" value="9090" />
   </node>
-
+ <!-- Start ROS Bridge Server  -->
+  <include file="$(find rosbridge_server)/launch/rosbridge_websocket.launch"/>
 </launch>
 

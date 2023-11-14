@@ -16,7 +16,7 @@ RUN apt-get update && \
         v4l-utils libgoogle-glog-dev libuvc-dev \
         ros-melodic-rgbd-launch ros-melodic-web-video-server \
         ros-melodic-camera-info-manager ros-melodic-libuvc \
-        ros-melodic-image-view && \
+        ros-melodic-image-view ros-melodic-rosbridge-server && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
