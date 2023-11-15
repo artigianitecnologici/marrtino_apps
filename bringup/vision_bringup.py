@@ -120,6 +120,11 @@ def run_server(port):
                     tmux.cmd(1,'roslaunch videoserver.launch')
                 elif data=='@videoserverkill':
                     tmux.Cc(1)
+                elif data=='@rosbridge':
+                    tmux.cmd(1,'cd %s' %cfolder)
+                    tmux.cmd(1,'roslaunch rosbridge.launch')
+                elif data=='@rosbridgekill':
+                    tmux.Cc(1)
                 elif data=='@apriltags':
                     tmux.cmd(2,'cd %s' %mfolder)
                     tmux.cmd(2,'roslaunch tags.launch')

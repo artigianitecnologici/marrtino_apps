@@ -23,6 +23,7 @@ functions:
   mapping_rviz: off
   audioserver: off
   videoserver: off
+  rosbridge: off        # ros bridge server
   apriltags: off
   objrec: off
   social: social        # social | notracker | noservo 

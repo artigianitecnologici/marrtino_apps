@@ -106,6 +106,9 @@ def autostart(config, dostart):
     if getconfig('functions','videoserver'):
         cmd = '@videoserver' if dostart else '@videoserverkill'
         systemcmd(cmd,9237)
+    if getconfig('functions','rosbridge'):
+        cmd = '@rosbridge' if dostart else '@rosbridgekill'
+        systemcmd(cmd,9237)
     if getconfig('functions','apriltags'):
         cmd = '@apriltags' if dostart else '@apriltagskill'
         systemcmd(cmd,9237)
