@@ -47,7 +47,7 @@ def run_server(port):
 
     print("Vision server started on port %d ..." %port)
 
-    tmux = TmuxSend('bringup', ['camera','vidserver','april','takephoto','cmd'])
+    tmux = TmuxSend('bringup', ['camera','vidserver','april','takephoto','cmd','rosbridge'])
 
     connected = False
     dorun = True
@@ -121,8 +121,8 @@ def run_server(port):
                 elif data=='@videoserverkill':
                     tmux.Cc(1)
                 elif data=='@rosbridge':
-                    tmux.cmd(1,'cd %s' %cfolder)
-                    tmux.cmd(1,'roslaunch rosbridge.launch')
+                    tmux.cmd(6,'cd %s' %cfolder)
+                    tmux.cmd(6,'roslaunch rosbridge.launch')
                 elif data=='@rosbridgekill':
                     tmux.Cc(1)
                 elif data=='@apriltags':

@@ -306,6 +306,28 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
             time.sleep(2)
             self.checkStatus('camera')
 
+
+         # usbcam
+        elif (message=='rosbridge_start'):
+        
+            if usenetcat:
+                self.tmux.cmd(self.wnet,"echo '@rosbridge' | netcat -w 1 localhost 9237")
+            else:
+                self.tmux.roslaunch(self.wcamera,'rosbridge','usbcam')
+            self.waitfor('rosbridge',5)
+            #time.sleep(5)
+            #self.checkStatus('camera')
+        elif (message=='rosbridge_kill'):
+            if usenetcat:
+                self.tmux.cmd(self.wnet,"echo '@rosbridgekill' | netcat -w 1 localhost 9237")
+            else:
+                self.tmux.roskill('rosbridge')
+            #self.tmux.roskill('state_pub_usbcam')
+            #time.sleep(2)
+            #self.tmux.killall(self.wcamera)
+            #time.sleep(2)
+            #self.checkStatus('camera')
+
         # astra
         elif (message=='astra_start'):
             if usenetcat:
@@ -521,6 +543,7 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
             time.sleep(3)
             self.checkStatus()
 
+        
 
 
         # gmapping
