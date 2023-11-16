@@ -466,7 +466,7 @@ def check_nodes():
     check_node('joystick',r)
     check_node('apriltag_detector',r)
     check_node('dynamixel_manager',r)
-
+    check_node('rosbridge_websocket',r)
     return r
 
 def main():

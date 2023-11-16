@@ -18,8 +18,7 @@
   <script type="text/javascript" type="text/javascript">
     var teleop;
     var ros = new ROSLIB.Ros({
-      //url: 'wss:ufficioeffegi.homepc.it:9090'
-	 url: 'ws:' + window.location.hostname +':9090'
+      url: 'ws:' + window.location.hostname +':9090'
     });
 
     ros.on('connection', function () {
@@ -185,13 +184,13 @@ var msg_tilt = new ROSLIB.Message({
     } 
   } 
     window.onload = function () {
-      initPanTilt();
+      //initPanTilt();
       video = document.getElementById('video');
 	   // Populate video source 
          
-          video.src = 'http://' + window.location.hostname +':29090/stream?topic=/rgb/image_raw&type=mjpeg&quality=100';
+          video.src = 'http://' + window.location.hostname +':9091/stream?topic=/rgb/image_raw&type=mjpeg&quality=100';
 
-	  //video.src = "http://192.168.1.119:29090/stream?topic=/usb_cam/image_raw&type=mjpeg&quality=100";
+	 
 	  video.onload = function () {
 			createJoystick();
 			initTeleopKeyboard();
@@ -228,32 +227,20 @@ img {
 </head>
 
 <body>
-<?php include "nav.php" ?>
 
- 
+
 
 <div class="container-fluid">
   <div class="row">
-    <div class="col-md-2" align="right"> <input type="range" orient="vertical"id="robot-tilt" /> </div>
-    <div class="col-md-8">
+ 
+    <div class="col-md-12">
 	    <img style="width:640;height:480;" src=""  alt="" id="video" />
       
 
 	    <div id="zone_joystick" style="joy"></div>
     </div>
 </div>
-  <div class="row">
-    <div class="col-md-2"></div>
-    <div class="col-md-1">
-
-      <label for="robot-speed">  <strong>Pan</strong> </label>
-    </div>
-    <div class="col-md-7">
-	    <input  type="range" min="0" max="100" style="width:80%;" id="robot-pan" >
-    </div>
-     
-        
-    </div>
+ 
     <div class="col-md-2"></div>
   </div>
   <div class="row">
@@ -277,11 +264,11 @@ img {
 	<p>txt_msg: <span id="msg"></span></p>
 	<p>Sonar <span id="sonar0"></span></p>
    <h1>Simple ROS User Interface</h1>
-  <p>Connection status: <span id="status"></span></p>
+  
   <p>Sonar on /txt_msg: <span id="msg"></span></p>
  -->
   
-
+<p>Connection status: <span id="status"></span></p>
 
 </body>
 
