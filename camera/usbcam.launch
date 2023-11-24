@@ -3,6 +3,7 @@
   <arg name="viewimage" default="false" />
   <arg name="videoserver" default="false" />
   <arg name="device" default="/dev/video0" />
+  <arg name="device2" default="/dev/video2" />
   <arg name="format" default="yuyv" />  <!-- yuyv, mjpeg -->
   <arg name="image_width" default="640" />
   <arg name="image_height" default="480" />
@@ -19,7 +20,20 @@
     <remap from="/usbcam/image_raw" to="/rgb/image_raw" />
     <remap from="/usbcam/camera_info" to="/rgb/camera_info" />
   </node>
+  <!--
+  <node pkg="usb_cam" type="usb_cam_node" name="usbcam2" output="log" >
+    <rosparam file="config/usbcam.yaml" command="load" />
 
+    <param name="video_device" value="$(arg device2)" />
+    <param name="camera_frame_id" value="$(arg rgbcameraframe)" />
+    <param name="pixel_format" value="$(arg format)" />
+    <param name="image_width" value="$(arg image_width)" />
+    <param name="image_height" value="$(arg image_height)" />
+    <param name="framerate" value="$(arg framerate)"  />
+    <remap from="/usbcam/image_raw" to="/rgb/image_raw" />
+    <remap from="/usbcam/camera_info" to="/rgb/camera_info" /> 
+  </node>
+  -->
   <!-- transforms -->
   <node pkg="thin_state_publisher" type="thin_state_publisher_node" name="state_pub_usbcam"
 	    args="-odom_topic odom -odom_frame_id none $(env MARRTINO_APPS_HOME)/camera/config/transforms.txt" output="screen">
