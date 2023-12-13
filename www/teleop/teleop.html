@@ -131,58 +131,8 @@
       });
     }
 
-//* A topic for messaging.
-var panTopic = new ROSLIB.Topic({
-  ros: ros,
-  name : '/pan_controller/command',
-  messageType: 'std_msgs/Float64'
-});  
-
-var tiltTopic = new ROSLIB.Topic({
-  ros: ros,
-  name : '/tilt_controller/command',
-  messageType: 'std_msgs/Float64'
-});  
-
-function pan( value ){
-var msg_pan = new ROSLIB.Message({
-      data: value     
- });
- panTopic.publish(msg_pan); // error here als
- console.log(msg_pan);
- console.log("pan");   
-}
-
-
-
-function tilt( value ){
-var msg_tilt = new ROSLIB.Message({
-      data: value     
- });
- tiltTopic.publish(msg_tilt); // error here als
- console.log(msg_tilt);
- console.log("tilt");   
-}
 	
-  initPanTilt= function() {
-   // Add event listener for slider moves
-    headPanRange = document.getElementById("robot-pan");
-    headPanRange.oninput = function() {
-        value = ((headPanRange.value /100) - 0.5)*2;
-		console.log(value);
-		pan(value);
-		
-		
-    } 
-	headTiltRange = document.getElementById("robot-tilt");
-    headTiltRange.oninput = function() {
-        value = ((headTiltRange.value /100) -0.5) * -1;
-		console.log(value);
-		tilt(value);
-		
-		
-    } 
-  } 
+  
     window.onload = function () {
       //initPanTilt();
       video = document.getElementById('video');
