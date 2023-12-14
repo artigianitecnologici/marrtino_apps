@@ -2,6 +2,7 @@
   <arg name="rgbcameraframe" default="rgb_camera_frame" />
   <arg name="viewimage" default="false" />
   <arg name="videoserver" default="false" />
+  <arg name="rosbridge" default="false" />
   <arg name="device" default="/dev/video0" />
   <arg name="format" default="yuyv" />  <!-- yuyv, mjpeg -->
   <arg name="image_width" default="640" />

@@ -17,6 +17,7 @@
   <script type="text/javascript" src="js/keyboardteleop.min.js"></script>
   <script type="text/javascript" type="text/javascript">
     var teleop;
+    var rspeed;
     var ros = new ROSLIB.Ros({
       url: 'ws:' + window.location.hostname +':9090'
     });
@@ -33,27 +34,25 @@
       document.getElementById("status").innerHTML = "Closed";
     });
     // 
-    var txt_listener = new ROSLIB.Topic({
-      ros: ros,
-      name: '/txt_msg',
-      messageType: 'std_msgs/String'
-    });
+    var shotTopic = new ROSLIB.Topic({
+        ros: ros,
+        name : '/shot',
+        messageType: 'std_msgs/String'
+    });  
 
-    txt_listener.subscribe(function (m) {
-      document.getElementById("msg").innerHTML = m.data;
-      
-    });
-	// SONAR
-	var sonar0_listener = new ROSLIB.Topic({
-      ros: ros,
-      name: '/sonar_0/range',
-      messageType: 'sensor_msgs/Range'
-    });
+    execute_shot = function(filename) {
+        if (filename == null) {
+           filename = "test.jpg";
+        }
+        console.log("Filename :",filename); 
+        var mymsg = new ROSLIB.Message({
+            data :  'filename'   
+        });
+        shotTopic.publish(mymsg); // error here als  
+        
 
-    sonar0_listener.subscribe(function (m) {
-      document.getElementById("sonar0").innerHTML = m.data;
-      
-    });
+    }
+
 
     cmd_vel_listener = new ROSLIB.Topic({
       ros: ros,
@@ -74,25 +73,39 @@
     }
 
     // Add event listener for slider moves
-    robotSpeedRange = document.getElementById("robot-speed");
-    robotSpeedRange.oninput = function () {
-        teleop.scale = robotSpeedRange.value / 100
-    }
+    //robotSpeedRange = document.getElementById("robot-speed");
+    //robotSpeedRange.oninput = function () {
+    //    teleop.scale = robotSpeedRange.value / 100
+    //}
 }
+
+    setSpeed  = function(speed) {
+        rspeed = speed;
+        console.log("Set Speed :",speed);   
+        
+
+    }
+
+    cmdSend= function(linear,angular) {
+        console.log(rspeed,linear,angular);   
+        move(linear*rspeed,angular*rspeed);
+
+    }
+
     move = function (linear, angular) {
-      var twist = new ROSLIB.Message({
+        var twist = new ROSLIB.Message({
         linear: {
-          x: linear,
-          y: 0,
-          z: 0
+            x: linear,
+            y: 0,
+            z: 0
         },
         angular: {
-          x: 0,
-          y: 0,
-          z: angular
+            x: 0,
+            y: 0,
+            z: angular
         }
-      });
-      cmd_vel_listener.publish(twist);
+        });
+        cmd_vel_listener.publish(twist);
     }
 
     createJoystick = function () {
@@ -446,7 +459,7 @@ img {
                   </div>
                   <div>
                       <span class="big-num num-color" id="RSSI">-1.01</span>
-                      <span id="RSSIn">RSSI</span>
+                      <span id="RSSIn">Use w, s, a, d keys to drive your robot </span>
                   </div>
               </div>
           </div>
@@ -481,11 +494,11 @@ img {
           <div class="info-device-box">
               <div class="info-box num-box-sma">
                   <div>
-                      <span class="num-color sma-num" id="IP">192.168.10.67</span>
+                      <span class="num-color sma-num" id="IP">10.3.1.1</span>
                       <span id="IPn">IP</span>
                   </div>
                   <div>
-                      <span class="num-color sma-num" id="MAC">44:17:93:EE:F8:F8</span>
+                      <span class="num-color sma-num" id="MAC">xx:xx:xx:xx:xx</span>
                       <span id="MACn">MAC</span>
                   </div>
               </div>
@@ -495,31 +508,32 @@ img {
           <div class="controlor-c">
               <div>
                   <div>
-                      <label><button class="cc-btn" onmousedown="cmdSend(1,0.5,1);" ontouchstart="cmdSend(1,0.5,1);" onmouseup="cmdSend(1,0,0);" ontouchend="cmdSend(1,0,0);"><svg fill="none" version="1.1" width="23" height="23" viewBox="0 0 23 23"><g style="mix-blend-mode:passthrough"><path d="M0,2L0,18.1716C0,19.9534,2.15428,20.8457,3.41421,19.5858L19.5858,3.41421C20.8457,2.15428,19.9534,0,18.1716,0L2,0C0.895431,0,0,0.895431,0,2Z" fill="#D8D8D8" fill-opacity="0.20000000298023224"/></g></svg></button></label>
-                      <label><button class="cc-btn" onmousedown="cmdSend(1,1,1);" ontouchstart="cmdSend(1,1,1);" onmouseup="cmdSend(1,0,0);" ontouchend="cmdSend(1,0,0);"><svg fill="none" version="1.1" width="26.87807685863504" height="15.435028109846826" viewBox="0 0 26.87807685863504 15.435028109846826"><g style="mix-blend-mode:passthrough" transform="matrix(0.9999999403953552,0,0,0.9999999403953552,0,0)"><path d="M12.0248,0.585787L0.589796,12.0208C-0.670133,13.2807,0.222199,15.435,2.00401,15.435L24.8741,15.435C26.6559,15.435,27.5482,13.2807,26.2883,12.0208L14.8533,0.585787C14.0722,-0.195262,12.8059,-0.195262,12.0248,0.585787Z" fill="#D8D8D8" fill-opacity="0.800000011920929"/></g></svg></button></label>
-                      <label><button class="cc-btn" onmousedown="cmdSend(1,1,0.5);" ontouchstart="cmdSend(1,1,0.5);" onmouseup="cmdSend(1,0,0);" ontouchend="cmdSend(1,0,0);"><svg fill="none" version="1.1" width="23" height="23" viewBox="0 0 23 23"><g style="mix-blend-mode:passthrough" transform="matrix(0,1,-1,0,23,-23)"><path d="M23,2L23,18.1716C23,19.9534,25.15428,20.8457,26.41421,19.5858L42.5858,3.41421C43.8457,2.15428,42.9534,0,41.1716,0L25,0C23.895431,0,23,0.895431,23,2Z" fill="#D8D8D8" fill-opacity="0.20000000298023224"/></g></svg></button></label>
+                      <label><button class="cc-btn" onmousedown="cmdSend(1,1);" ontouchstart="cmdSend(0.5,0.5);" onmouseup="cmdSend(0,0);" ontouchend="cmdSend(0,0);"><svg fill="none" version="1.1" width="23" height="23" viewBox="0 0 23 23"><g style="mix-blend-mode:passthrough"><path d="M0,2L0,18.1716C0,19.9534,2.15428,20.8457,3.41421,19.5858L19.5858,3.41421C20.8457,2.15428,19.9534,0,18.1716,0L2,0C0.895431,0,0,0.895431,0,2Z" fill="#D8D8D8" fill-opacity="0.20000000298023224"/></g></svg></button></label>
+                      <label><button class="cc-btn" onmousedown="cmdSend(1,0);" ontouchstart="cmdSend(1,0);" onmouseup="cmdSend(0,0);" ontouchend="cmdSend(0,0);"><svg fill="none" version="1.1" width="26.87807685863504" height="15.435028109846826" viewBox="0 0 26.87807685863504 15.435028109846826"><g style="mix-blend-mode:passthrough" transform="matrix(0.9999999403953552,0,0,0.9999999403953552,0,0)"><path d="M12.0248,0.585787L0.589796,12.0208C-0.670133,13.2807,0.222199,15.435,2.00401,15.435L24.8741,15.435C26.6559,15.435,27.5482,13.2807,26.2883,12.0208L14.8533,0.585787C14.0722,-0.195262,12.8059,-0.195262,12.0248,0.585787Z" fill="#D8D8D8" fill-opacity="0.800000011920929"/></g></svg></button></label>
+                      <label><button class="cc-btn" onmousedown="cmdSend(1,-1);" ontouchstart="cmdSend(0.5,-0.5);" onmouseup="cmdSend(0,0);" ontouchend="cmdSend(0,0);"><svg fill="none" version="1.1" width="23" height="23" viewBox="0 0 23 23"><g style="mix-blend-mode:passthrough" transform="matrix(0,1,-1,0,23,-23)"><path d="M23,2L23,18.1716C23,19.9534,25.15428,20.8457,26.41421,19.5858L42.5858,3.41421C43.8457,2.15428,42.9534,0,41.1716,0L25,0C23.895431,0,23,0.895431,23,2Z" fill="#D8D8D8" fill-opacity="0.20000000298023224"/></g></svg></button></label>
                   </div>
                   <div>
-                      <label><button class="cc-btn" onmousedown="cmdSend(1,-1,1);" ontouchstart="cmdSend(1,-1,1);" onmouseup="cmdSend(1,0,0);" ontouchend="cmdSend(1,0,0);"><svg fill="none" version="1.1" width="15.435028109846769" height="26.87807685863504" viewBox="0 0 15.435028109846769 26.87807685863504"><g style="mix-blend-mode:passthrough" transform="matrix(0.9999999403953552,0,0,0.9999999403953552,0,0)"><path d="M0.585787,14.8533L12.0208,26.2883C13.2807,27.5482,15.435,26.6559,15.435,24.8741L15.435,2.00401C15.435,0.222199,13.2807,-0.670133,12.0208,0.589795L0.585787,12.0248C-0.195262,12.8059,-0.195262,14.0722,0.585787,14.8533Z" fill="#D8D8D8" fill-opacity="0.800000011920929"/></g></svg></button></label>
-                      <label><button class="cc-btn cc-middle" onmousedown="cmdSend(1,0,0);" ontouchstart="cmdSend(1,0,0);" onmouseup="cmdSend(1,0,0);" ontouchend="cmdSend(1,0,0);">STOP</button></label>
-                      <label><button class="cc-btn" onmousedown="cmdSend(1,1,-1);" ontouchstart="cmdSend(1,1,-1);" onmouseup="cmdSend(1,0,0);" ontouchend="cmdSend(1,0,0);"><svg fill="none" version="1.1" width="15.435030017195288" height="26.87807685863504" viewBox="0 0 15.435030017195288 26.87807685863504"><g style="mix-blend-mode:passthrough" transform="matrix(0.9999999403953552,0,0,0.9999999403953552,0,0)"><path d="M14.8492,12.0248L3.41422,0.589796C2.15429,-0.670133,-9.53674e-7,0.222199,9.53674e-7,2.00401L9.53674e-7,24.8741C-9.53674e-7,26.6559,2.15429,27.5482,3.41421,26.2883L14.8492,14.8533C15.6303,14.0722,15.6303,12.8059,14.8492,12.0248Z" fill="#D8D8D8" fill-opacity="0.800000011920929"/></g></svg></button></label>
+                      <label><button class="cc-btn" onmousedown="cmdSend(1,2);" ontouchstart="cmdSend(-1,2);" onmouseup="cmdSend(0,0);" ontouchend="cmdSend(0,0);"><svg fill="none" version="1.1" width="15.435028109846769" height="26.87807685863504" viewBox="0 0 15.435028109846769 26.87807685863504"><g style="mix-blend-mode:passthrough" transform="matrix(0.9999999403953552,0,0,0.9999999403953552,0,0)"><path d="M0.585787,14.8533L12.0208,26.2883C13.2807,27.5482,15.435,26.6559,15.435,24.8741L15.435,2.00401C15.435,0.222199,13.2807,-0.670133,12.0208,0.589795L0.585787,12.0248C-0.195262,12.8059,-0.195262,14.0722,0.585787,14.8533Z" fill="#D8D8D8" fill-opacity="0.800000011920929"/></g></svg></button></label>
+                      <label><button class="cc-btn cc-middle" onmousedown="cmdSend(0,0);" ontouchstart="cmdSend(0,0);" onmouseup="cmdSend(0,0);" ontouchend="cmdSend(0,0);">SHOT</button></label>
+                      <label><button class="cc-btn" onmousedown="cmdSend(1,-2);" ontouchstart="cmdSend(1,-2);" onmouseup="cmdSend(0,0);" ontouchend="cmdSend(0,0);"><svg fill="none" version="1.1" width="15.435030017195288" height="26.87807685863504" viewBox="0 0 15.435030017195288 26.87807685863504"><g style="mix-blend-mode:passthrough" transform="matrix(0.9999999403953552,0,0,0.9999999403953552,0,0)"><path d="M14.8492,12.0248L3.41422,0.589796C2.15429,-0.670133,-9.53674e-7,0.222199,9.53674e-7,2.00401L9.53674e-7,24.8741C-9.53674e-7,26.6559,2.15429,27.5482,3.41421,26.2883L14.8492,14.8533C15.6303,14.0722,15.6303,12.8059,14.8492,12.0248Z" fill="#D8D8D8" fill-opacity="0.800000011920929"/></g></svg></button></label>
                   </div>
                   <div>
-                      <label><button class="cc-btn" onmousedown="cmdSend(1,-0.5,-1);" ontouchstart="cmdSend(1,-0.5,-1);" onmouseup="cmdSend(1,0,0);" ontouchend="cmdSend(1,0,0);"><svg fill="none" version="1.1" width="23" height="23" viewBox="0 0 23 23"><g style="mix-blend-mode:passthrough" transform="matrix(0,-1,1,0,-23,23)"><path d="M0,25L0,41.1716C0,42.9534,2.15428,43.8457,3.41421,42.5858L19.5858,26.41421C20.8457,25.15428,19.9534,23,18.1716,23L2,23C0.895431,23,0,23.895431,0,25Z" fill="#D8D8D8" fill-opacity="0.20000000298023224"/></g></svg></button></label>
-                      <label><button class="cc-btn" onmousedown="cmdSend(1,-1,-1);" ontouchstart="cmdSend(1,-1,-1);" onmouseup="cmdSend(1,0,0);" ontouchend="cmdSend(1,0,0);"><svg fill="none" version="1.1" width="26.87807685863504" height="15.435030017195231" viewBox="0 0 26.87807685863504 15.435030017195231"><g style="mix-blend-mode:passthrough" transform="matrix(0.9999999403953552,0,0,0.9999999403953552,0,0)"><path d="M14.8533,14.8492L26.2883,3.41422C27.5482,2.15429,26.6559,-9.53674e-7,24.8741,9.53674e-7L2.00401,9.53674e-7C0.222199,-9.53674e-7,-0.670133,2.15429,0.589795,3.41421L12.0248,14.8492C12.8059,15.6303,14.0722,15.6303,14.8533,14.8492Z" fill="#D8D8D8" fill-opacity="0.800000011920929"/></g></svg></button></label>
-                      <label><button class="cc-btn" onmousedown="cmdSend(1,-1,-0.5);" ontouchstart="cmdSend(1,-1,-0.5);" onmouseup="cmdSend(1,0,0);" ontouchend="cmdSend(1,0,0);"><svg fill="none" version="1.1" width="23" height="23" viewBox="0 0 23 23"><g style="mix-blend-mode:passthrough" transform="matrix(-1,0,0,-1,46,46)"><path d="M23,25L23,41.1716C23,42.9534,25.15428,43.8457,26.41421,42.5858L42.5858,26.41421C43.8457,25.15428,42.9534,23,41.1716,23L25,23C23.895431,23,23,23.895431,23,25Z" fill="#D8D8D8" fill-opacity="0.20000000298023224"/></g></svg></button></label>
+                      <label><button class="cc-btn" onmousedown="cmdSend(-0.5,-1);" ontouchstart="cmdSend(-0.5,0.5);" onmouseup="cmdSend(0,0);" ontouchend="cmdSend(0,0);"><svg fill="none" version="1.1" width="23" height="23" viewBox="0 0 23 23"><g style="mix-blend-mode:passthrough" transform="matrix(0,-1,1,0,-23,23)"><path d="M0,25L0,41.1716C0,42.9534,2.15428,43.8457,3.41421,42.5858L19.5858,26.41421C20.8457,25.15428,19.9534,23,18.1716,23L2,23C0.895431,23,0,23.895431,0,25Z" fill="#D8D8D8" fill-opacity="0.20000000298023224"/></g></svg></button></label>
+                      <label><button class="cc-btn" onmousedown="cmdSend(-1,0);" ontouchstart="cmdSend(-1,0);" onmouseup="cmdSend(0,0);" ontouchend="cmdSend(0,0);"><svg fill="none" version="1.1" width="26.87807685863504" height="15.435030017195231" viewBox="0 0 26.87807685863504 15.435030017195231"><g style="mix-blend-mode:passthrough" transform="matrix(0.9999999403953552,0,0,0.9999999403953552,0,0)"><path d="M14.8533,14.8492L26.2883,3.41422C27.5482,2.15429,26.6559,-9.53674e-7,24.8741,9.53674e-7L2.00401,9.53674e-7C0.222199,-9.53674e-7,-0.670133,2.15429,0.589795,3.41421L12.0248,14.8492C12.8059,15.6303,14.0722,15.6303,14.8533,14.8492Z" fill="#D8D8D8" fill-opacity="0.800000011920929"/></g></svg></button></label>
+                      <label><button class="cc-btn" onmousedown="cmdSend(-1,-0.5);" ontouchstart="cmdSend(-0.5,-0.5);" onmouseup="cmdSend(0,0);" ontouchend="cmdSend(0,0);"><svg fill="none" version="1.1" width="23" height="23" viewBox="0 0 23 23"><g style="mix-blend-mode:passthrough" transform="matrix(-1,0,0,-1,46,46)"><path d="M23,25L23,41.1716C23,42.9534,25.15428,43.8457,26.41421,42.5858L42.5858,26.41421C43.8457,25.15428,42.9534,23,41.1716,23L25,23C23.895431,23,23,23.895431,23,25Z" fill="#D8D8D8" fill-opacity="0.20000000298023224"/></g></svg></button></label>
                   </div>
               </div>
           </div>
           <div class="control-speed">
               <div>
                   <div id="device-speed-btn">
-                      <label><button name="speedbtn" class="small-btn" onclick="cmdSend(2,0,0);">SLOW</button></label>
-                      <label><button name="speedbtn" class="small-btn" onclick="cmdSend(2,1,1);">MIDDLE</button></label>
-                      <label><button name="speedbtn" class="small-btn" onclick="cmdSend(2,2,2);">FAST</button></label>
+                      <label><button name="speedbtn" class="small-btn" onclick="setSpeed(0.1);">SLOW</button></label>
+                      <label><button name="speedbtn" class="small-btn" onclick="setSpeed(0.3);">MIDDLE</button></label>
+                      <label><button name="speedbtn" class="small-btn" onclick="setSpeed(0.5);">FAST</button></label>
                   </div>
               </div>
           </div>
+         
     </div>
   
   </div>  
