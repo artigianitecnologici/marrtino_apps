@@ -25,6 +25,7 @@ docker build -t marrtino:speech -f Dockerfile.speech . && \
 docker build -t marrtino:mapping -f Dockerfile.mapping . && \
 docker build -t marrtino:pantilt -f Dockerfile.pantilt . && \
 docker build -t marrtino:gallery -f Dockerfile.gallery . && \
+docker build -t marrtino:imitation -f Dockerfile.imitation . && \
 docker build -t marrtino:oak-d -f Dockerfile.oak-d .
 
 

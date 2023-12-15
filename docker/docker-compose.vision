@@ -22,7 +22,7 @@
     - $HOME/playground:/home/robot/playground
     - $HOME/log:/home/robot/log
 
-gallery:
+  gallery:
     image: marrtino:gallery
     build:
       context: $MARRTINO_APPS_HOME/docker

@@ -49,9 +49,11 @@ Run the bringup servers
 
         python r3d_bringup.py -server_port 9248 
         python pantilt_bringup.py -server_port 9249
+        
 
         ... social  9250
         ... oak-d   9251
+        ... imitation 9252 
 
 Send commands to bringup servers
 
@@ -120,4 +122,5 @@ Send commands to bringup servers
         echo '@offline_start' | netcat -w 1 localhost 9250
         echo '@offline_kill' | netcat -w 1 localhost 9250
 
+        
  
