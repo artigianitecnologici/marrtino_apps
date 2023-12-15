@@ -44,7 +44,7 @@ if __name__=="__main__":
     parser.add_argument('-l', '--listen', dest='host', default='127.0.0.1', \
                                     help='address to listen on [127.0.0.1]')
     parser.add_argument('-p', '--port', metavar='PORT', dest='port', type=int, \
-                                default=5000, help='port to listen on [5000]')
+                                default=8081, help='port to listen on [8081]')
     args = parser.parse_args()
     app.config['ROOT_DIR'] = args.root_dir
     app.run(host=args.host, port=args.port, debug=True)

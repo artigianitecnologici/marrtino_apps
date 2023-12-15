@@ -48,6 +48,7 @@ def callback(data):
     
 if __name__ == '__main__':
     rospy.init_node('shot_node', anonymous=True)
+    rospy.loginfo('Start shot_node')
     rospy.Subscriber('shot', String, callback, queue_size=1)
     rospy.spin()
 
