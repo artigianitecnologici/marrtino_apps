@@ -39,6 +39,6 @@ RUN cd $HOME/src && \
 WORKDIR /home/robot
 
 
-CMD [ "/usr/bin/tmux" ]
-#CMD [ "/bin/bash", "-ci", "cd ~/src/marrtino_app/gallery && python3 app.py ./images" ]
+#CMD [ "/usr/bin/tmux" ]
+CMD [ "/bin/bash", "-ci", "cd ~/src/marrtino_app/gallery && python3 app.py ./images" ]
 
