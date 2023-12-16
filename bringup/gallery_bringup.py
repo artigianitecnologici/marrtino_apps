@@ -2,7 +2,7 @@
 
 from __future__ import print_function
 
-import thread
+import _thread
 import socket
 
 import argparse
@@ -96,12 +96,12 @@ def run_server(port):
                 
                 if data[0:8]=='@shotnode':  
                     tmux.cmd(0,'cd %s' %cfolder)
-                    tmux.cmd(0,'roslaunch shot_node.launch ')
+                    tmux.cmd(0,'python3 shot_node.py ')
                 elif data=='@shotnodekill':
                     tmux.Cc(0)
                 elif data=='@gallery':
                     tmux.cmd(1,'cd %s' %cfolder)
-                    tmux.cmd(1,'roslaunch gallery.launch')
+                    tmux.cmd(1,'python3 app.py')
                 elif data=='@gallerykill':
                     tmux.Cc(1)
                              
