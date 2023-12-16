@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="app_gallery"  pkg="marrtino_apps"  type="app.py" output="screen" />
+</launch>

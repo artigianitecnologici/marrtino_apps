@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<launch>
+    <node name="shot_node"  pkg="marrtino_apps"  type="shot_node.py" output="screen" />
+</launch>

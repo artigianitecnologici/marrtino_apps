@@ -51,9 +51,10 @@ Run the bringup servers
         python pantilt_bringup.py -server_port 9249
         
 
-        ... social  9250
-        ... oak-d   9251
-        ... imitation 9252 
+        ... social  -server_port 9250
+        ... oak-d   -server_port 9251
+        ... imitation -server_port 9252 
+        ... gallery -server_port 9253
 
 Send commands to bringup servers
 
