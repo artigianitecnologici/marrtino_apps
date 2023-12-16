@@ -109,6 +109,11 @@ def autostart(config, dostart):
     if getconfig('functions','rosbridge'):
         cmd = '@rosbridge' if dostart else '@rosbridgekill'
         systemcmd(cmd,9237)
+    if getconfig('functions','gallery'):
+        cmd = '@gallery' if dostart else '@gallerykill'
+        systemcmd(cmd,9253)
+        cmd = '@shotnode' if dostart else '@shotnodekill'
+        systemcmd(cmd,9253)
     if getconfig('functions','apriltags'):
         cmd = '@apriltags' if dostart else '@apriltagskill'
         systemcmd(cmd,9237)

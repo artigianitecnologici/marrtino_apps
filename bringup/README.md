@@ -123,5 +123,7 @@ Send commands to bringup servers
         echo '@offline_start' | netcat -w 1 localhost 9250
         echo '@offline_kill' | netcat -w 1 localhost 9250
 
+        echo '@shotnode' | netcat -w 1 localhost 9253
+        echo '@gallery' | netcat -w 1 localhost 9253
         
  

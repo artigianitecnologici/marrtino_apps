@@ -24,6 +24,7 @@ functions:
   audioserver: on
   videoserver: on
   rosbridge: on        # ros bridge server
+  gallery: on
   apriltags: off
   objrec: off
   social: off      # social | notracker | noservo 

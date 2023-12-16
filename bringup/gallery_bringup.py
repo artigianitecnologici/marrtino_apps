@@ -94,15 +94,15 @@ def run_server(port):
                 cfolder = os.getenv('MARRTINO_APPS_HOME')+"/gallery"
                 mfolder = os.getenv('MARRTINO_APPS_HOME')+"/marker"
                 
-                if data[0:8]=='@shotnode':  
+                if data==b'@shotnode':  
                     tmux.cmd(0,'cd %s' %cfolder)
                     tmux.cmd(0,'python3 shot_node.py ')
-                elif data=='@shotnodekill':
+                elif data==b'@shotnodekill':
                     tmux.Cc(0)
-                elif data=='@gallery':
+                elif data==b'@gallery':
                     tmux.cmd(1,'cd %s' %cfolder)
-                    tmux.cmd(1,'python3 app.py')
-                elif data=='@gallerykill':
+                    tmux.cmd(1,'python3 app.py . -l 0.0.0.0')
+                elif data==b'@gallerykill':
                     tmux.Cc(1)
                              
                 else:
