@@ -432,7 +432,7 @@ img {
 
 <body>
 
- 
+
 
 <div class="container-fluid">
   <div class="row">
@@ -547,12 +547,11 @@ img {
 </div>
 
   
-
-  
 <p>Connection status: </p>
 
 </body>
 
 </html>
+
 
 
