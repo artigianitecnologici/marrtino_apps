@@ -34,19 +34,28 @@
       document.getElementById("status").innerHTML = "Closed";
     });
     // 
+
     var shotTopic = new ROSLIB.Topic({
         ros: ros,
         name : '/shot',
         messageType: 'std_msgs/String'
     });  
 
-    execute_shot = function(filename) {
+    function generateRandomFilename(prefix = 'images/file_', extension = 'jpg') {
+        const randomString = Math.random().toString(36).substring(2, 8); // Generates a random string of length 6
+        const filename = `${prefix}${randomString}.${extension}`;
+        return filename;
+    }
+
+    
+    function execute_shot(filename) {
         if (filename == null) {
-           filename = "test.jpg";
+           filename =  generateRandomFilename();
         }
+   
         console.log("Filename :",filename); 
         var mymsg = new ROSLIB.Message({
-            data :  'filename'   
+            data : filename   
         });
         shotTopic.publish(mymsg); // error here als  
         
@@ -554,5 +563,6 @@ img {
 </body>
 
 </html>
+
 
 

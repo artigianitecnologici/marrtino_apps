@@ -68,7 +68,7 @@ def callback(data):
     try:
         ## Specify the device name of your webcam
         device_name_to_find = "Arducam_12MP"
-        photo_filename = data.data
+        photo_filename = "images/" + data.data
         # Find and print information about the webcam
         device_name = find_webcam_by_name(device_name_to_find)
         print("Device Name :",device_name)
