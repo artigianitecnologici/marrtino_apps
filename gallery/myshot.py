@@ -1,3 +1,4 @@
+import sys
 import cv2
 import subprocess
 import re
@@ -61,8 +62,8 @@ def capture_photo(device_name, output_file):
     print(f"Photo captured and saved to {output_file}")
 
 
-# Capture the photo
-capture_photo(device_name, output_file)
+    # Capture the photo
+    capture_photo(device_name, output_file)
 
 def main():
     # Check the number of command-line arguments
