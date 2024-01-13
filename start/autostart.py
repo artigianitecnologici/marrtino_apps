@@ -68,6 +68,10 @@ def autostart(config, dostart):
     if cam=='usbcam' or cam=='astra' or cam=='xtion':
         cmd = '@%s' %cam if dostart else '@camerakill'
         systemcmd(cmd,9237)
+
+    if cam=='shot':
+        cmd = '@%s' %cam if dostart else '@camerakill'
+        systemcmd(cmd,9253)
     #if cam=='d345' :
     #    cmd = '@%s' %cam if dostart else '@camerakill'
     #    systemcmd(cmd,9237)  

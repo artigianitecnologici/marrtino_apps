@@ -99,6 +99,9 @@ def run_server(port):
                     tmux.cmd(0,'python3 shot_node.py ')
                 elif data==b'@shotnodekill':
                     tmux.Cc(0)
+                elif data==b'@usbcam':
+                    tmux.cmd(1,'cd %s' %cfolder)
+                    tmux.cmd(1,'python3 launch_usbcam.py . -l 0.0.0.0')
                 elif data==b'@gallery':
                     tmux.cmd(1,'cd %s' %cfolder)
                     tmux.cmd(1,'python3 app.py . -l 0.0.0.0')
