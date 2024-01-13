@@ -107,14 +107,13 @@ def run_server(port):
                     tmux.cmd(0,'cd %s' %cfolder)
                     tmux.cmd(0,'roslaunch usbcam.launch '+
                         'image_width:=%d image_height:=%d framerate:=%s ' %(int(v[1]),int(v[2])))
-                    
-                elif data[0:7]=='camera_':  # @camera_/dev/video2
+		elif data[0:7]=='@camera_' or data[0:7]=='camera_' :  # @camera_/dev/video2
                     v = data.split("_")
                     tmux.cmd(0,'cd %s' %cfolder)
-                    mycmd = 'roslaunch usbcam.launch '+ 'image_width:=640 image_height:=480 device:=' + v[1]
+		    mycmd = 'roslaunch usbcam.launch '+ 'image_width:=640 image_height:=480 device:=' + v[1]
                     print(mycmd)
                     tmux.cmd(0,mycmd)
-                    
+
                 elif data=='@astra':
                     tmux.cmd(0,'cd %s' %cfolder)
                     tmux.cmd(0,'roslaunch astra.launch')
@@ -144,10 +143,9 @@ def run_server(port):
                 elif data=='@takephotokill':
                     tmux.Cc(3)
                 else:
-                    print('Unknown command %s' %data)
-                    
-
-
+                    print('Unknown* command %s' %data)
+                    print(data[0:7])
+            
 
 if __name__ == '__main__':
 
@@ -159,4 +157,3 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     run_server(args.server_port)
-
