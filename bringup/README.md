@@ -126,4 +126,6 @@ Send commands to bringup servers
         echo '@shotnode' | netcat -w 1 localhost 9253
         echo '@gallery' | netcat -w 1 localhost 9253
         
+
+        echo 'camera_/dev/video2' | netcat -w 1 localhost 9237
  

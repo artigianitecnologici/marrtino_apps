@@ -9,6 +9,31 @@ except Exception as e:
     print("Try install yaml with    sudo apt-get install python3-yaml")
     sys.exit(1)
 
+import subprocess
+import re
+
+
+def find_webcam_by_name(device_name):
+    # Run v4l2-ctl to list video devices
+    result = subprocess.run(['v4l2-ctl', '--list-devices'], capture_output=True, text=True)
+    video_devices = result.stdout
+
+    # Use regex to find the device with the specified name
+    pattern = re.compile(rf'{re.escape(device_name)}:.*?(/dev/video\d+)', re.DOTALL)
+    match = pattern.search(video_devices)
+
+    # Check if the webcam information is found
+    if match:
+        # Extract the video device path
+        video_device_path = match.group(1)
+        
+        print("Found Webcam Information:")
+        print(video_devices)
+
+        print(f"Associated {video_device_path}")
+        return video_device_path
+    else:
+        print(f"Webcam with device name '{device_name}' not found.")
 
 def readconfig(yamlfile):
     info = {}
@@ -68,10 +93,17 @@ def autostart(config, dostart):
     if cam=='usbcam' or cam=='astra' or cam=='xtion':
         cmd = '@%s' %cam if dostart else '@camerakill'
         systemcmd(cmd,9237)
+    else :
+        device_name_to_find = "USB 2.0 Camera"
+        # Find and print information about the webcam
+        device_name = find_webcam_by_name(device_name_to_find)
+        cmd = '@camera_' + device_name
+        print(cmd)
+        systemcmd(cmd,9237)
 
-    if cam=='shot':
-        cmd = '@%s' %cam if dostart else '@camerakill'
-        systemcmd(cmd,9253)
+    #if cam=='shot':
+    #    cmd = '@%s' %cam if dostart else '@camerakill'
+    #    systemcmd(cmd,9253)
     #if cam=='d345' :
     #    cmd = '@%s' %cam if dostart else '@camerakill'
     #    systemcmd(cmd,9237)  

@@ -36,7 +36,7 @@ if __name__ == '__main__':
 
     package = 'launch_usbcam'  # Replace with your ROS package name
     launch_file = 'usbcam.launch'
-    device_name_to_find = ""
+    device_name_to_find = "USB 2.0 Camera"
     # Find and print information about the webcam
     device_name = find_webcam_by_name(device_name_to_find)
     # Specify the camera device as an argument

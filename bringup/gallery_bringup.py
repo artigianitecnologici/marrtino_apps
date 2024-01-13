@@ -92,16 +92,17 @@ def run_server(port):
             else:
                 print(data)
                 cfolder = os.getenv('MARRTINO_APPS_HOME')+"/gallery"
-                mfolder = os.getenv('MARRTINO_APPS_HOME')+"/marker"
                 
                 if data==b'@shotnode':  
                     tmux.cmd(0,'cd %s' %cfolder)
                     tmux.cmd(0,'python3 shot_node.py ')
                 elif data==b'@shotnodekill':
                     tmux.Cc(0)
-                elif data==b'@usbcam':
-                    tmux.cmd(1,'cd %s' %cfolder)
-                    tmux.cmd(1,'python3 launch_usbcam.py . -l 0.0.0.0')
+                    
+                elif data==b'@startrobot':
+                    tmux.cmd(2,'cd %s' %cfolder)
+                    tmux.cmd(2,'roslaunch robot.launch')
+
                 elif data==b'@gallery':
                     tmux.cmd(1,'cd %s' %cfolder)
                     tmux.cmd(1,'python3 app.py . -l 0.0.0.0')
