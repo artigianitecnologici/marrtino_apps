@@ -91,6 +91,7 @@ TOPIC_spalla_sx_rot = "/spallasx_controller/command"
 TOPIC_spalla_sx_fle = "/spallasxj_controller/command"
 TOPIC_gomito_sx = "/gomitosx_controller/command"
 TOPIC_hand_left = "/handsx_controller/command"
+TOPIC_asr = "social/asr"
 #eof social
 ACTION_move_base = 'move_base'
 TOPIC_sonar_0 = 'sonar_0' 
@@ -187,7 +188,7 @@ def setRobotNamePrefix(prefix):
            TOPIC_emotion, TOPIC_pan, TOPIC_tilt, \
            TOPIC_spalla_dx_rot ,TOPIC_spalla_dx_fle,TOPIC_gomito_dx , \
            TOPIC_spalla_sx_rot ,TOPIC_spalla_sx_fle,TOPIC_gomito_sx , \
-	   TOPIC_hand_right, TOPIC_hand_left
+	       TOPIC_hand_right, TOPIC_hand_left, TOPIC_asr
 
 
     TOPIC_tag_detections = prefix+'/' + TOPIC_tag_detections
@@ -216,6 +217,7 @@ def setRobotNamePrefix(prefix):
     TOPIC_gomito_sx = prefix+'/'+TOPIC_gomito_sx
     TOPIC_hand_right = prefix+'/'+TOPIC_hand_right
     TOPIC_hand_left = prefix+'/'+TOPIC_hand_left 
+    TOPIC_asr = prefix+'/'+TOPIC_asr
 
     #eof social
 
@@ -406,6 +408,7 @@ spalla_sx_fle_pub = None
 gomito_sx_pub  = None
 hand_left_pub = None
 hand_right_pub = None
+
 # eof social
 
 
@@ -533,8 +536,10 @@ def image_cb(data):
         #print('image')
     except CvBridgeError as e:
         print(e)
-
-
+# asr
+def asr_social_cb(data):
+    global asr_social
+    asr_social = data
 
 # select topic of type sensor_msgs/Image
 def autoImageTopic():
@@ -590,7 +595,7 @@ def begin(nodename='robot_cmd', init_node=True):
            emotion_pub ,  pan_pub , tilt_pub,\
            spalla_dx_rot_pub,spalla_dx_fle_pub,gomito_dx_pub, \
            spalla_sx_rot_pub,spalla_sx_fle_pub,gomito_sx_pub, \
-           hand_right_pub, hand_left_pub
+           hand_right_pub, hand_left_pub , asr_sub
 
     print('begin')
 
@@ -660,6 +665,7 @@ def begin(nodename='robot_cmd', init_node=True):
         gomito_sx_pub = rospy.Publisher(TOPIC_gomito_sx, Float64, queue_size=1,   latch=True)
         hand_right_pub = rospy.Publisher(TOPIC_hand_right, Float64, queue_size=1,   latch=True)
         hand_left_pub = rospy.Publisher(TOPIC_hand_left, Float64, queue_size=1,   latch=True)
+        asr_sub = rospy.Subscriber(TOPIC_asr,String, asr_social_cb)
 	    # eof Social
 
         timeout = 3 #seconds
@@ -1218,16 +1224,18 @@ def head_position(msg):
         tilt_pub.publish(-0.5)
 
 def user_say():
+    global asr_social
     print('user_say')
-    retval = asr()
+    retval = asr_social
     return retval
     
 def wait_user_speaking(nsec):
+    global asr_social
     timeout = nsec   # [seconds]
     retval = ""
     timeout_start = time.time()
     while time.time() < timeout_start + timeout:
-        retval = asr_single()
+        retval = asr_social
     return retval
 
 
