@@ -1223,7 +1223,7 @@ def head_position(msg):
         pan_pub.publish(0)
         tilt_pub.publish(-0.5)
 
-def user_say():
+def get_user_say():
     global asr_social
     print('user_say')
     retval = asr_social
