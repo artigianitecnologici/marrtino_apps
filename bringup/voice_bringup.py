@@ -15,9 +15,16 @@ from tmuxsend import TmuxSend
 def run_server(port):
 
     # Create a TCP/IP socket
-    
+     # Create a TCP/IP socket
+    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+    #sock.settimeout(3)
+    # Bind the socket to the port
+    server_address = ('', port)
+    sock.bind(server_address)
+    sock.listen(1)
 
-    #print("Speech server started on port %d ..." %port)
+    print("Voice server started on port %d ..." %port)
     #print("Speech server commands available [@audio, @audiokill]")
     #print("Example: echo \"@audio\" | netcat -w 1 localhost %d" %port)
     #print("TTS command: echo \"TTS[en] hello!\" | netcat -w 1 localhost 9001")
