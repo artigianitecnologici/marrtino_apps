@@ -539,7 +539,7 @@ def image_cb(data):
 # asr
 def asr_social_cb(data):
     global asr_social
-    asr_social = data
+    asr_social = data.data
 
 # select topic of type sensor_msgs/Image
 def autoImageTopic():
