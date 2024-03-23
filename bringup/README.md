@@ -55,6 +55,7 @@ Run the bringup servers
         ... oak-d   -server_port 9251
         ... imitation -server_port 9252 
         ... gallery -server_port 9253
+        ... voice    -server_port 9254
 
 Send commands to bringup servers
 

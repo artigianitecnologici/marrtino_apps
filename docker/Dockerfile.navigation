@@ -44,8 +44,9 @@ RUN cd $HOME/ros/catkin_ws/src && \
     ln -s $HOME/src/urg_node . && \
     ln -s $HOME/src/rplidar_ros . && \
     ln -s $HOME/src/laser_proc .  && \
-    ln -s $HOME/src/gradient_based_navigation . && \
-    ln -s $HOME/src/ld06_lidar . 
+    ln -s $HOME/src/gradient_based_navigation .
+    # && \
+    #ln -s $HOME/src/ld06_lidar . 
     
     #&& \
 #ln -s $HOME/src/ldlidar_stl_ros . && \
