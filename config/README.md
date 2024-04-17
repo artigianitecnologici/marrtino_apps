@@ -18,6 +18,7 @@ Restart the system and enjoy!
 
 To start docker containers at boot, copy file `system_watchdog` in
 `/etc/init.d`
+sudo cp system_watchdog /etc/init.d/system_watchdog
 
 Edit `/etc/init.d/system_watchdog` if needed (`user` and `dir` info)
 

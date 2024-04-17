@@ -8,7 +8,7 @@
 # Short-Description: Start daemon at boot time
 # Description:       Enable service provided by daemon.
 ### END INIT INFO
-
+ 
 user="marrtino"
 dir="/home/marrtino/src/marrtino_apps/docker"
 cmd="bash -ci ./system_watchdog.bash"

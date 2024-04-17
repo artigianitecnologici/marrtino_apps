@@ -189,7 +189,7 @@ def setRobotNamePrefix(prefix):
            TOPIC_emotion, TOPIC_pan, TOPIC_tilt, \
            TOPIC_spalla_dx_rot ,TOPIC_spalla_dx_fle,TOPIC_gomito_dx , \
            TOPIC_spalla_sx_rot ,TOPIC_spalla_sx_fle,TOPIC_gomito_sx , \
-	       TOPIC_hand_right, TOPIC_hand_left, TOPIC_asr
+	       TOPIC_hand_right, TOPIC_hand_left, TOPIC_asr,asr_social
 
 
     TOPIC_tag_detections = prefix+'/' + TOPIC_tag_detections
@@ -219,6 +219,7 @@ def setRobotNamePrefix(prefix):
     TOPIC_hand_right = prefix+'/'+TOPIC_hand_right
     TOPIC_hand_left = prefix+'/'+TOPIC_hand_left 
     TOPIC_asr = prefix+'/'+TOPIC_asr
+
     
 
     #eof social
@@ -1152,6 +1153,34 @@ def emotion(msg):
     print('social/emotion %s' %(msg))
     emotion_pub.publish(msg)
 
+# create function en english and value degree
+#############################################
+
+def right_shoulder_rotation(vdeg):
+    vrad = DEG2RAD(vdeg)
+    spalla_rotazione_dx(vrad)
+
+def left_shoulder_rotation(vdeg):
+    vrad = DEG2RAD(vdeg)
+    spalla_rotazione_sx(vrad)
+
+def right_shoulder_flexion(vdeg):
+    vrad = DEG2RAD(vdeg)
+    spalla_flessione_dx(vrad)
+
+def left_shoulder_flexion(vdeg):
+    vrad = DEG2RAD(vdeg)
+    spalla_flessione_sx(vrad)
+
+def right_elbow(vdeg):
+    vrad = DEG2RAD(vdeg)
+    gomito_dx(vrad)
+    
+def left_elbow(vdeg):
+    vrad = DEG2RAD(vdeg)
+    gomito_dx(vrad)
+
+############################################
 
 def spalla_rotazione_dx(msg):
     # valori da -0.5  0 0.5 
