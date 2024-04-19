@@ -1155,30 +1155,42 @@ def emotion(msg):
 
 # create function en english and value degree
 #############################################
+# Calcoliamo i gradi relativi 150 = Centro
 
 def right_shoulder_rotation(vdeg):
-    vrad = DEG2RAD(vdeg)
+    vrad = DEG2RAD(150 + vdeg)
     spalla_rotazione_dx(vrad)
 
 def left_shoulder_rotation(vdeg):
-    vrad = DEG2RAD(vdeg)
+    vrad = DEG2RAD(150 + vdeg)
     spalla_rotazione_sx(vrad)
 
 def right_shoulder_flexion(vdeg):
-    vrad = DEG2RAD(vdeg)
+    vrad = DEG2RAD(150 + vdeg)
     spalla_flessione_dx(vrad)
 
 def left_shoulder_flexion(vdeg):
-    vrad = DEG2RAD(vdeg)
+    vrad = DEG2RAD(150 + vdeg)
     spalla_flessione_sx(vrad)
 
 def right_elbow(vdeg):
-    vrad = DEG2RAD(vdeg)
+    vrad = DEG2RAD(150 + vdeg)
     gomito_dx(vrad)
     
 def left_elbow(vdeg):
-    vrad = DEG2RAD(vdeg)
+    vrad = DEG2RAD( 150 + vdeg)
     gomito_sx(vrad)
+  
+def right_hand(vdeg):
+    vrad = DEG2RAD(150 + vdeg)
+    hand_right(vrad)
+    
+def left_hand(vdeg):
+    vrad = DEG2RAD( 150 + vdeg)
+    hand_left(vrad)
+  
+ 
+ 
 
 ############################################
 
