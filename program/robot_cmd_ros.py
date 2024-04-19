@@ -1162,6 +1162,7 @@ def right_shoulder_rotation(vdeg):
     spalla_rotazione_dx(vrad)
 
 def left_shoulder_rotation(vdeg):
+    vdeg = -vdeg
     vrad = DEG2RAD(150 + vdeg)
     spalla_rotazione_sx(vrad)
 
@@ -1170,6 +1171,7 @@ def right_shoulder_flexion(vdeg):
     spalla_flessione_dx(vrad)
 
 def left_shoulder_flexion(vdeg):
+    vdeg = -vdeg
     vrad = DEG2RAD(150 + vdeg)
     spalla_flessione_sx(vrad)
 
