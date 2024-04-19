@@ -1180,6 +1180,7 @@ def right_elbow(vdeg):
     gomito_dx(vrad)
     
 def left_elbow(vdeg):
+    vdeg = -vdeg
     vrad = DEG2RAD( 150 + vdeg)
     gomito_sx(vrad)
   
