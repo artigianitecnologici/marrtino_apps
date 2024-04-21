@@ -15,7 +15,7 @@ from tmuxsend import TmuxSend
 def run_server(port):
 
     # Create a TCP/IP socket
-     # Create a TCP/IP socket
+    
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
     #sock.settimeout(3)
@@ -61,6 +61,7 @@ def run_server(port):
                 #connection.settimeout(3) # timeout when listening (exit with CTRL+C)
                 data = connection.recv(320)  # blocking
                 data = data.strip()
+                data =  data.decode('utf-8')
             except KeyboardInterrupt:
                 print("User interrupt (quit)")
                 dorun = False
