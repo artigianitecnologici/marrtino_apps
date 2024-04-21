@@ -694,6 +694,13 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
             time.sleep(1)
         elif (message=='asroffline_kill'):
             self.tmux.cmd(self.wnet,"echo '@asrofflinekill' | netcat -w 1 localhost 9252")
+
+        # social voice app tablet 
+        elif (message=='asr_app_start'):
+            self.tmux.cmd(self.wnet,"echo '@asr_app_start' | netcat -w 1 localhost 9254")
+            time.sleep(1)
+        elif (message=='asr_app_kill'):
+            self.tmux.cmd(self.wnet,"echo '@asr_app_kill' | netcat -w 1 localhost 9254")
         # ***************************
         #   S O C I A L  -  E N D
         # ***************************

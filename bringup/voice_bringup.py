@@ -96,7 +96,7 @@ if __name__ == '__main__':
 
     default_port = 9254
 
-    parser = argparse.ArgumentParser(description='voioce bringup')
+    parser = argparse.ArgumentParser(description='voice bringup')
     parser.add_argument('-server_port', type=int, default=default_port, help='server port')
 
     args = parser.parse_args()
