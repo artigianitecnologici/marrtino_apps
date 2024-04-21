@@ -29,7 +29,7 @@ def run_server(port):
     #print("Example: echo \"@audio\" | netcat -w 1 localhost %d" %port)
     #print("TTS command: echo \"TTS[en] hello!\" | netcat -w 1 localhost 9001")
 
-    tmux = TmuxSend('bringup', ['asr server','tts','cmd'])
+    tmux = TmuxSend('bringup', ['asr server','asr_app','tts','cmd'])
 
     connected = False
     dorun = True
@@ -74,11 +74,19 @@ def run_server(port):
             else:
                 print(data)
                 folder = os.getenv('MARRTINO_APPS_HOME')+"/audio"
+                sfolder = "~/src/marrtino_social2/scripts"
                 if data=='@audio':
                     tmux.cmd(0,'cd %s' %folder)
                     tmux.cmd(0,'python audio_server.py')
                 elif data=='@audiokill':
                     tmux.Cc(0)
+                elif data=='@asr_app_start':
+                    tmux.cmd(2,'cd %s' %sfolder)
+                    tmux.cmd(2,'python3 node_asr_app.py')
+                elif data=='@asr_app_kill':
+                    tmux.Cc(2)
+
+
                 else:
                     print('Unknown command %s')
 

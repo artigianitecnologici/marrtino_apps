@@ -92,7 +92,7 @@ TOPIC_spalla_sx_fle = "/spallasxj_controller/command"
 TOPIC_gomito_sx = "/gomitosx_controller/command"
 TOPIC_hand_left = "/handsx_controller/command"
 TOPIC_asr = "social/asr"
-
+asr_social = ''
 #eof social
 ACTION_move_base = 'move_base'
 TOPIC_sonar_0 = 'sonar_0' 
@@ -153,6 +153,7 @@ tv_good = 0.2
 rv_good = 0.8
 tv_min = 0.1
 rv_min = 0.1
+
 
 move_step = 1.0
 
@@ -219,7 +220,7 @@ def setRobotNamePrefix(prefix):
     TOPIC_hand_right = prefix+'/'+TOPIC_hand_right
     TOPIC_hand_left = prefix+'/'+TOPIC_hand_left 
     TOPIC_asr = prefix+'/'+TOPIC_asr
-
+    global asr_social
     
 
     #eof social
@@ -1145,6 +1146,7 @@ def wait(r=1):
 #### SOCIAL ####
 ################
 
+
 def head_status(msg):
     print('social/emotion %s' %(msg))
 
@@ -1276,6 +1278,21 @@ def get_user_say():
     print('user_say')
     retval = asr_social
     return retval
+
+def wait_get_user_say():
+    global asr_social
+    waitusersay = ''
+    start_time = time.time()
+    myloop = True
+    while myloop:
+        if waitusersay != '':
+            break
+        elapsed_time = time.time() - start_time
+        if elapsed_time >= 10:
+            break
+             
+    return waitusersay
+    
 
 def clear_asr():
     global asr_social
