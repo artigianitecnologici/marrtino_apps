@@ -14,10 +14,10 @@ emotion("normal")
 emotion("speak")
 say('My name is martina and you ?','en')
 emotion("normal")
-for count in range(1):
+for count in range(2):
   user = wait_get_user_say()
   if user != '':
-    display(user)
+    print(user)
     emotion("speak")
     say('ciao','it')
     say(user,'it')

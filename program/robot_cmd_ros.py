@@ -91,7 +91,7 @@ TOPIC_spalla_sx_rot = "/spallasx_controller/command"
 TOPIC_spalla_sx_fle = "/spallasxj_controller/command"
 TOPIC_gomito_sx = "/gomitosx_controller/command"
 TOPIC_hand_left = "/handsx_controller/command"
-TOPIC_asr = "social/asr"
+TOPIC_asr = "/social/asr"
 asr_social = ''
 #eof social
 ACTION_move_base = 'move_base'
@@ -1285,6 +1285,7 @@ def wait_get_user_say():
     start_time = time.time()
     myloop = True
     while myloop:
+        waitusersay = asr_social
         if waitusersay != '':
             break
         elapsed_time = time.time() - start_time
@@ -1301,7 +1302,7 @@ def clear_asr():
     
 def wait_user_speaking(nsec):
     global asr_social
-    timeout = nsec   # [seconds]
+    timeout = 10   # [seconds]
     retval = ""
     timeout_start = time.time()
     while time.time() < timeout_start + timeout:
