@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 # marrtino v3
+# -----------------
 import time
 import os
 import socket
@@ -82,6 +83,7 @@ TOPIC_joy = 'joy'
 # SOCIAL
 # 
 TOPIC_emotion = "social/emotion"
+TOPIC_gesture = "social/gesture"
 TOPIC_pan = "pan_controller/command"
 TOPIC_tilt = "tilt_controller/command"
 TOPIC_spalla_dx_rot = "/spalladx_controller/command"
@@ -188,7 +190,7 @@ def setRobotNamePrefix(prefix):
            TOPIC_odom,TOPIC_joy,TOPIC_joints,ACTION_move_base, \
            TOPIC_sonar_0,TOPIC_sonar_1,TOPIC_sonar_2,TOPIC_sonar_3, \
            TOPIC_GROUND_TRUTH, TOPIC_SETPOSE, TOPIC_STAGESAY, \
-           TOPIC_emotion, TOPIC_pan, TOPIC_tilt, \
+           TOPIC_emotion,TOPIC_gesture, TOPIC_pan, TOPIC_tilt, \
            TOPIC_spalla_dx_rot ,TOPIC_spalla_dx_fle,TOPIC_gomito_dx , \
            TOPIC_spalla_sx_rot ,TOPIC_spalla_sx_fle,TOPIC_gomito_sx , \
 	       TOPIC_hand_right, TOPIC_hand_left, TOPIC_asr,asr_social
@@ -598,7 +600,7 @@ def begin(nodename='robot_cmd', init_node=True):
            stage_say_pub, stage_setpose_pub, \
            odom_robot_pose, robot_initialized, stop_request, \
            use_robot, use_audio, audio_connected,\
-           emotion_pub ,  pan_pub , tilt_pub,\
+           emotion_pub , gesture_pub, pan_pub , tilt_pub,\
            spalla_dx_rot_pub,spalla_dx_fle_pub,gomito_dx_pub, \
            spalla_sx_rot_pub,spalla_sx_fle_pub,gomito_sx_pub, \
            hand_right_pub, hand_left_pub , asr_sub , asr_status
@@ -660,6 +662,7 @@ def begin(nodename='robot_cmd', init_node=True):
         #SOCIAL
         print("Enable Social publisher")
         emotion_pub = rospy.Publisher(TOPIC_emotion, String, queue_size=1,   latch=True)
+        gesture_pub = rospy.Publisher(TOPIC_gesture, String, queue_size=1,   latch=True)
         pan_pub = rospy.Publisher(TOPIC_pan, Float64, queue_size=1,   latch=True)
         tilt_pub = rospy.Publisher(TOPIC_tilt, Float64, queue_size=1,   latch=True)
         # 
@@ -1156,6 +1159,12 @@ def emotion(msg):
     print('social/emotion %s' %(msg))
     emotion_pub.publish(msg)
 
+def gesture(msg):
+    #
+    print('social/gesture %s' %(msg))
+    gesture_pub.publish(msg)
+
+
 # create function en english and value degree
 #############################################
 # Calcoliamo i gradi relativi 150 = Centro
@@ -1170,11 +1179,12 @@ def left_shoulder_rotation(vdeg):
     spalla_rotazione_sx(vrad)
 
 def right_shoulder_flexion(vdeg):
+    vdeg = -vdeg
     vrad = DEG2RAD(150 + vdeg)
     spalla_flessione_dx(vrad)
 
 def left_shoulder_flexion(vdeg):
-    vdeg = -vdeg
+   
     vrad = DEG2RAD(150 + vdeg)
     spalla_flessione_sx(vrad)
 
@@ -1188,6 +1198,7 @@ def left_elbow(vdeg):
     gomito_sx(vrad)
   
 def right_hand(vdeg):
+    vdeg = -vdeg
     vrad = DEG2RAD(150 + vdeg)
     hand_right(vrad)
     
