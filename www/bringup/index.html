@@ -329,7 +329,7 @@ ROS topics:
 </table>
 <br>
 <hr>
-<h3> Dynamixel  </h3>
+<h3> Pan / Tilt </h3>
 
 <table>
 
@@ -339,11 +339,20 @@ ROS topics:
 <td><button id="pantilt_start_btn" onclick="send_cmd('pantilt_start')" class="btn waves-effect waves-light blue">Pan & Tilt start</button></td>
 <td><button id="pantilt_quit_btn" onclick="send_cmd('pantilt_kill')" class="btn waves-effect waves-light blue">Pan & Tilt quit</button></td>
 </tr>
-
-
-
 </table>
+<br>
+<hr>
+<h3> RobotDog </h3>
 
+<table>
+
+<tr height=40>
+<td width=100>Robot Dog</td> 
+<td width=80 align='center'><span id="joystick_status" style="color: red;">OFF</span></td>
+<td><button id="robotdog_start_btn" onclick="send_cmd('robotdog_start')" class="btn waves-effect waves-light blue">Robot Dog start</button></td>
+<td><button id="robotdog_quit_btn" onclick="send_cmd('robotdog_kill')" class="btn waves-effect waves-light blue">Robot Dog quit</button></td>
+</tr>
+</table>
 <br>
 
 <hr>
