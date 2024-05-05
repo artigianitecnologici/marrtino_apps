@@ -52,6 +52,7 @@ Run the bringup servers
 
         ... social  9250
         ... oak-d   9251
+        ... robotdog 9253
 
 Send commands to bringup servers
 
@@ -115,5 +116,8 @@ Send commands to bringup servers
         echo '@robot_socialkill' | netcat -w 1 localhost 9250
         echo '@tracker' | netcat -w 1 localhost 9250 
         echo '@trackerkill' | netcat -w 1 localhost 9250
+        # robotdog 
+        echo '@robotdog_start' | netcat -w 1 localhost 9253
+        echo '@robotsog_kill' | netcat -w 1 localhost 9253
 
  

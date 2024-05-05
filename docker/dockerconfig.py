@@ -187,6 +187,12 @@ def writeout(config, arch, gpu):
             if gpu!=None:
                 replacemap["runtime: runc"] = "    runtime: nvidia"
             addservice(f,'pantilt',None,replacemap)
+        
+        if config['functions']['robotdog']:
+            replacemap = {}
+            if gpu!=None:
+                replacemap["runtime: runc"] = "    runtime: nvidia"
+            addservice(f,'robotdog',None,replacemap)
 
         if config['functions']['social']:
             os.system('touch /tmp/marrtinosocialon') 
