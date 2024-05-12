@@ -21,8 +21,8 @@ functions:
   navigation_rviz: off
   mapping: off          # off | gmapping | srrg_mapper
   mapping_rviz: off
-  audioserver: on
-  videoserver: on
+  audioserver: off
+  videoserver: off
   apriltags: off
   objrec: off
   social: off      # social | notracker | noservo 

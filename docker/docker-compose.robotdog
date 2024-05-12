@@ -1,4 +1,4 @@
-  pantilt:
+  robotdog:
     image: marrtino:robotdog
     build:
       context: $MARRTINO_APPS_HOME/docker

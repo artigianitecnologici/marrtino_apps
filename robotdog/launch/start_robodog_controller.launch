@@ -2,13 +2,21 @@
 <!-- This will start the PAN joint controller -->
 <launch>
     <!-- Start tilt joint controller -->
-    <rosparam file="$(env MARRTINO_APPS_HOME)/pantilt/config/pantilt.yaml" command="load"/>
-    <rosparam file="$(env MARRTINO_APPS_HOME)/pantilt/config/servo_param.yaml" command="load"/>
-
-    <node name="tilt_controller_spawner" pkg="dynamixel_controllers" type="controller_spawner.py"
+    <rosparam file="$(env MARRTINO_APPS_HOME)/robotdog/config/robotdog.yaml" command="load"/>
+    <node name="robotdog_controller_spawner" pkg="dynamixel_controllers" type="controller_spawner.py"
           args="--manager=dxl_manager
                 --port pan_port
-                pan_controller 
-                tilt_controller"
+                sfr05_controller
+                  sfr04_controller
+                  sfr03_controller
+                  sfl02_controller
+                  sfl01_controller
+                  sfl00_controller
+                  sbr11_controller
+                  sbr10_controller
+                  sbr09_controller
+                  sbl08_controller
+                  sbl07_controller
+                  sbl06_controller"
           output="screen"/>
 </launch>
