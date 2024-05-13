@@ -22,7 +22,7 @@ def run_server(port):
     server_address = ('', port)
     sock.bind(server_address)
     sock.listen(1)
-    print("MARRtino pantilt server started on port %d ..." %port)
+    print("MARRtino robodog server started on port %d ..." %port)
 
     tmux = TmuxSend('bringup', ['robotdog', 'joy4w','test','test1'])
 
