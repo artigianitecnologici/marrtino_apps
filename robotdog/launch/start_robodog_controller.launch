@@ -5,7 +5,7 @@
     <rosparam file="$(env MARRTINO_APPS_HOME)/robotdog/config/robotdog.yaml" command="load"/>
     <node name="robotdog_controller_spawner" pkg="dynamixel_controllers" type="controller_spawner.py"
           args="--manager=dxl_manager
-                --port pan_port
+                --port dxl_port
                 sfr05_controller
                   sfr04_controller
                   sfr03_controller
