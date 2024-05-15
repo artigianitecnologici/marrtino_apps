@@ -1,0 +1,650 @@
+header: 
+  seq: 7
+  stamp: 
+    secs: 1715747211
+    nsecs: 618946075
+  frame_id: ''
+status: 
+  - 
+    level: 1
+    name: "Dynamixel Serial Bus (dxl_port)"
+    message: "Actual update rate is lower than desired"
+    hardware_id: "Dynamixel Serial Bus on port /dev/dinamixel"
+    values: 
+      - 
+        key: "Baud Rate"
+        value: "1000000"
+      - 
+        key: "Min Motor ID"
+        value: "0"
+      - 
+        key: "Max Motor ID"
+        value: "11"
+      - 
+        key: "Desired Update Rate"
+        value: "20"
+      - 
+        key: "Actual Update Rate"
+        value: "5.21"
+      - 
+        key: "# Non Fatal Errors"
+        value: "0"
+      - 
+        key: "# Checksum Errors"
+        value: "0"
+      - 
+        key: "# Dropped Packet Errors"
+        value: "0"
+  - 
+    level: 0
+    name: "Robotis Dynamixel Motor 0 on port dxl_port"
+    message: "OK"
+    hardware_id: "DXL-0@dxl_port"
+    values: 
+      - 
+        key: "Model Name"
+        value: "AX-12"
+      - 
+        key: "Firmware Version"
+        value: "24"
+      - 
+        key: "Return Delay Time"
+        value: "250"
+      - 
+        key: "Minimum Voltage"
+        value: "6.0"
+      - 
+        key: "Maximum Voltage"
+        value: "14.0"
+      - 
+        key: "Minimum Position (CW)"
+        value: "0"
+      - 
+        key: "Maximum Position (CCW)"
+        value: "1023"
+      - 
+        key: "Goal"
+        value: "132"
+      - 
+        key: "Position"
+        value: "133"
+      - 
+        key: "Error"
+        value: "1"
+      - 
+        key: "Velocity"
+        value: "0"
+      - 
+        key: "Load"
+        value: "0.0"
+      - 
+        key: "Voltage"
+        value: "12.3"
+      - 
+        key: "Temperature"
+        value: "34"
+      - 
+        key: "Moving"
+        value: "False"
+  - 
+    level: 0
+    name: "Robotis Dynamixel Motor 1 on port dxl_port"
+    message: "OK"
+    hardware_id: "DXL-1@dxl_port"
+    values: 
+      - 
+        key: "Model Name"
+        value: "AX-12"
+      - 
+        key: "Firmware Version"
+        value: "24"
+      - 
+        key: "Return Delay Time"
+        value: "250"
+      - 
+        key: "Minimum Voltage"
+        value: "6.0"
+      - 
+        key: "Maximum Voltage"
+        value: "14.0"
+      - 
+        key: "Minimum Position (CW)"
+        value: "0"
+      - 
+        key: "Maximum Position (CCW)"
+        value: "1023"
+      - 
+        key: "Goal"
+        value: "305"
+      - 
+        key: "Position"
+        value: "335"
+      - 
+        key: "Error"
+        value: "30"
+      - 
+        key: "Velocity"
+        value: "0"
+      - 
+        key: "Load"
+        value: "0.0"
+      - 
+        key: "Voltage"
+        value: "12.3"
+      - 
+        key: "Temperature"
+        value: "33"
+      - 
+        key: "Moving"
+        value: "False"
+  - 
+    level: 0
+    name: "Robotis Dynamixel Motor 2 on port dxl_port"
+    message: "OK"
+    hardware_id: "DXL-2@dxl_port"
+    values: 
+      - 
+        key: "Model Name"
+        value: "AX-12"
+      - 
+        key: "Firmware Version"
+        value: "24"
+      - 
+        key: "Return Delay Time"
+        value: "250"
+      - 
+        key: "Minimum Voltage"
+        value: "6.0"
+      - 
+        key: "Maximum Voltage"
+        value: "14.0"
+      - 
+        key: "Minimum Position (CW)"
+        value: "0"
+      - 
+        key: "Maximum Position (CCW)"
+        value: "1023"
+      - 
+        key: "Goal"
+        value: "682"
+      - 
+        key: "Position"
+        value: "510"
+      - 
+        key: "Error"
+        value: "-172"
+      - 
+        key: "Velocity"
+        value: "0"
+      - 
+        key: "Load"
+        value: "0.0"
+      - 
+        key: "Voltage"
+        value: "12.1"
+      - 
+        key: "Temperature"
+        value: "33"
+      - 
+        key: "Moving"
+        value: "False"
+  - 
+    level: 0
+    name: "Robotis Dynamixel Motor 3 on port dxl_port"
+    message: "OK"
+    hardware_id: "DXL-3@dxl_port"
+    values: 
+      - 
+        key: "Model Name"
+        value: "AX-12"
+      - 
+        key: "Firmware Version"
+        value: "24"
+      - 
+        key: "Return Delay Time"
+        value: "250"
+      - 
+        key: "Minimum Voltage"
+        value: "6.0"
+      - 
+        key: "Maximum Voltage"
+        value: "14.0"
+      - 
+        key: "Minimum Position (CW)"
+        value: "0"
+      - 
+        key: "Maximum Position (CCW)"
+        value: "1023"
+      - 
+        key: "Goal"
+        value: "837"
+      - 
+        key: "Position"
+        value: "837"
+      - 
+        key: "Error"
+        value: "0"
+      - 
+        key: "Velocity"
+        value: "0"
+      - 
+        key: "Load"
+        value: "0.0"
+      - 
+        key: "Voltage"
+        value: "12.0"
+      - 
+        key: "Temperature"
+        value: "34"
+      - 
+        key: "Moving"
+        value: "False"
+  - 
+    level: 0
+    name: "Robotis Dynamixel Motor 4 on port dxl_port"
+    message: "OK"
+    hardware_id: "DXL-4@dxl_port"
+    values: 
+      - 
+        key: "Model Name"
+        value: "AX-12"
+      - 
+        key: "Firmware Version"
+        value: "24"
+      - 
+        key: "Return Delay Time"
+        value: "250"
+      - 
+        key: "Minimum Voltage"
+        value: "6.0"
+      - 
+        key: "Maximum Voltage"
+        value: "14.0"
+      - 
+        key: "Minimum Position (CW)"
+        value: "0"
+      - 
+        key: "Maximum Position (CCW)"
+        value: "1023"
+      - 
+        key: "Goal"
+        value: "667"
+      - 
+        key: "Position"
+        value: "685"
+      - 
+        key: "Error"
+        value: "18"
+      - 
+        key: "Velocity"
+        value: "0"
+      - 
+        key: "Load"
+        value: "0.0"
+      - 
+        key: "Voltage"
+        value: "12.3"
+      - 
+        key: "Temperature"
+        value: "34"
+      - 
+        key: "Moving"
+        value: "False"
+  - 
+    level: 0
+    name: "Robotis Dynamixel Motor 5 on port dxl_port"
+    message: "OK"
+    hardware_id: "DXL-5@dxl_port"
+    values: 
+      - 
+        key: "Model Name"
+        value: "AX-12"
+      - 
+        key: "Firmware Version"
+        value: "24"
+      - 
+        key: "Return Delay Time"
+        value: "250"
+      - 
+        key: "Minimum Voltage"
+        value: "6.0"
+      - 
+        key: "Maximum Voltage"
+        value: "14.0"
+      - 
+        key: "Minimum Position (CW)"
+        value: "0"
+      - 
+        key: "Maximum Position (CCW)"
+        value: "1023"
+      - 
+        key: "Goal"
+        value: "560"
+      - 
+        key: "Position"
+        value: "622"
+      - 
+        key: "Error"
+        value: "62"
+      - 
+        key: "Velocity"
+        value: "0"
+      - 
+        key: "Load"
+        value: "0.0"
+      - 
+        key: "Voltage"
+        value: "12.1"
+      - 
+        key: "Temperature"
+        value: "33"
+      - 
+        key: "Moving"
+        value: "False"
+  - 
+    level: 0
+    name: "Robotis Dynamixel Motor 6 on port dxl_port"
+    message: "OK"
+    hardware_id: "DXL-6@dxl_port"
+    values: 
+      - 
+        key: "Model Name"
+        value: "AX-12"
+      - 
+        key: "Firmware Version"
+        value: "24"
+      - 
+        key: "Return Delay Time"
+        value: "250"
+      - 
+        key: "Minimum Voltage"
+        value: "6.0"
+      - 
+        key: "Maximum Voltage"
+        value: "14.0"
+      - 
+        key: "Minimum Position (CW)"
+        value: "0"
+      - 
+        key: "Maximum Position (CCW)"
+        value: "1023"
+      - 
+        key: "Goal"
+        value: "276"
+      - 
+        key: "Position"
+        value: "196"
+      - 
+        key: "Error"
+        value: "-80"
+      - 
+        key: "Velocity"
+        value: "0"
+      - 
+        key: "Load"
+        value: "0.0"
+      - 
+        key: "Voltage"
+        value: "12.1"
+      - 
+        key: "Temperature"
+        value: "33"
+      - 
+        key: "Moving"
+        value: "False"
+  - 
+    level: 0
+    name: "Robotis Dynamixel Motor 7 on port dxl_port"
+    message: "OK"
+    hardware_id: "DXL-7@dxl_port"
+    values: 
+      - 
+        key: "Model Name"
+        value: "AX-12"
+      - 
+        key: "Firmware Version"
+        value: "24"
+      - 
+        key: "Return Delay Time"
+        value: "250"
+      - 
+        key: "Minimum Voltage"
+        value: "6.0"
+      - 
+        key: "Maximum Voltage"
+        value: "14.0"
+      - 
+        key: "Minimum Position (CW)"
+        value: "0"
+      - 
+        key: "Maximum Position (CCW)"
+        value: "1023"
+      - 
+        key: "Goal"
+        value: "39"
+      - 
+        key: "Position"
+        value: "339"
+      - 
+        key: "Error"
+        value: "300"
+      - 
+        key: "Velocity"
+        value: "0"
+      - 
+        key: "Load"
+        value: "0.0"
+      - 
+        key: "Voltage"
+        value: "12.1"
+      - 
+        key: "Temperature"
+        value: "33"
+      - 
+        key: "Moving"
+        value: "False"
+  - 
+    level: 0
+    name: "Robotis Dynamixel Motor 8 on port dxl_port"
+    message: "OK"
+    hardware_id: "DXL-8@dxl_port"
+    values: 
+      - 
+        key: "Model Name"
+        value: "AX-12"
+      - 
+        key: "Firmware Version"
+        value: "24"
+      - 
+        key: "Return Delay Time"
+        value: "250"
+      - 
+        key: "Minimum Voltage"
+        value: "6.0"
+      - 
+        key: "Maximum Voltage"
+        value: "14.0"
+      - 
+        key: "Minimum Position (CW)"
+        value: "0"
+      - 
+        key: "Maximum Position (CCW)"
+        value: "1023"
+      - 
+        key: "Goal"
+        value: "557"
+      - 
+        key: "Position"
+        value: "493"
+      - 
+        key: "Error"
+        value: "-64"
+      - 
+        key: "Velocity"
+        value: "0"
+      - 
+        key: "Load"
+        value: "0.0"
+      - 
+        key: "Voltage"
+        value: "12.1"
+      - 
+        key: "Temperature"
+        value: "34"
+      - 
+        key: "Moving"
+        value: "False"
+  - 
+    level: 0
+    name: "Robotis Dynamixel Motor 9 on port dxl_port"
+    message: "OK"
+    hardware_id: "DXL-9@dxl_port"
+    values: 
+      - 
+        key: "Model Name"
+        value: "AX-12"
+      - 
+        key: "Firmware Version"
+        value: "24"
+      - 
+        key: "Return Delay Time"
+        value: "250"
+      - 
+        key: "Minimum Voltage"
+        value: "6.0"
+      - 
+        key: "Maximum Voltage"
+        value: "14.0"
+      - 
+        key: "Minimum Position (CW)"
+        value: "0"
+      - 
+        key: "Maximum Position (CCW)"
+        value: "1023"
+      - 
+        key: "Goal"
+        value: "819"
+      - 
+        key: "Position"
+        value: "821"
+      - 
+        key: "Error"
+        value: "2"
+      - 
+        key: "Velocity"
+        value: "0"
+      - 
+        key: "Load"
+        value: "0.0"
+      - 
+        key: "Voltage"
+        value: "12.3"
+      - 
+        key: "Temperature"
+        value: "34"
+      - 
+        key: "Moving"
+        value: "False"
+  - 
+    level: 0
+    name: "Robotis Dynamixel Motor 10 on port dxl_port"
+    message: "OK"
+    hardware_id: "DXL-10@dxl_port"
+    values: 
+      - 
+        key: "Model Name"
+        value: "AX-12"
+      - 
+        key: "Firmware Version"
+        value: "24"
+      - 
+        key: "Return Delay Time"
+        value: "250"
+      - 
+        key: "Minimum Voltage"
+        value: "6.0"
+      - 
+        key: "Maximum Voltage"
+        value: "14.0"
+      - 
+        key: "Minimum Position (CW)"
+        value: "0"
+      - 
+        key: "Maximum Position (CCW)"
+        value: "1023"
+      - 
+        key: "Goal"
+        value: "683"
+      - 
+        key: "Position"
+        value: "689"
+      - 
+        key: "Error"
+        value: "6"
+      - 
+        key: "Velocity"
+        value: "0"
+      - 
+        key: "Load"
+        value: "0.0"
+      - 
+        key: "Voltage"
+        value: "12.1"
+      - 
+        key: "Temperature"
+        value: "33"
+      - 
+        key: "Moving"
+        value: "False"
+  - 
+    level: 0
+    name: "Robotis Dynamixel Motor 11 on port dxl_port"
+    message: "OK"
+    hardware_id: "DXL-11@dxl_port"
+    values: 
+      - 
+        key: "Model Name"
+        value: "AX-12"
+      - 
+        key: "Firmware Version"
+        value: "24"
+      - 
+        key: "Return Delay Time"
+        value: "250"
+      - 
+        key: "Minimum Voltage"
+        value: "6.0"
+      - 
+        key: "Maximum Voltage"
+        value: "14.0"
+      - 
+        key: "Minimum Position (CW)"
+        value: "0"
+      - 
+        key: "Maximum Position (CCW)"
+        value: "1023"
+      - 
+        key: "Goal"
+        value: "700"
+      - 
+        key: "Position"
+        value: "640"
+      - 
+        key: "Error"
+        value: "-60"
+      - 
+        key: "Velocity"
+        value: "0"
+      - 
+        key: "Load"
+        value: "0.0"
+      - 
+        key: "Voltage"
+        value: "12.3"
+      - 
+        key: "Temperature"
+        value: "34"
+      - 
+        key: "Moving"
+        value: "False"
+ 

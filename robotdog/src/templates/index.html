@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Data</title>
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+        }
+        th, td {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
+</head>
+<body>
+    <h1>Log Data</h1>
+    {% for hardware_id, values in table_data.items() %}
+    <h2>{{ hardware_id }}</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Key</th>
+                <th>Values</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for key, value_list in values.items() %}
+            <tr>
+                <td>{{ key }}</td>
+                <td>{{ ', '.join(value_list) }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endfor %}
+</body>
+</html>
