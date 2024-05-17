@@ -95,6 +95,7 @@ TOPIC_spalla_sx_fle = "/spallasxj_controller/command"
 TOPIC_gomito_sx = "/gomitosx_controller/command"
 TOPIC_hand_left = "/handsx_controller/command"
 TOPIC_asr = "/social/asr"
+TOPIC_nro_face = "/social/face_nroface"
 asr_social = ''
 #eof social
 ACTION_move_base = 'move_base'
@@ -193,7 +194,7 @@ def setRobotNamePrefix(prefix):
            TOPIC_emotion,TOPIC_gesture, TOPIC_pan, TOPIC_tilt, \
            TOPIC_spalla_dx_rot ,TOPIC_spalla_dx_fle,TOPIC_gomito_dx , \
            TOPIC_spalla_sx_rot ,TOPIC_spalla_sx_fle,TOPIC_gomito_sx , \
-	       TOPIC_hand_right, TOPIC_hand_left, TOPIC_asr,asr_social
+	       TOPIC_hand_right, TOPIC_hand_left, TOPIC_asr,asr_social,TOPIC_nro_face
 
 
     TOPIC_tag_detections = prefix+'/' + TOPIC_tag_detections
@@ -223,7 +224,9 @@ def setRobotNamePrefix(prefix):
     TOPIC_hand_right = prefix+'/'+TOPIC_hand_right
     TOPIC_hand_left = prefix+'/'+TOPIC_hand_left 
     TOPIC_asr = prefix+'/'+TOPIC_asr
+    TOPIC_nro_face = prefix+'/'+TOPIC_nro_face
     global asr_social
+    global nro_face
     
 
     #eof social
@@ -415,6 +418,7 @@ spalla_sx_fle_pub = None
 gomito_sx_pub  = None
 hand_left_pub = None
 hand_right_pub = None
+nro_face_sub = None
 
 # eof social
 
@@ -548,7 +552,10 @@ def asr_social_cb(data):
     global asr_social
     asr_social = data.data
 
-
+def nro_face_cb(data):
+    global nro_face
+    nro_face = data.data
+    
 # select topic of type sensor_msgs/Image
 def autoImageTopic():
     topics = rospy.get_published_topics()
@@ -603,7 +610,7 @@ def begin(nodename='robot_cmd', init_node=True):
            emotion_pub , gesture_pub, pan_pub , tilt_pub,\
            spalla_dx_rot_pub,spalla_dx_fle_pub,gomito_dx_pub, \
            spalla_sx_rot_pub,spalla_sx_fle_pub,gomito_sx_pub, \
-           hand_right_pub, hand_left_pub , asr_sub , asr_status
+           hand_right_pub, hand_left_pub , asr_sub , asr_status , nro_face
 
     print('begin')
 
@@ -675,6 +682,7 @@ def begin(nodename='robot_cmd', init_node=True):
         hand_right_pub = rospy.Publisher(TOPIC_hand_right, Float64, queue_size=1,   latch=True)
         hand_left_pub = rospy.Publisher(TOPIC_hand_left, Float64, queue_size=1,   latch=True)
         asr_sub = rospy.Subscriber(TOPIC_asr,String, asr_social_cb)
+        nro_face_sub = rospy.Subscriber(TOPIC_nro_face,String, nro_face_cb)
         
 	    # eof Social
 
@@ -1206,8 +1214,8 @@ def left_hand(vdeg):
     vrad = DEG2RAD( 150 + vdeg)
     hand_left(vrad)
 
-#def get_nro_of_face:
-#    return 1
+def get_nro_of_face:
+    return nro_face
 
 ############################################
 
