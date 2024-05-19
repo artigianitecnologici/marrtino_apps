@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Diagnostics Data</title>
+    <script>
+        async function fetchData() {
+            const response = await fetch('/data');
+            const data = await response.json();
+            updateTable(data.extracted_values, data.sorted_keys);
+        }
+
+        function updateTable(extractedValues, sortedKeys) {
+            const table = document.getElementById('logTable');
+            table.innerHTML = '';
+
+            // Create header
+            const header = table.insertRow();
+            header.insertCell().innerText = 'Hardware ID';
+            sortedKeys.forEach(key => {
+                header.insertCell().innerText = key;
+            });
+
+            // Create rows
+            extractedValues.forEach(result => {
+                const row = table.insertRow();
+                row.insertCell().innerText = result.hardware_id;
+                sortedKeys.forEach(key => {
+                    row.insertCell().innerText = result.values[key] || '';
+                });
+            });
+        }
+
+        setInterval(fetchData, 5000); // Fetch data every 5 seconds
+        document.addEventListener('DOMContentLoaded', fetchData);
+    </script>
+</head>
+<body>
+    <h1>Diagnostics Data</h1>
+    <table id="logTable" border="1">
+        <!-- Table content will be dynamically populated -->
+    </table>
+</body>
+</html>

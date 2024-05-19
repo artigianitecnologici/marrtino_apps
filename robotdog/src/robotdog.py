@@ -9,6 +9,7 @@ import time
 import math
 
 from std_msgs.msg import String,Float64
+from diagnostic_msgs.msg import DiagnosticArray
 
 TOPIC_sfr05 = "sfr05_controller/command"
 TOPIC_sfr04 = "sfr04_controller/command"
@@ -24,7 +25,9 @@ TOPIC_sbr09 = "sbr09_controller/command"
 
 TOPIC_sbl08 = "sbl08_controller/command"
 TOPIC_sbl07 = "sbl07_controller/command"
-TOPIC_sbl06 = "sbl06_controller/command"               
+TOPIC_sbl06 = "sbl06_controller/command"      
+
+
 
 global sfr05_pub
 
@@ -77,7 +80,7 @@ class Dynamixel_Controllers:
         self.DXL_present_POSITION_VALUE = []
         self.DXL_goal_POSITION_VALUE = [0 for i in range(12)]
                              # BR10  11    9    7  BL8   FR3   FR4   FL2   FL0  FL1   FR5
-        self._servo_offsets = [150, 150, 150, 150, 150, 140, 150, 150, 150, 150, 150, 150]
+        self._servo_offsets = [150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150, 150]
        
     def LadianToAngles(self, La):
         # radian to degree
@@ -152,50 +155,39 @@ class Dynamixel_Controllers:
         # # #FL Upper
         # # self.DXL_goal_deg[1] = self._servo_offsets[1] + self._thetas[0][1]
         #FL Shoulder
-        self.sfr05(math.radians(-self._thetas[0][0]))
-        self.sfr04(math.radians(150)+math.radians(self._thetas[0][1]))
-        self.sfr03(math.radians(150)-math.radians(self._thetas[0][2]))
+        print(" FL Shoulder (5,4,3) 2.0 2.1 2.2")
+        print(self._thetas[2][0] ,self._thetas[2][1] , self._thetas[2][2])
+        #print(self._thetas[2][0] ,abs(self._thetas[2][1] ),180- abs(self._thetas[2][2]))
+        self.sfr05(math.radians(15)+math.radians(-self._thetas[2][0])) # ok
+        self.sfr04(abs(math.radians(self._thetas[2][1]))) # ok
+        self.sfr03((math.radians((180-self._thetas[2][2])-45))) # ok
+               
         #FR Shoulder
-        self.sfl02(math.radians(self._thetas[1][0]))
-        #self.sfl01(math.radians(30)-math.radians(-self._thetas[1][1]))
-        #self.sfl00(math.radians(-self._thetas[1][2])) 
-
-        self.sbr11(math.radians(5)+math.radians(self._thetas[2][0]))
-        self.sbr10(math.radians(150)+math.radians(self._thetas[2][1]))
-        self.sbr09(math.radians(150)-math.radians(self._thetas[2][2]))
-        print(self._thetas[2][2])
-        #FR Shoulder
-        self.sbl08(math.radians(self._thetas[1][0]))
-        #self.sbl07(math.radians(-self._thetas[3][1]))
-        #self.sbl06(math.radians(self._thetas[3][2])) 
-        print(self._thetas[3][2])
-
-
-
-
-        #self.DXL_goal_deg[2] = self._servo_offsets[2] - self._thetas[0][0]
-
-        # #FR Lower
-        # # self.DXL_goal_deg[3] = self._servo_offsets[3] + self._thetas[1][0]
-        # # #FR Upper
-        # # self.DXL_goal_deg[4] = self._servo_offsets[4] + self._thetas[1][1]
-        # 
-        # self.DXL_goal_deg[5] = self._servo_offsets[5] + self._thetas[1][0]
-
-        # #BL Lower
-        # # self.DXL_goal_deg[6] = self._servo_offsets[6] - self._thetas[2][0]
-        # # #BL Upper
-        # # self.DXL_goal_deg[7] = self._servo_offsets[7] - self._thetas[2][1]
-        # #BL Shoulder, Formula flipped from the front
-        # self.DXL_goal_deg[8] = self._servo_offsets[8] - self._thetas[2][0]
-
-        # #BR Lower.
-        # # self.DXL_goal_deg[9] = self._servo_offsets[9] + self._thetas[3][0]
-        # # #BR Upper
-        # # self.DXL_goal_deg[10] = self._servo_offsets[10] + self._thetas[3][1]
-        # #BR Shoulder, Formula flipped from the front
-        # self.DXL_goal_deg[11] = self._servo_offsets[11] + self._thetas[3][0]
+        print("FR Shoulder ( (2,1,0) 3.0  3.1 3.2")
+        print(self._thetas[3][0] ,self._thetas[3][1], self._thetas[3][2])
+        self.sfl02(math.radians(self._thetas[3][0])) # ok
+        self.sfl01(math.radians(self._thetas[3][1])) # ok
+        self.sfl00(math.radians(-((180-self._thetas[3][2])-45)))
        
+        
+        print("BL Shoulder (11,10,9) 0.0  0.1 0.2")
+        print(self._thetas[0][0],self._thetas[0][1] , self._thetas[0][2])
+        self.sbr11(math.radians(15)+math.radians(self._thetas[0][0]))
+        self.sbr10(abs(math.radians(self._thetas[0][1])))
+        self.sbr09((math.radians((180-self._thetas[0][2])-45)))
+        
+        
+        # # print(self._thetas[2][2])
+        # # #BR Shoulder
+        print("BR Shoulder (8,7,6) 1.0  1.1 1.2")
+        print(self._thetas[1][0],self._thetas[1][1] , self._thetas[1][2])
+        self.sbl08(math.radians(self._thetas[1][0]))
+        self.sbl07(math.radians(self._thetas[1][1])) 
+        self.sbl06(math.radians(-((180-self._thetas[1][2])-45)))
+        
+   
+
+
         return self.DXL_goal_deg
 
     def DegreeToDXLValue(self, Dg):
@@ -259,6 +251,9 @@ if __name__=="__main__":
     sbl07_pub = rospy.Publisher(TOPIC_sbl07, Float64, queue_size=1,   latch=True)
     sbl06_pub = rospy.Publisher(TOPIC_sbl06, Float64, queue_size=1,   latch=True)
 
+    
+    #rospy.Subscriber('/diagnostics', DiagnosticArray, diagnostics_callback)
+
     # setting the DXL_Motor
     DXL_controller = Dynamixel_Controllers()
     # DXL_controller.DynamixelSetting()
@@ -271,11 +266,18 @@ if __name__=="__main__":
     legPosZampa=np.array([[120,-140,87.5,1],[100,-180,-87.5,1],[-100,-130,87.5,1],[-100,-130,-87.5,1]])           
     legPosUP =np.array([[100,-180,100,1],[100,-180,-100,1],[-100,-180,100,1],[-100,-180,-100,1]])
     legPosUPM =np.array([[100,-150,100,1],[100,-150,-100,1],[-100,-150,100,1],[-100,-150,-100,1]])
-    DXL_controller.SetPosition(legPosDown)
-    # time.sleep(5)
-    # DXL_controller.SetPosition(legPosUP)
-    # time.sleep(5)
-    # DXL_controller.SetPosition(legPosSeduto)
+
+    l2=np.array([[100,-170,100,1],[100,-170,-100,1],[-100,-120,100,1],[-100,-120,-100,1]])
+    l2=np.array([[100,-200,87.5,1],[100,-150,-87.5,1],[-100,-120,87.5,1],[-100,-140,-87.5,1]])
+    DXL_controller.SetPosition(legPosUPM)
+    time.sleep(5)
+    DXL_controller.SetPosition(legPosUP)
+    time.sleep(5)
+    DXL_controller.SetPosition(legPosUPM)
+    time.sleep(5)
+    DXL_controller.SetPosition(legPosUP)
+    time.sleep(5)
+    DXL_controller.SetPosition(legPosSeduto)
     # time.sleep(5)
     # DXL_controller.SetPosition(legPosDown)
     # time.sleep(5)

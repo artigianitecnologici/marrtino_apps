@@ -64,4 +64,6 @@ def index():
     return render_template('index.html', table_data=table_data)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    myip='10.3.1.1'
+    app.run(host=myip,debug=True, port=5000)
+

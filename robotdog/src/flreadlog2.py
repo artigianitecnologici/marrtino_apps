@@ -38,4 +38,6 @@ def index():
     return render_template('indexcol.html', extracted_values=extracted_values, sorted_keys=sorted_keys)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    myip='10.3.1.1'
+    app.run(host=myip,debug=True, port=5000)
+
