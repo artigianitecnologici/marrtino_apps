@@ -1214,7 +1214,7 @@ def left_hand(vdeg):
     vrad = DEG2RAD( 150 + vdeg)
     hand_left(vrad)
 
-def get_nro_of_face:
+def get_nro_of_face():
     return nro_face
 
 ############################################
