@@ -682,7 +682,7 @@ def begin(nodename='robot_cmd', init_node=True):
         hand_right_pub = rospy.Publisher(TOPIC_hand_right, Float64, queue_size=1,   latch=True)
         hand_left_pub = rospy.Publisher(TOPIC_hand_left, Float64, queue_size=1,   latch=True)
         asr_sub = rospy.Subscriber(TOPIC_asr,String, asr_social_cb)
-        nro_face_sub = rospy.Subscriber(TOPIC_nro_face,String, nro_face_cb)
+        nro_face_sub = rospy.Subscriber(TOPIC_nro_face,Float64, nro_face_cb)
         
 	    # eof Social
 
@@ -1214,7 +1214,7 @@ def left_hand(vdeg):
     vrad = DEG2RAD( 150 + vdeg)
     hand_left(vrad)
 
-def get_nro_of_face:
+def get_nro_of_face():
     return nro_face
 
 ############################################
