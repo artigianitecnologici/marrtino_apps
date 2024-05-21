@@ -12,3 +12,5 @@ autostart.yaml
 mapping/maps/AUTOGEN*
 autostart.yaml
 gallery/images/*
+testrpi.py
+docker-compose.vision

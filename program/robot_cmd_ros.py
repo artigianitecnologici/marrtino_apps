@@ -25,7 +25,7 @@ try:
 except:
   print("Cannot import numpy")
 
-from std_msgs.msg import String,Float64
+from std_msgs.msg import String,Float64,Int32
 from geometry_msgs.msg import Twist, Quaternion, Pose, PoseWithCovarianceStamped
 from sensor_msgs.msg import LaserScan, Range, Image, Joy
 from control_msgs.msg import JointJog
@@ -682,7 +682,7 @@ def begin(nodename='robot_cmd', init_node=True):
         hand_right_pub = rospy.Publisher(TOPIC_hand_right, Float64, queue_size=1,   latch=True)
         hand_left_pub = rospy.Publisher(TOPIC_hand_left, Float64, queue_size=1,   latch=True)
         asr_sub = rospy.Subscriber(TOPIC_asr,String, asr_social_cb)
-        nro_face_sub = rospy.Subscriber(TOPIC_nro_face,Float64, nro_face_cb)
+        nro_face_sub = rospy.Subscriber(TOPIC_nro_face,Int32, nro_face_cb)
         
 	    # eof Social
 
