@@ -1,5 +1,7 @@
 #!/usr/bin/env python
 
+# marrtino v3
+# -----------------
 import time
 import os
 import socket
@@ -23,7 +25,7 @@ try:
 except:
   print("Cannot import numpy")
 
-from std_msgs.msg import String,Float64
+from std_msgs.msg import String,Float64,Int32
 from geometry_msgs.msg import Twist, Quaternion, Pose, PoseWithCovarianceStamped
 from sensor_msgs.msg import LaserScan, Range, Image, Joy
 from control_msgs.msg import JointJog
@@ -81,6 +83,7 @@ TOPIC_joy = 'joy'
 # SOCIAL
 # 
 TOPIC_emotion = "social/emotion"
+TOPIC_gesture = "social/gesture"
 TOPIC_pan = "pan_controller/command"
 TOPIC_tilt = "tilt_controller/command"
 TOPIC_spalla_dx_rot = "/spalladx_controller/command"
@@ -92,6 +95,7 @@ TOPIC_spalla_sx_fle = "/spallasxj_controller/command"
 TOPIC_gomito_sx = "/gomitosx_controller/command"
 TOPIC_hand_left = "/handsx_controller/command"
 TOPIC_asr = "/social/asr"
+TOPIC_nro_face = "/social/face_nroface"
 asr_social = ''
 #eof social
 ACTION_move_base = 'move_base'
@@ -187,10 +191,10 @@ def setRobotNamePrefix(prefix):
            TOPIC_odom,TOPIC_joy,TOPIC_joints,ACTION_move_base, \
            TOPIC_sonar_0,TOPIC_sonar_1,TOPIC_sonar_2,TOPIC_sonar_3, \
            TOPIC_GROUND_TRUTH, TOPIC_SETPOSE, TOPIC_STAGESAY, \
-           TOPIC_emotion, TOPIC_pan, TOPIC_tilt, \
+           TOPIC_emotion,TOPIC_gesture, TOPIC_pan, TOPIC_tilt, \
            TOPIC_spalla_dx_rot ,TOPIC_spalla_dx_fle,TOPIC_gomito_dx , \
            TOPIC_spalla_sx_rot ,TOPIC_spalla_sx_fle,TOPIC_gomito_sx , \
-	       TOPIC_hand_right, TOPIC_hand_left, TOPIC_asr,asr_social
+	       TOPIC_hand_right, TOPIC_hand_left, TOPIC_asr,asr_social,TOPIC_nro_face
 
 
     TOPIC_tag_detections = prefix+'/' + TOPIC_tag_detections
@@ -220,7 +224,9 @@ def setRobotNamePrefix(prefix):
     TOPIC_hand_right = prefix+'/'+TOPIC_hand_right
     TOPIC_hand_left = prefix+'/'+TOPIC_hand_left 
     TOPIC_asr = prefix+'/'+TOPIC_asr
+    TOPIC_nro_face = prefix+'/'+TOPIC_nro_face
     global asr_social
+    global nro_face
     
 
     #eof social
@@ -412,6 +418,7 @@ spalla_sx_fle_pub = None
 gomito_sx_pub  = None
 hand_left_pub = None
 hand_right_pub = None
+nro_face_sub = None
 
 # eof social
 
@@ -545,7 +552,10 @@ def asr_social_cb(data):
     global asr_social
     asr_social = data.data
 
-
+def nro_face_cb(data):
+    global nro_face
+    nro_face = data.data
+    
 # select topic of type sensor_msgs/Image
 def autoImageTopic():
     topics = rospy.get_published_topics()
@@ -597,10 +607,10 @@ def begin(nodename='robot_cmd', init_node=True):
            stage_say_pub, stage_setpose_pub, \
            odom_robot_pose, robot_initialized, stop_request, \
            use_robot, use_audio, audio_connected,\
-           emotion_pub ,  pan_pub , tilt_pub,\
+           emotion_pub , gesture_pub, pan_pub , tilt_pub,\
            spalla_dx_rot_pub,spalla_dx_fle_pub,gomito_dx_pub, \
            spalla_sx_rot_pub,spalla_sx_fle_pub,gomito_sx_pub, \
-           hand_right_pub, hand_left_pub , asr_sub , asr_status
+           hand_right_pub, hand_left_pub , asr_sub , asr_status , nro_face
 
     print('begin')
 
@@ -659,6 +669,7 @@ def begin(nodename='robot_cmd', init_node=True):
         #SOCIAL
         print("Enable Social publisher")
         emotion_pub = rospy.Publisher(TOPIC_emotion, String, queue_size=1,   latch=True)
+        gesture_pub = rospy.Publisher(TOPIC_gesture, String, queue_size=1,   latch=True)
         pan_pub = rospy.Publisher(TOPIC_pan, Float64, queue_size=1,   latch=True)
         tilt_pub = rospy.Publisher(TOPIC_tilt, Float64, queue_size=1,   latch=True)
         # 
@@ -671,6 +682,7 @@ def begin(nodename='robot_cmd', init_node=True):
         hand_right_pub = rospy.Publisher(TOPIC_hand_right, Float64, queue_size=1,   latch=True)
         hand_left_pub = rospy.Publisher(TOPIC_hand_left, Float64, queue_size=1,   latch=True)
         asr_sub = rospy.Subscriber(TOPIC_asr,String, asr_social_cb)
+        nro_face_sub = rospy.Subscriber(TOPIC_nro_face,Int32, nro_face_cb)
         
 	    # eof Social
 
@@ -1155,6 +1167,12 @@ def emotion(msg):
     print('social/emotion %s' %(msg))
     emotion_pub.publish(msg)
 
+def gesture(msg):
+    #
+    print('social/gesture %s' %(msg))
+    gesture_pub.publish(msg)
+
+
 # create function en english and value degree
 #############################################
 # Calcoliamo i gradi relativi 150 = Centro
@@ -1169,11 +1187,12 @@ def left_shoulder_rotation(vdeg):
     spalla_rotazione_sx(vrad)
 
 def right_shoulder_flexion(vdeg):
+    vdeg = -vdeg
     vrad = DEG2RAD(150 + vdeg)
     spalla_flessione_dx(vrad)
 
 def left_shoulder_flexion(vdeg):
-    vdeg = -vdeg
+   
     vrad = DEG2RAD(150 + vdeg)
     spalla_flessione_sx(vrad)
 
@@ -1187,6 +1206,7 @@ def left_elbow(vdeg):
     gomito_sx(vrad)
   
 def right_hand(vdeg):
+    vdeg = -vdeg
     vrad = DEG2RAD(150 + vdeg)
     hand_right(vrad)
     
@@ -1194,8 +1214,8 @@ def left_hand(vdeg):
     vrad = DEG2RAD( 150 + vdeg)
     hand_left(vrad)
 
-#def get_nro_of_face:
-#    return 1
+def get_nro_of_face():
+    return nro_face
 
 ############################################
 
@@ -1789,3 +1809,5 @@ def exec_follow_person_stop():
     print("Follow person STOP")
 
     follow_person_running = False
+ 
+

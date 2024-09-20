@@ -15,11 +15,16 @@ ARG GID=1000
 ARG DEBIAN_FRONTEND=noninteractive
 
 ###### User root ######
+RUN apt-get update -q && \
+    apt-get upgrade -yq && \
+    apt-get install -yq wget curl git build-essential vim sudo lsb-release locales bash-completion
 
+ 
+RUN sh -c 'echo "deb http://packages.ros.org/ros/ubuntu bionic main" > /etc/apt/sources.list.d/ros-latest.list'
+RUN curl -k https://raw.githubusercontent.com/ros/rosdistro/master/ros.key | sudo apt-key add -
 # install libraries and ros packages 
 
-RUN apt-key adv --keyserver 'hkp://keyserver.ubuntu.com:80' --recv-key C1CF6E31E6BADE8868B172B4F42ED6FBAB17C654
-
+ 
 RUN apt-get update && \
     apt-get install -y \
         tmux less sudo eom nano \
