@@ -15,11 +15,19 @@ class TTSNode:
         rospy.loginfo('Start ny tts_node')
         self.publisher_ = rospy.Publisher('/social/speech/status', String, queue_size=10)
         self.subscription = rospy.Subscriber('/social/speech/to_speak', String, self.tts_callback)
-
+        # Subscriber for language settings
+        self.lang_subscription = rospy.Subscriber('/social/speech/language', String, self.language_callback)
+        
+        # Default language
+        self.language = 'it'  # Italian by default
         # For managing speaking state
         self.finished_speaking = False
         self.loop_count_down = 0
         self.rate = rospy.Rate(10)  # Set loop frequency to 10Hz
+
+    def language_callback(self, msg):
+        self.language = msg.data
+        rospy.loginfo('Language updated to: "%s"' % self.language)
 
     def tts_callback(self, msg):
         text = msg.data
@@ -30,7 +38,7 @@ class TTSNode:
         # Check internet connectivity
         if self.is_connected():
             # Convert text to speech
-            tts = gTTS(text, lang='it')
+            tts = gTTS(text, self.language)
             tts.save('output.mp3')
             os.system('mpg321 output.mp3')
             # Publish the fact that the TTS is done
