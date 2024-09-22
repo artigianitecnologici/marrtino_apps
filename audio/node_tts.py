@@ -32,16 +32,18 @@ class TTSNode:
     def tts_callback(self, msg):
         text = msg.data
         rospy.loginfo('Received text: "%s"' % text)
+        rospy.loginfo('Using language: "%s"' % self.language)  # Log current language
         self.finished_speaking = False
         self.loop_count_down = 0
 
         # Check internet connectivity
         if self.is_connected():
             # Convert text to speech
-            tts = gTTS(text, self.language)
+            tts = gTTS(text,lang=self.language)
             tts.save('output.mp3')
             os.system('mpg321 output.mp3')
             # Publish the fact that the TTS is done
+             
             self.publisher_.publish(String(data='TTS done'))
         else:
             # Fallback to pico2wave if there's no internet connection

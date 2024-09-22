@@ -28,7 +28,7 @@ def run_server(port):
     print("Example: echo \"@audio\" | netcat -w 1 localhost %d" %port)
     print("TTS command: echo \"TTS[en] hello!\" | netcat -w 1 localhost 9001")
 
-    tmux = TmuxSend('bringup', ['audio server','cmd'])
+    tmux = TmuxSend('bringup', ['audio server','cmd','tts','service'])
 
     connected = False
     dorun = True
