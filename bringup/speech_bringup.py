@@ -76,6 +76,9 @@ def run_server(port):
                 if data=='@audio':
                     tmux.cmd(0,'cd %s' %folder)
                     tmux.cmd(0,'python audio_server.py')
+                    tmux.cmd(2,'cd %s' %folder)
+                    tmux.cmd(2,'python node_tts.py')
+                    
                 elif data=='@audiokill':
                     tmux.Cc(0)
                 else:
