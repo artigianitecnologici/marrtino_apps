@@ -28,7 +28,7 @@ def run_server(port):
     print("Example: echo \"@audio\" | netcat -w 1 localhost %d" %port)
     print("TTS command: echo \"TTS[en] hello!\" | netcat -w 1 localhost 9001")
 
-    tmux = TmuxSend('bringup', ['audio server','cmd'])
+    tmux = TmuxSend('bringup', ['audio server','cmd','tts','service'])
 
     connected = False
     dorun = True
@@ -76,6 +76,8 @@ def run_server(port):
                 if data=='@audio':
                     tmux.cmd(0,'cd %s' %folder)
                     tmux.cmd(0,'python audio_server.py')
+                    tmux.cmd(1,'cd %s' %folder)
+                    tmux.cmd(1,'python node_tts.py')
                 elif data=='@audiokill':
                     tmux.Cc(0)
                 else:

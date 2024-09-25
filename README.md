@@ -1,4 +1,5 @@
 # Version NOETIC 
+# is last versione update 25/09/2024
 
 
 marrtino:speech 
