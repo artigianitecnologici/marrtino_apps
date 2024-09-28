@@ -84,6 +84,8 @@ TOPIC_joy = 'joy'
 # 
 TOPIC_emotion = "social/emotion"
 TOPIC_gesture = "social/gesture"
+TOPIC_speech = "social/speech/to_speak"
+TOPIC_language = "social/speech/language"
 TOPIC_pan = "pan_controller/command"
 TOPIC_tilt = "tilt_controller/command"
 TOPIC_spalla_dx_rot = "/spalladx_controller/command"
@@ -191,7 +193,7 @@ def setRobotNamePrefix(prefix):
            TOPIC_odom,TOPIC_joy,TOPIC_joints,ACTION_move_base, \
            TOPIC_sonar_0,TOPIC_sonar_1,TOPIC_sonar_2,TOPIC_sonar_3, \
            TOPIC_GROUND_TRUTH, TOPIC_SETPOSE, TOPIC_STAGESAY, \
-           TOPIC_emotion,TOPIC_gesture, TOPIC_pan, TOPIC_tilt, \
+           TOPIC_emotion,TOPIC_gesture, TOPIC_speech, TOPIC_language , TOPIC_pan, TOPIC_tilt, \
            TOPIC_spalla_dx_rot ,TOPIC_spalla_dx_fle,TOPIC_gomito_dx , \
            TOPIC_spalla_sx_rot ,TOPIC_spalla_sx_fle,TOPIC_gomito_sx , \
 	       TOPIC_hand_right, TOPIC_hand_left, TOPIC_asr,asr_social,TOPIC_nro_face
@@ -607,7 +609,7 @@ def begin(nodename='robot_cmd', init_node=True):
            stage_say_pub, stage_setpose_pub, \
            odom_robot_pose, robot_initialized, stop_request, \
            use_robot, use_audio, audio_connected,\
-           emotion_pub , gesture_pub, pan_pub , tilt_pub,\
+           emotion_pub , gesture_pub, speech_pub ,language_pub, pan_pub , tilt_pub,\
            spalla_dx_rot_pub,spalla_dx_fle_pub,gomito_dx_pub, \
            spalla_sx_rot_pub,spalla_sx_fle_pub,gomito_sx_pub, \
            hand_right_pub, hand_left_pub , asr_sub , asr_status , nro_face
@@ -670,6 +672,8 @@ def begin(nodename='robot_cmd', init_node=True):
         print("Enable Social publisher")
         emotion_pub = rospy.Publisher(TOPIC_emotion, String, queue_size=1,   latch=True)
         gesture_pub = rospy.Publisher(TOPIC_gesture, String, queue_size=1,   latch=True)
+        speech_pub =  rospy.Publisher(TOPIC_speech, String, queue_size=1,   latch=True)
+        language_pub = rospy.Publisher(TOPIC_language, String, queue_size=1,   latch=True)
         pan_pub = rospy.Publisher(TOPIC_pan, Float64, queue_size=1,   latch=True)
         tilt_pub = rospy.Publisher(TOPIC_tilt, Float64, queue_size=1,   latch=True)
         # 
@@ -1172,6 +1176,13 @@ def gesture(msg):
     print('social/gesture %s' %(msg))
     gesture_pub.publish(msg)
 
+def speech(msg):
+    print('social/speech/to_speech %s' %(msg))
+    speech_pub.publish(msg)
+
+def setlanguage(msg):
+    print('social/speech/language %s' %(msg))
+    language_pub.publish(msg)
 
 # create function en english and value degree
 #############################################
@@ -1368,23 +1379,31 @@ def boom(r=1):
         sound('boom')
 
 # TTS
+def say(text, language='it'):
+    
+    if (language!='it'):
+        setlanguage(language)    
 
-def say(text, language='en'):
-    global assock
-    print('say %s [%s]' %(text,language))
-    lstr = 'en-US'
-    if (language!='en'):
-        lstr = language+'-'+language.upper()
-    stage_say(text)
-    try:
-        assock.send('TTS[%s] %s\n\r' %(lstr,text))
-        rospy.sleep(1)
-        data = assock.recv(80)
-        print(data)
-    except:
-        rospy.sleep(3)
-        pass
-    stage_say("")
+
+    speech(text)
+
+
+# def say(text, language='en'):
+#     global assock
+#     print('say %s [%s]' %(text,language))
+#     lstr = 'en-US'
+#     if (language!='en'):
+#         lstr = language+'-'+language.upper()
+#     stage_say(text)
+#     try:
+#         assock.send('TTS[%s] %s\n\r' %(lstr,text))
+#         rospy.sleep(1)
+#         data = assock.recv(80)
+#         print(data)
+#     except:
+#         rospy.sleep(3)
+#         pass
+#     stage_say("")
     
 
 def stage_say(text, language='en'):
