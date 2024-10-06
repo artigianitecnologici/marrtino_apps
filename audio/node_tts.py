@@ -10,13 +10,23 @@ from pydub import AudioSegment
 from subprocess import Popen, PIPE
 import requests.packages.urllib3
 requests.packages.urllib3.disable_warnings()
+
+
+import re
+
+def remove_special_characters(input_string):
+    # Usando una regex per mantenere solo lettere e numeri
+    cleaned_string = re.sub(r'[^A-Za-z0-9,.?!]+', '', input_string)
+    return cleaned_string
+
 tmpfile = "/tmp/cacheita.mp3"
 wavfile = "/tmp/cacheita.wav"
+
 class TTSNode:
 
     def __init__(self):
         rospy.init_node('tts_node', anonymous=True)
-        rospy.loginfo('Start ny tts_node')
+        rospy.loginfo('Start my tts_node')
         self.publisher_ = rospy.Publisher('/social/speech/status', String, queue_size=10)
         self.subscription = rospy.Subscriber('/social/speech/to_speak', String, self.tts_callback)
         # Subscriber for language settings
@@ -30,42 +40,41 @@ class TTSNode:
         self.rate = rospy.Rate(10)  # Set loop frequency to 10Hz
 
     def language_callback(self, msg):
-        self.language = msg.data
-        rospy.loginfo('Language updated to: "%s"' % self.language)
+        # Convert the language setting to Unicode
+        self.language = msg.data.decode('utf-8')
+        rospy.loginfo(u'Language updated to: "%s"' % self.language)
 
     def tts_callback(self, msg):
-        text = msg.data
-        rospy.loginfo('Received text: "%s"' % text)
-        rospy.loginfo('Using language: "%s"' % self.language)  # Log current language
+        # Convert the incoming text to Unicode
+        text = remove_special_characters(msg.data)
+        rospy.loginfo(u'Received text: "%s"' % text)  # Log the received text in Unicode
+        rospy.loginfo(u'Using language: "%s"' % self.language)  # Log current language
         self.finished_speaking = False
         self.loop_count_down = 0
 
         # Check internet connectivity
         if self.is_connected():
-            # Convert text to speech
-            tts = gTTS(text,lang=self.language)
-            tts.save(tmpfile)
-            sound = AudioSegment.from_mp3(tmpfile)
-            sound.export(wavfile, format="wav")
-            pitch = "600"
-            p=Popen("play " + wavfile + " -q pitch 300 rate 48000" , stdout=PIPE, shell=True)
-            #"play " +  filename + " -q" + pitch + bass + treble + volume; 
-            p.wait()
-            os.remove(tmpfile)
-            # Publish the fact that the TTS is done
-             
-            self.publisher_.publish(String(data='TTS done'))
+            try:
+                # Convert text to speech
+                tts = gTTS(text, lang=self.language)
+                tts.save(tmpfile)
+                sound = AudioSegment.from_mp3(tmpfile)
+                sound.export(wavfile, format="wav")
+                p = Popen("play " + wavfile + " -q pitch 300 rate 48000", stdout=PIPE, shell=True)
+                p.wait()
+                os.remove(tmpfile)
+                # Publish the fact that the TTS is done
+                self.publisher_.publish(String(data='TTS done'))
+            except Exception as e:
+                rospy.logerr("Error in TTS conversion: %s" % str(e))
         else:
             # Fallback to pico2wave if there's no internet connection
-            filename = "/tmp/robot_speach.wav"
-            # Adjust this to set the correct voice or use default language
-            voice = 'it-IT'
-            cmd = ['pico2wave', '--wave=' + filename, '--lang=' + voice, text]
+            filename = "/tmp/robot_speech.wav"
+            voice = 'it-IT'  # Adjust the voice as per language
+            cmd = ['pico2wave', '--wave=' + filename, '--lang=' + voice, text.encode('utf-8')]
             subprocess.call(cmd)
-            # Play created wav file using sox play
             cmd = ['play', filename, '--norm', '-q']
             subprocess.call(cmd)
-            # Set up to send talking finished
             self.finished_speaking = True
             self.loop_count_down = int(10 * 2)  # 2 seconds delay at 10Hz rate
 
@@ -90,8 +99,6 @@ class TTSNode:
             self.speaking_finished()
             self.rate.sleep()
 
-
 if __name__ == '__main__':
     node = TTSNode()
     node.spin()
-
