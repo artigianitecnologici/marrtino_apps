@@ -42,15 +42,15 @@ if [ -f /tmp/marrtinosocialon ] && [ "$MARRTINO_SOCIAL" != "" ]; then
 
 fi
 
-sleep 15
+sleep 2 # 15
 
 
 echo "Autostart..."
 
 tmux send-keys -t $SESSION:4 "cd \$MARRTINO_APPS_HOME/start" C-m
-tmux send-keys -t $SESSION:4 "sleep 60 && python3 autostart.py " C-m
+tmux send-keys -t $SESSION:4 "python3 autostart.py " C-m
 
-sleep 10
+sleep 2
 
 echo "Docker containers running:"
 docker ps --format '{{.Names}}' > $HOME/log/dockerps

@@ -16,7 +16,7 @@ import re
 
 def remove_special_characters(input_string):
     # Usando una regex per mantenere solo lettere e numeri
-    cleaned_string = re.sub(r'[^A-Za-z0-9,.?!]+', '', input_string)
+    cleaned_string = re.sub(r'[^A-Za-z0-9,. ?!]+', '', input_string)
     return cleaned_string
 
 tmpfile = "/tmp/cacheita.mp3"
@@ -51,7 +51,7 @@ class TTSNode:
         rospy.loginfo(u'Using language: "%s"' % self.language)  # Log current language
         self.finished_speaking = False
         self.loop_count_down = 0
-
+       
         # Check internet connectivity
         if self.is_connected():
             try:
@@ -62,19 +62,26 @@ class TTSNode:
                 sound.export(wavfile, format="wav")
                 p = Popen("play " + wavfile + " -q pitch 300 rate 48000", stdout=PIPE, shell=True)
                 p.wait()
-                os.remove(tmpfile)
+                
+                #os.remove(tmpfile)
                 # Publish the fact that the TTS is done
                 self.publisher_.publish(String(data='TTS done'))
             except Exception as e:
                 rospy.logerr("Error in TTS conversion: %s" % str(e))
         else:
             # Fallback to pico2wave if there's no internet connection
-            filename = "/tmp/robot_speech.wav"
+            
             voice = 'it-IT'  # Adjust the voice as per language
-            cmd = ['pico2wave', '--wave=' + filename, '--lang=' + voice, text.encode('utf-8')]
-            subprocess.call(cmd)
-            cmd = ['play', filename, '--norm', '-q']
-            subprocess.call(cmd)
+           # cmd = 'pico2wave -l "%s" -w %s " , %s"' %(lang,tmpfile, data)
+            rospy.loginfo("pico2wave -l " + voice + " -w " + wavfile + " '" + text.encode('utf-8') + "'" )
+            p = Popen("pico2wave -l " + voice + " -w " + wavfile + " '" + text.encode('utf-8') + "' "  , stdout=PIPE, shell=True)
+            p.wait()
+            #subprocess.call(cmd)
+            p = Popen("play " + wavfile + " -q --norm", stdout=PIPE, shell=True)
+            p.wait()
+            #os.remove(wavfile)
+            #cmd = ['play', filename, '--norm', '-q']
+            #subprocess.call(cmd)
             self.finished_speaking = True
             self.loop_count_down = int(10 * 2)  # 2 seconds delay at 10Hz rate
 
@@ -88,10 +95,12 @@ class TTSNode:
 
     def is_connected(self):
         try:
-            # Try to connect to a well-known website
-            socket.create_connection(("www.google.com", 80))
+            # Crea un socket e imposta un timeout molto breve (es. 0.1 secondi)
+            sock = socket.create_connection(("www.google.it", 80), timeout=0.1)
+            sock.close()  # Chiude il socket dopo la connessione
             return True
-        except OSError:
+        except socket.error as e:
+            rospy.loginfo("No internet connection: %s" % str(e))
             return False
 
     def spin(self):
