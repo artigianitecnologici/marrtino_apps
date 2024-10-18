@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+# -*- coding: utf-8 -*-
 # Python 2 compatibility for print
 from __future__ import print_function
 import rospy
@@ -16,7 +17,7 @@ import re
 
 def remove_special_characters(input_string):
     # Usando una regex per mantenere solo lettere e numeri
-    cleaned_string = re.sub(r'[^A-Za-z0-9,. ?!]+', '', input_string)
+    cleaned_string = input_string #  re.sub(r'[^A-Za-z0-9,. ?!]+', '', input_string)
     return cleaned_string
 
 tmpfile = "/tmp/cacheita.mp3"
