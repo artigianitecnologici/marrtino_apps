@@ -2,6 +2,7 @@
 *.bak
 *.pyc
 *.bag
+*.log
 cache*
 mapping/maps/map.yaml
 www/viewer/img/lastimage.jpg
@@ -14,3 +15,4 @@ autostart.yaml
 gallery/images/*
 testrpi.py
 docker-compose.vision
+

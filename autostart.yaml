@@ -8,9 +8,8 @@ simulator:
 devices:
   robot: on
   joystick: 2wd        # off | 2wd | 4wd | keyboard
-  laser: off            # off | hokuyo | rplidar
+  laser: rplidar        # off | hokuyo | rplidar
   camera: usbcam           # off | usbcam | astra | xtion
-
 
 functions:
   localization: off
@@ -25,7 +24,7 @@ functions:
   videoserver: on
   rosbridge: on        # ros bridge server
   gallery: off
-  apriltags: off
+  apriltags: on
   objrec: off
   social: social      # social | notracker | noservo 
   pantilt: off
