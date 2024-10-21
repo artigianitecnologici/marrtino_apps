@@ -85,6 +85,7 @@ def autostart(config, dostart):
     if getconfig('devices', 'robot'):
         cmd = '@robot' if dostart else '@robotkill'
         systemcmd(cmd, 9236)
+        time.sleep(3)
     if getconfig('devices', 'joystick') == '2wd':
         cmd = '@joystick' if dostart else '@joystickkill'
         systemcmd(cmd, 9240)

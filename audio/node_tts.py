@@ -19,7 +19,7 @@ class TTSNode:
 
     def __init__(self):
         rospy.init_node('tts_node', anonymous=True)
-        rospy.loginfo('Start my tts_node')
+        rospy.loginfo('Start   tts_node v.1.00' )
         self.publisher_ = rospy.Publisher('/social/speech/status', String, queue_size=10)
         self.subscription = rospy.Subscriber('/social/speech/to_speak', String, self.tts_callback)
         # Subscriber for language settings
@@ -31,6 +31,8 @@ class TTSNode:
         self.finished_speaking = False
         self.loop_count_down = 0
         self.rate = rospy.Rate(10)  # Set loop frequency to 10Hz
+        self.connected = True
+        self.msgoffline = False
 
     def language_callback(self, msg):
         # Convert the language setting to Unicode
@@ -40,7 +42,7 @@ class TTSNode:
     def tts_callback(self, msg):
         # Convert the incoming text to Unicode
         text = msg.data.decode('utf-8')  # Ensures proper decoding of special characters
-       # rospy.loginfo(u'Received text: "{}"'.format(text))
+        print(u'Received text: "{}"'.format(text))
         rospy.loginfo(u'Using language: "{}"'.format(self.language))
         self.finished_speaking = False
         self.loop_count_down = 0
@@ -64,8 +66,27 @@ class TTSNode:
             except Exception as e:
                 rospy.logerr("Error in TTS conversion: {}".format(str(e)))
         else:
-            # Fallback to pico2wave if there's no internet connection
             voice = 'it-IT'
+            # Fallback to pico2wave if there's no internet connection
+            if (text == 'online'):
+                self.connected = True
+                if self.is_connected():
+                    
+                    p = Popen("pico2wave -l " + voice + " -w " + wavfile + " ' Sono  online' ", stdout=PIPE, shell=True)
+                    p.wait()
+                    p = Popen("play " + wavfile + " -q --norm", stdout=PIPE, shell=True)
+                    p.wait()
+                    self.msgoffline = False
+
+
+            if (self.msgoffline == True):
+                p = Popen("pico2wave -l " + voice + " -w " + wavfile + " ' Sono off line per riattivare  use la parola online' ", stdout=PIPE, shell=True)
+                p.wait()
+                p = Popen("play " + wavfile + " -q --norm", stdout=PIPE, shell=True)
+                p.wait()
+                self.msgoffline = False
+
+            
             rospy.loginfo("pico2wave -l " + voice + " -w " + wavfile + " '" + text.encode('utf-8') + "'")
             p = Popen("pico2wave -l " + voice + " -w " + wavfile + " '" + text.encode('utf-8') + "' ", stdout=PIPE, shell=True)
             p.wait()
@@ -83,14 +104,19 @@ class TTSNode:
                 self.publisher_.publish(String(data='TTS done'))
 
     def is_connected(self):
-        try:
-            # Crea un socket e imposta un timeout molto breve (es. 0.1 secondi)
-            sock = socket.create_connection(("www.google.it", 80), timeout=0.1)
-            sock.close()  # Chiude il socket dopo la connessione
-            return True
-        except socket.error as e:
-            rospy.loginfo("No internet connection: {}".format(str(e)))
-            return False
+        if (self.connected == True):
+            try:
+                # Crea un socket e imposta un timeout molto breve (es. 0.1 secondi)
+                sock = socket.create_connection(("www.google.it", 80), timeout=0.1)
+                sock.close()  # Chiude il socket dopo la connessione
+                return True
+            except socket.error as e:
+                rospy.loginfo("No internet connection: {}".format(str(e)))
+                self.connected = False
+                self.msgoffline = True
+                return False
+        else:
+            return False                
 
     def spin(self):
         while not rospy.is_shutdown():
