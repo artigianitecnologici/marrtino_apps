@@ -26,6 +26,6 @@ functions:
   gallery: off
   apriltags: on
   objrec: off
-  social: social      # social | notracker | noservo 
+  social: notracker  # social | notracker | noservo
+  asktogtp: on  
   pantilt: off
-

@@ -175,6 +175,10 @@ def autostart(config, dostart):
         cmd = '@pantilt_start' if dostart else '@pantilt_kill'
         systemcmd(cmd, 9249)
 
+    if getconfig('functions', 'asktogtp'):
+        cmd = '@asktogtp_start' if dostart else '@asktogtp_kill'
+        systemcmd(cmd, 9249)
+
 # Main program
 if __name__ == '__main__':
 

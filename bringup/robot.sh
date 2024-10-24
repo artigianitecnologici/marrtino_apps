@@ -1,0 +1,1 @@
+echo '@robot' | netcat -w 1 localhost 9236

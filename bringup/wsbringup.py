@@ -688,6 +688,15 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
         elif (message=='interactive_kill'):
             self.tmux.cmd(self.wnet,"echo '@interactivekill' | netcat -w 1 localhost 9250")
 
+
+         # social no servo (dynamixel) demo
+        elif (message=='interactivegtp_start'):
+            self.tmux.cmd(self.wnet,"echo '@interactive_gtp' | netcat -w 1 localhost 9250")
+            time.sleep(1)
+        elif (message=='interactivegtp_kill:
+            self.tmux.cmd(self.wnet,"echo '@nteractivegtp_kill' | netcat -w 1 localhost 9250")
+
+
         # social no servo (dynamixel) demo
         elif (message=='asroffline_start'):
             self.tmux.cmd(self.wnet,"echo '@asroffline' | netcat -w 1 localhost 9252")
