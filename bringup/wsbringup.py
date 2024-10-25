@@ -693,7 +693,7 @@ class MyWebSocketServer(tornado.websocket.WebSocketHandler):
         elif (message=='interactivegtp_start'):
             self.tmux.cmd(self.wnet,"echo '@interactive_gtp' | netcat -w 1 localhost 9250")
             time.sleep(1)
-        elif (message=='interactivegtp_kill:
+        elif (message=='interactivegtp_kill'):
             self.tmux.cmd(self.wnet,"echo '@nteractivegtp_kill' | netcat -w 1 localhost 9250")
 
 
