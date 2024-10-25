@@ -1384,6 +1384,8 @@ def say(text, language='it'):
     if (language!='it'):
         setlanguage(language)    
 
+    if (language!='en'):
+        setlanguage(language)  
 
     speech(text)
 

@@ -37,6 +37,11 @@ class TTSNode:
     def language_callback(self, msg):
         # Convert the language setting to Unicode
         self.language = msg.data.decode('utf-8')
+        # if self.language == 'it':
+        #     self.language = 'it-IT'
+        # if self.language == 'en':
+        #     # self.language = 'en-GB'
+
         rospy.loginfo(u'Language updated to: "{}"'.format(self.language))
 
     def tts_callback(self, msg):
@@ -51,11 +56,12 @@ class TTSNode:
         if self.is_connected():
             try:
                 # Convert text to speech using Google TTS
+                
                 tts = gTTS(text, lang=self.language)
                 tts.save(tmpfile)
                 sound = AudioSegment.from_mp3(tmpfile)
                 sound.export(wavfile, format="wav")
-                if  (self.language == 'it'):
+                if self.language in ['it-IT', 'it']:
                     p = Popen("play " + wavfile + " -q pitch 300 rate 48000", stdout=PIPE, shell=True)
                 else:
                     p = Popen("play " + wavfile + " -q ", stdout=PIPE, shell=True)
@@ -66,8 +72,12 @@ class TTSNode:
             except Exception as e:
                 rospy.logerr("Error in TTS conversion: {}".format(str(e)))
         else:
-            voice = 'it-IT'
+            voice = self.language
             # Fallback to pico2wave if there's no internet connection
+            if self.language == 'it':
+                self.language = 'it-IT'
+            if self.language == 'en':
+                self.language = 'en-GB'
             if (text == 'online'):
                 self.connected = True
                 if self.is_connected():
