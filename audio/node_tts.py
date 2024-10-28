@@ -14,6 +14,7 @@ import re
 
 tmpfile = "/tmp/cacheita.mp3"
 wavfile = "/tmp/cacheita.wav"
+offfile = "/tmp/cache.wav"
 
 class TTSNode:
 
@@ -72,17 +73,18 @@ class TTSNode:
             except Exception as e:
                 rospy.logerr("Error in TTS conversion: {}".format(str(e)))
         else:
-            voice = self.language
+            
             # Fallback to pico2wave if there's no internet connection
             if self.language == 'it':
                 self.language = 'it-IT'
             if self.language == 'en':
-                self.language = 'en-GB'
-            if (text == 'online'):
+                self.language = 'en-US'
+                 
+            if (text == 'attivazione'):
                 self.connected = True
                 if self.is_connected():
                     
-                    p = Popen("pico2wave -l " + voice + " -w " + wavfile + " ' Sono  online' ", stdout=PIPE, shell=True)
+                    p = Popen("pico2wave -l " + self.language + " -w " + wavfile + " ' Sono connesso a internet e ricordati' ", stdout=PIPE, shell=True)
                     p.wait()
                     p = Popen("play " + wavfile + " -q --norm", stdout=PIPE, shell=True)
                     p.wait()
@@ -90,15 +92,16 @@ class TTSNode:
 
 
             if (self.msgoffline == True):
-                p = Popen("pico2wave -l " + voice + " -w " + wavfile + " ' Sono off line per riattivare  use la parola online' ", stdout=PIPE, shell=True)
+                p = Popen("pico2wave -l " + self.language + " -w " + wavfile + " 'sono disconnesso dalla rete internet  , per verificare la connessione invia la parola attivazione '  ", stdout=PIPE, shell=True)
                 p.wait()
                 p = Popen("play " + wavfile + " -q --norm", stdout=PIPE, shell=True)
                 p.wait()
                 self.msgoffline = False
 
             
-            rospy.loginfo("pico2wave -l " + voice + " -w " + wavfile + " '" + text.encode('utf-8') + "'")
-            p = Popen("pico2wave -l " + voice + " -w " + wavfile + " '" + text.encode('utf-8') + "' ", stdout=PIPE, shell=True)
+            #rospy.loginfo("pico2wave -l " + voice + " -w " + wavfile + " '" + text + "'")
+            p = Popen("pico2wave -l " + self.language + " -w " + wavfile + " '" + text + "' ", stdout=PIPE, shell=True)
+            
             p.wait()
             p = Popen("play " + wavfile + " -q --norm", stdout=PIPE, shell=True)
             p.wait()
