@@ -57,7 +57,7 @@ class TTSNode:
         if self.is_connected():
             try:
                 # Convert text to speech using Google TTS
-                
+                print ("gtts=",text)
                 tts = gTTS(text, lang=self.language)
                 tts.save(tmpfile)
                 sound = AudioSegment.from_mp3(tmpfile)
@@ -100,6 +100,7 @@ class TTSNode:
 
             
             #rospy.loginfo("pico2wave -l " + voice + " -w " + wavfile + " '" + text + "'")
+            print ("pico=",text)
             p = Popen("pico2wave -l " + self.language + " -w " + wavfile + " '" + text + "' ", stdout=PIPE, shell=True)
             
             p.wait()
