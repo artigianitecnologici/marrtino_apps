@@ -82,33 +82,30 @@ def autostart(config, dostart):
         systemcmd(cmd, 9235)
 
     # devices
-    
-    
-    if getconfig('devices', 'joystick') == 'keyboard':
-        cmd = '@keyboard' if dostart else '@joystickkill'
-        systemcmd(cmd, 9240)
-    elif getconfig('devices', 'joystick') == '4wd':
-        cmd = '@joystick4wd' if dostart else '@joystickkill'
-        systemcmd(cmd, 9240)
-    cam = getconfig('devices', 'camera')
-    if cam == 'usbcam' or cam == 'astra' or cam == 'xtion':
-        cmd = '@%s' % cam if dostart else '@camerakill'
-        systemcmd(cmd, 9237)
-    if getconfig('devices', 'joystick') == '2wd':
+    if getconfig('devices','robot'):
+        cmd = '@robot' if dostart else '@robotkill'
+        time.sleep(10)
+        systemcmd(cmd,9236)
+    if getconfig('devices','joystick') == '2wd':
         cmd = '@joystick' if dostart else '@joystickkill'
-        systemcmd(cmd, 9240)
-    else:
-        device_name_to_find = "USB 2.0 Camera"
-        # Find and print information about the webcam
-        device_name = find_webcam_by_name(device_name_to_find)
-        cmd = '@camera_' + device_name
-        print(cmd)
-        systemcmd(cmd, 9237)
-
-    las = getconfig('devices', 'laser')
-    if las == 'hokuyo' or las == 'rplidar' or las == 'ld06':
-        cmd = '@%s' % las if dostart else '@laserkill'
-        systemcmd(cmd, 9238)
+        systemcmd(cmd,9240)
+    if getconfig('devices','joystick') == 'keyboard':
+        cmd = '@keyboard' if dostart else '@joystickkill'
+        systemcmd(cmd,9240)
+    elif getconfig('devices','joystick') == '4wd':
+        cmd = '@joystick4wd' if dostart else '@joystickkill'
+        systemcmd(cmd,9240)
+    cam = getconfig('devices','camera') 
+    if cam=='usbcam' or cam=='astra' or cam=='xtion':
+        cmd = '@%s' %cam if dostart else '@camerakill'
+        systemcmd(cmd,9237)
+    #if cam=='d345' :
+    #    cmd = '@%s' %cam if dostart else '@camerakill'
+    #    systemcmd(cmd,9237)  
+    las = getconfig('devices','laser')
+    if  las=='hokuyo' or las=='rplidar' or las=='ld06':
+        cmd = '@%s' %las if dostart else '@laserkill'
+        systemcmd(cmd,9238)
 
     # functions
     if getconfig('functions', 'localization'):
