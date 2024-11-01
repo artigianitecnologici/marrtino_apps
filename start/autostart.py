@@ -82,13 +82,8 @@ def autostart(config, dostart):
         systemcmd(cmd, 9235)
 
     # devices
-    if getconfig('devices', 'robot'):
-        cmd = '@robot' if dostart else '@robotkill'
-        systemcmd(cmd, 9236)
-        time.sleep(3)
-    if getconfig('devices', 'joystick') == '2wd':
-        cmd = '@joystick' if dostart else '@joystickkill'
-        systemcmd(cmd, 9240)
+    
+    
     if getconfig('devices', 'joystick') == 'keyboard':
         cmd = '@keyboard' if dostart else '@joystickkill'
         systemcmd(cmd, 9240)
@@ -99,6 +94,9 @@ def autostart(config, dostart):
     if cam == 'usbcam' or cam == 'astra' or cam == 'xtion':
         cmd = '@%s' % cam if dostart else '@camerakill'
         systemcmd(cmd, 9237)
+    if getconfig('devices', 'joystick') == '2wd':
+        cmd = '@joystick' if dostart else '@joystickkill'
+        systemcmd(cmd, 9240)
     else:
         device_name_to_find = "USB 2.0 Camera"
         # Find and print information about the webcam
