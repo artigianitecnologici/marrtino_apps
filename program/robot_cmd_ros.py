@@ -1282,22 +1282,31 @@ def tilt(msg):
     tilt_pub.publish(msg)
 
 def head_position(msg):
-    print('Head : %s' %(msg))
-    if (msg == 'front'):
+    print('Head : %s' % msg)
+    if msg == 'front':
         pan_pub.publish(0)
         tilt_pub.publish(0)
-    if (msg == 'left'):
+    elif msg == 'left':
         pan_pub.publish(0.5)
         tilt_pub.publish(0)
-    if (msg == 'right'):
+    elif msg == 'half_left':
+        pan_pub.publish(0.25)
+        tilt_pub.publish(0)
+    elif msg == 'right':
         pan_pub.publish(-0.5)
         tilt_pub.publish(0)
-    if (msg == 'down'):
+    elif msg == 'half_right':
+        pan_pub.publish(-0.25)
+        tilt_pub.publish(0)
+    elif msg == 'down':
         pan_pub.publish(0)
         tilt_pub.publish(0.5)
-    if (msg == 'up'):
+    elif msg == 'up':
         pan_pub.publish(0)
-        tilt_pub.publish(-0.5)
+
+
+
+
 
 def get_user_say():
     global asr_social

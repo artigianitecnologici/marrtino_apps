@@ -166,14 +166,19 @@ def autostart(config, dostart):
         cmd = '@socialnoservo' if dostart else '@socialkill'
         systemcmd(cmd, 9250)
 
+  
+
     if getconfig('functions', 'pantilt'):
         cmd = '@pantilt_start' if dostart else '@pantilt_kill'
         systemcmd(cmd, 9249)
 
     if getconfig('functions', 'asktogtp'):
-        cmd = '@asktogtp_start' if dostart else '@asktogtp_kill'
+        cmd = '@asktogtp' if dostart else '@asktogtp_kill'
         systemcmd(cmd, 9249)
 
+    if getconfig('functions', 'interactive'):
+        cmd = '@interactivegtp2' if dostart else '@interactivegtp2_kill'
+        systemcmd(cmd, 9250)
 # Main program
 if __name__ == '__main__':
 

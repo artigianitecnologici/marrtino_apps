@@ -24,8 +24,9 @@ functions:
   videoserver: on
   rosbridge: on        # ros bridge server
   gallery: off
-  apriltags: on
+  apriltags: off
   objrec: off
   social: social  # social | notracker | noservo
   asktogtp: on
+  interactive: on
   pantilt: off
