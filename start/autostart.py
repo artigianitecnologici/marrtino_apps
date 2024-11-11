@@ -12,10 +12,12 @@ except Exception as e:
 
 import subprocess
 import re
-
+# Enable or disable logging
+ENABLE_LOGGING = False
 # Configura il logging
-log_filename = "autostart_log_{}.log".format(time.strftime("%Y%m%d-%H%M%S"))
-logging.basicConfig(filename=log_filename, level=logging.INFO, format='%(asctime)s - %(message)s')
+if ENABLE_LOGGING:
+    log_filename = "autostart_log_{}.log".format(time.strftime("%Y%m%d-%H%M%S"))
+    logging.basicConfig(filename=log_filename, level=logging.INFO, format='%(asctime)s - %(message)s')
 
 def find_webcam_by_name(device_name):
     # Run v4l2-ctl to list video devices
@@ -49,7 +51,8 @@ def readconfig(yamlfile):
 def systemcmd(cmdkey, port):
     cmd = "echo '%s' | netcat -w 1 localhost %d" % (cmdkey, port)
     print("  " + cmd)
-    logging.info("Running systemcmd: %s", cmd)  # Log ogni chiamata di sistema
+    if ENABLE_LOGGING:
+        logging.info("Running systemcmd: %s", cmd)  # Log ogni chiamata di sistema
     os.system(cmd)
     time.sleep(3)
 
@@ -174,7 +177,7 @@ def autostart(config, dostart):
 
     if getconfig('functions', 'asktogtp'):
         cmd = '@asktogtp' if dostart else '@asktogtp_kill'
-        systemcmd(cmd, 9249)
+        systemcmd(cmd, 9250)
 
     if getconfig('functions', 'interactive'):
         cmd = '@interactivegtp2' if dostart else '@interactivegtp2_kill'
